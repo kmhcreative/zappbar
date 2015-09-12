@@ -13,7 +13,6 @@ Automagically adds responsive, customizable mobile UI to (almost) any WordPress 
 This plugin is still being tested is incomplete!  Do not use it in production unless you can live without the things it is missing and are willing to accept the possibility that it could screw up your website.  Things left on To-Do list:
 
 * option to clear/reset settings
-* database clean-up on uninstall
 * auto-update from repository
 * make it more awesome!
 
