@@ -1,0 +1,441 @@
+div.zb-panel a:hover, div.zb-panel .button:hover,
+		div.zb-panel a:focus, div.zb-panel .button:focus {
+			background-color: #eeee22;
+			color: #000000;
+		}
+		div.sbtab span:hover, div.sbtab span:focus {
+			background-color: #eeee22;
+			color: #000000;
+		}
+		
+    	span.zb-label span.contents {
+			height:15px;
+			min-width:15px;
+			background: red;
+			color:white;
+			position:absolute;
+			top:-28px;
+			border-radius:100%;
+			line-height:15px;
+			font-size:8px;
+			text-shadow:none;
+			right: -3px;
+			text-align:center;
+			border:1px solid white;
+			}
+		a.button.zb-disabled {
+			opacity: .5;
+			cursor: not-allowed;
+		}
+    #wpadminbar { 
+			display:none !important; 
+		}
+		html { margin-top: 0px !important;}
+    	.zappbar, .zb-panel, .sbtab { 
+    		display: none;
+    	}
+    	@media screen and (min-width: 1367px) {
+ 			#page.push, #page-wide.push { left: 0px; }
+ 			
+			.zb-panel.show { left: -320px; }
+    		#respond {
+    			position: relative;
+    			height: auto;
+    			width: auto;
+    			overflow: visible;
+    			border: none;
+    			background: none;
+    			padding: 0;
+    			left: 0px;
+    		}
+			.woocommerce #content div.product .woocommerce-tabs ul.tabs li, 
+			.woocommerce div.product .woocommerce-tabs ul.tabs li, 
+			.woocommerce-page #content div.product .woocommerce-tabs ul.tabs li, 
+			.woocommerce-page div.product .woocommerce-tabs ul.tabs li {
+    			display: inline-block;
+    		}
+    		#tab-reviews,
+    		#tab-description,
+    		#tab-additional_information {
+    			position: relative !important;
+    			left: auto;
+    			top: auto;
+    			background-color: inherit !important;
+    			border: inherit !important;
+    			color: inherit !important;
+    		}
+    			#tab-description { display: block; }
+    			#tab-reviews { display: none; }
+    			#tab-additional_information { display:none;}
+
+    	}
+    	@media screen and (min-width: 980px) and (max-width: 1366px) {
+    		html { margin-top: 46px !important; 
+    		}
+    		
+    		
+    		#masthead, #header {
+    			display: none !important;
+    		}
+    	
+    		
+    		#site-navigation, #menubar-wrapper {
+    			display: none !important;
+    		}
+    	
+    		.zappbar { 
+    			display: block; 
+    		}
+    		.zappbar.top {
+    			top: 0px;    		
+    		}
+    		
+   			#respond.zb-panel {
+   				margin-top: 0;
+   				padding: 60px 0 0 0 !important;
+   				overflow: auto;
+   				overflow-x: scroll;
+   				-webkit-overflow-scrolling: touch;
+   			}
+   				#respond.zb-panel form {
+   					margin-bottom: 100px;
+   				}
+   				#respond.zb-panel textarea,
+   				#respond.zb-panel input[type="text"] {
+   					max-width: 100%;
+   					resize: vertical;
+   				}
+    	
+    		div.sbtab { display: none; }
+    	
+    		div.zappbar, div.zappbar a.searchbox span.search { 
+			background-color: #a81515;
+		}
+		div.zappbar a.button { 
+			background-color: rgba(255,255,255,0);
+		}
+		div.zappbar a.searchbox span.search input[type="submit"] {
+			background-color: rgba(255,255,255,0);
+			background-image: none;
+			border: none;
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+			-ms-box-shadow: none;
+			box-shadow: none;
+		}
+		div.zappbar a.button { 
+			color: #ffffff;
+		}
+		div.zappbar a.searchbox span.search input[type="submit"] {
+			color: #ffffff;
+			text-shadow: none;
+		}
+		div.zappbar a.button:hover, div.zappbar a.button:focus {
+		background-color: #eeee22;
+		color: #000000;
+		}
+		div.zappbar a.searchbox span.search input[type="submit"]:hover,
+		div.zappbar a.searchbox span.search input[type="submit"]:focus {
+			background-color: #eeee22;
+			color: #000000;
+		}
+		div.zappbar.top { 
+			border-bottom: 4px solid #dd9933; 
+		}
+		.sbtab { border: 4px solid #dd9933;}
+		div.zappbar.bottom { 
+			border-top: 4px solid #dd9933; 
+		}
+		div.zb-panel {
+			background-color: #a81515 !important;
+		}
+		div.sbtab {
+				background-color: #a81515;
+			}
+			div.zb-panel .button, div.zb-panel a {
+			background-color: rgba(255,255,255,0);
+			}
+			div.sbtab * {
+			background-color: rgba(255,255,255,0);
+		}
+		div.zb-panel, div.zb-panel a, div.zb-panel .button,
+		div.zb-panel h1, div.zb-panel h2, div.zb-panel h3 {
+			color: #ffffff;
+		}
+		div.sbtab {
+			color: #ffffff;
+		}
+		div.zb-panel.left {
+			border-right: 4px solid #dd9933;
+		}
+		div.zb-panel.right {
+			border-left: 4px solid #dd9933;
+		}
+		div.sbtab {
+			border: 4px solid #dd9933;}
+		
+    		div#comic-foot { display: none; }
+    		#sidebar-left, #sidebar-right {
+    			display: none;
+    		}
+    		#content, #content-column {
+ 				float: none;
+    			width: auto;
+    			max-width: 100%;
+    			min-height: 0px;   			
+    		}
+    		
+    		div.comicthumbwrap {
+				width: 33%;
+			}
+    	div.comic.uentry {
+						float: left;
+						width: 33%;
+					}
+					}    	
+    	@media screen and (min-width: 720px) and (max-width: 979px) {
+    		html {	margin-top: 46px !important; 
+    		}
+    		
+    		
+    		#masthead, #header {
+    			display: none !important;
+    		}
+    	
+    		
+    		#site-navigation, #menubar-wrapper {
+    			display: none !important;
+    		}
+    	
+    		.zappbar { 
+    			display: block; 
+    		}
+    		.zappbar.top {
+    			top: 0px;    		
+    		}
+    		
+   			#respond.zb-panel {
+   				margin-top: 0;
+   				padding: 60px 0 0 0 !important;
+   				overflow: auto;
+   				overflow-x: scroll;
+   				-webkit-overflow-scrolling: touch;
+   			}
+   				#respond.zb-panel form {
+   					margin-bottom: 100px;
+   				}
+   				#respond.zb-panel textarea,
+   				#respond.zb-panel input[type="text"] {
+   					max-width: 100%;
+   					resize: vertical;
+   				}
+    	
+    		
+    		#sidebar-left, #sidebar-right {
+    			display: none;
+    		}
+    		#content, #content-column {
+ 				float: none;
+    			width: auto;
+    			max-width: 100%;
+    			min-height: 0px;   			
+    		}
+    		
+    		div.sbtab { display: none; }
+    	
+    		div.zappbar, div.zappbar a.searchbox span.search { 
+			background-color: #a81515;
+		}
+		div.zappbar a.button { 
+			background-color: rgba(255,255,255,0);
+		}
+		div.zappbar a.searchbox span.search input[type="submit"] {
+			background-color: rgba(255,255,255,0);
+			background-image: none;
+			border: none;
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+			-ms-box-shadow: none;
+			box-shadow: none;
+		}
+		div.zappbar a.button { 
+			color: #ffffff;
+		}
+		div.zappbar a.searchbox span.search input[type="submit"] {
+			color: #ffffff;
+			text-shadow: none;
+		}
+		div.zappbar a.button:hover, div.zappbar a.button:focus {
+		background-color: #eeee22;
+		color: #000000;
+		}
+		div.zappbar a.searchbox span.search input[type="submit"]:hover,
+		div.zappbar a.searchbox span.search input[type="submit"]:focus {
+			background-color: #eeee22;
+			color: #000000;
+		}
+		div.zappbar.top { 
+			border-bottom: 4px solid #dd9933; 
+		}
+		.sbtab { border: 4px solid #dd9933;}
+		div.zappbar.bottom { 
+			border-top: 4px solid #dd9933; 
+		}
+		div.zb-panel {
+			background-color: #a81515 !important;
+		}
+		div.sbtab {
+				background-color: #a81515;
+			}
+			div.zb-panel .button, div.zb-panel a {
+			background-color: rgba(255,255,255,0);
+			}
+			div.sbtab * {
+			background-color: rgba(255,255,255,0);
+		}
+		div.zb-panel, div.zb-panel a, div.zb-panel .button,
+		div.zb-panel h1, div.zb-panel h2, div.zb-panel h3 {
+			color: #ffffff;
+		}
+		div.sbtab {
+			color: #ffffff;
+		}
+		div.zb-panel.left {
+			border-right: 4px solid #dd9933;
+		}
+		div.zb-panel.right {
+			border-left: 4px solid #dd9933;
+		}
+		div.sbtab {
+			border: 4px solid #dd9933;}
+		
+    		div#comic-foot { display: none; }
+    	}
+    	@media screen and (max-width: 719px) {
+    		html { 
+    			margin-top: 46px !important; 
+    		}
+    		
+    		
+    		#masthead, #header {
+    			display: none !important;
+    		}
+    	
+    		
+    		#site-navigation, #menubar-wrapper {
+    			display: none !important;
+    		}
+    	
+    		.zappbar { 
+    			display: block; 
+    		}
+    		.zappbar.top {
+    			top: 0px;
+    		}
+			
+   			#respond.zb-panel {
+   				margin-top: 0;
+   				padding: 60px 0 0 0 !important;
+   				overflow: auto;
+   				overflow-x: scroll;
+   				-webkit-overflow-scrolling: touch;
+   			}
+   				#respond.zb-panel form {
+   					margin-bottom: 100px;
+   				}
+   				#respond.zb-panel textarea,
+   				#respond.zb-panel input[type="text"] {
+   					max-width: 100%;
+   					resize: vertical;
+   				}
+    	
+    		
+    		#sidebar-left, #sidebar-right {
+    			display: none;
+    		}
+    		#content, #content-column {
+ 				float: none;
+    			width: auto;
+    			max-width: 100%;
+    			min-height: 0px;   			
+    		}
+    		
+    		div.sbtab { display: none; }
+    	
+    		div.sbtab { display: none; }
+    	
+    		div.zappbar, div.zappbar a.searchbox span.search { 
+			background-color: #a81515;
+		}
+		div.zappbar a.button { 
+			background-color: rgba(255,255,255,0);
+		}
+		div.zappbar a.searchbox span.search input[type="submit"] {
+			background-color: rgba(255,255,255,0);
+			background-image: none;
+			border: none;
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+			-ms-box-shadow: none;
+			box-shadow: none;
+		}
+		div.zappbar a.button { 
+			color: #ffffff;
+		}
+		div.zappbar a.searchbox span.search input[type="submit"] {
+			color: #ffffff;
+			text-shadow: none;
+		}
+		div.zappbar a.button:hover, div.zappbar a.button:focus {
+		background-color: #eeee22;
+		color: #000000;
+		}
+		div.zappbar a.searchbox span.search input[type="submit"]:hover,
+		div.zappbar a.searchbox span.search input[type="submit"]:focus {
+			background-color: #eeee22;
+			color: #000000;
+		}
+		div.zappbar.top { 
+			border-bottom: 4px solid #dd9933; 
+		}
+		.sbtab { border: 4px solid #dd9933;}
+		div.zappbar.bottom { 
+			border-top: 4px solid #dd9933; 
+		}
+		div.zb-panel {
+			background-color: #a81515 !important;
+		}
+		div.sbtab {
+				background-color: #a81515;
+			}
+			div.zb-panel .button, div.zb-panel a {
+			background-color: rgba(255,255,255,0);
+			}
+			div.sbtab * {
+			background-color: rgba(255,255,255,0);
+		}
+		div.zb-panel, div.zb-panel a, div.zb-panel .button,
+		div.zb-panel h1, div.zb-panel h2, div.zb-panel h3 {
+			color: #ffffff;
+		}
+		div.sbtab {
+			color: #ffffff;
+		}
+		div.zb-panel.left {
+			border-right: 4px solid #dd9933;
+		}
+		div.zb-panel.right {
+			border-left: 4px solid #dd9933;
+		}
+		div.sbtab {
+			border: 4px solid #dd9933;}
+		
+    		div#comic-foot { display: none; }
+    	}
+    	@media screen and (max-width: 320px) {
+    		.zappbar a.searchbox.left span.search form, 
+    		.zappbar a.searchbox.right span.search form {
+    			float: none;
+    			margin: 0 auto;
+    		}
+    	}

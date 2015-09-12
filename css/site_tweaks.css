@@ -1,0 +1,80 @@
+body {
+	padding: 0 0 50px 0;
+}
+#branding {
+	z-index: 1 !important;
+}
+	#page-wide #header, #page-wide #menubar-wrapper,
+	#page-wide #subcontent-wrapper, #page-wide #footer,
+	#page-wide #comic-header, #page-wide #comic-foot {
+		max-width: 100%;
+	}
+		#page-wide #header h1 {
+			max-width: 100%;
+			-webkit-background-size: contain;
+			-moz-background-size: contain;
+			-ms-background-size: contain;
+			background-size: contain;
+		}
+	.layout-3c #comic, .layout-3c2r #comic {
+		width: auto;
+		max-width: 100%;
+	}
+	img {
+		max-width: 100%;
+	}
+	/* Un-clutter Comic Easel Archives */
+	.customsidebar { max-width: 100%; }
+	div.comic.uentry h2.post-title,
+	div.comic.uentry div.post-calendar-date,
+	div.comic.uentry span.post-author,
+	div.comic.uentry span.posted-on,
+	div.comic.uentry div.comic-post-info,
+	div.comic.uentry div.entry p {
+		display: none;
+	}
+	div.comic.uentry div.entry {
+		padding: 0 10px;
+	}
+	div.comic.uentry div.entry p.comic-thumbnail-in-archive {
+		display: block;
+	}
+	div.comic.uentry div.post-info,
+	div.comic.uentry div.post-extras div.comment-link,
+	div.comic.uentry a.post-edit-link {
+		display: block;
+		text-align: center;
+	}
+
+@media screen and (min-width: 980px) and (max-width:1024px) {
+	div.comic.uentry {
+		float: left;
+		width: 45%;
+	}
+}
+@media screen and (min-width: 641px) and (max-width:980px) {
+	div.comicthumbwrap {
+		width: 33%;
+	}
+	div.comic.uentry {
+		float: left;
+		width: 33%;
+	}
+}
+@media screen and (max-width: 640px) {
+	div.comic.uentry {
+		float: left;
+		width: 45% !important;
+	}
+}
+@media screen and (max-width: 320px) {
+	div.comicthumbwrap {
+		float: none;
+		width: auto;
+	}
+	div.comic.uentry {
+		float: none !important;
+		width: auto !important;
+	}
+}
+

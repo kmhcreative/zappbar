@@ -1,0 +1,269 @@
+a.zb-share {
+	min-width: 50px;
+	border-radius:5px;
+	margin: 0 5px 5px 0;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+}
+	a.zb-share span {
+	 line-height: 20px;
+	 color: #fff;
+	 text-shadow: 1px 1px 1px #222;
+	 font-size: 10px;
+	 display: block;
+	 padding: 0 5px;
+	}
+	a.zb-share.twitter {
+		background-color:#9AE4E8;
+	}
+	/*Facebook*/
+	a.zb-share.facebook {
+		background-color:#3B5998;
+	}
+	/*Google Plus*/
+	a.zb-share.google-plus {
+		background-color:#D34836;
+	}
+	/*LinkedIn*/
+	a.zb-share.linkedin {
+		background-color:#0e76a8;
+	}
+	/*StumbleUpon*/
+	a.zb-share.stumbleupon {
+		background-color:#EF4916;
+	}
+	/*Reddit*/
+	a.zb-share.reddit {
+		background-color:#CEE3F8;
+	}
+	/*Digg*/
+	a.zb-share.digg {
+		background-color:#1B5790;
+	}
+	/*Pinterest*/
+	a.zb-share.pinterest {
+		background-color:#C92228;
+	}
+	/*Delicious*/
+	a.zb-share.delicious {
+		background-color:#0b79e5;
+	}
+	/*RSS*/
+	a.zb-share.rss-feed {
+		background-color:#F64C0B;
+	}
+	/* Email */
+	a.zb-share.zb-mail {
+		background-color:#333333;
+	}
+
+	.zb-sharethis.small a.zb-share {
+		background-position: center center;
+		background-repeat: no-repeat;
+		height: 16px;
+		width: 16px;
+		min-width: 16px;
+		border-radius: 0;
+		margin-left: 10px;
+	}
+	.zb-sharethis.small a.zb-share span { display: none;}
+	.zb-sharethis.small a.zb-share.twitter {
+		background-image: url('../includes/images/social_icons/icons_small/twitter.png');
+	}
+	/*Facebook*/
+	.zb-sharethis.small a.zb-share.facebook {
+		background-image: url('../includes/images/social_icons/icons_small/facebook.png');
+	}
+	/*Google Plus*/
+	.zb-sharethis.small a.zb-share.google-plus {
+		background-image: url('../includes/images/social_icons/icons_small/googleplus.png');
+	}
+	/*LinkedIn*/
+	.zb-sharethis.small a.zb-share.linkedin {
+		background-image: url('../includes/images/social_icons/icons_small/linkedin.png');
+	}
+	/*StumbleUpon*/
+	.zb-sharethis.small a.zb-share.stumbleupon {
+		background-image: url('../includes/images/social_icons/icons_small/stumbleupon.png');
+	}
+	/*Reddit*/
+	.zb-sharethis.small a.zb-share.reddit {
+		background-image: url('../includes/images/social_icons/icons_small/reddit.png');
+	}
+	/*Digg*/
+	.zb-sharethis.small a.zb-share.digg {
+		background-image: url('../includes/images/social_icons/icons_small/digg.png');
+	}
+	/*Pinterest*/
+	.zb-sharethis.small a.zb-share.pinterest {
+		background-image: url('../includes/images/social_icons/icons_small/pinterest.png');
+	}
+	/*Delicious*/
+	.zb-sharethis.small a.zb-share.delicious {
+		background-image: url('../includes/images/social_icons/icons_small/delicious.png');
+	}
+	/*RSS*/
+	.zb-sharethis.small a.zb-share.rss-feed {
+		background-image: url('../includes/images/social_icons/icons_small/rss.png');
+	}
+	/*Email*/
+	.zb-sharethis.small a.zb-share.zb-mail {
+		background-image: url('../includes/images/social_icons/icons_small/email.png');
+	}
+
+	.zb-sharethis.medium a.zb-share {
+		background-position: center center;
+		background-repeat: no-repeat;
+		height: 24px;
+		width: 24px;
+		min-width: 24px;
+		border-radius: 0;
+	}
+	.zb-sharethis.medium a.zb-share span { display: none;}
+	.zb-sharethis.medium a.zb-share.twitter {
+		background-image: url('../includes/images/social_icons/icons_medium/twitter.png');
+	}
+	/*Facebook*/
+	.zb-sharethis.medium a.zb-share.facebook {
+		background-image: url('../includes/images/social_icons/icons_medium/facebook.png');
+	}
+	/*Google Plus*/
+	.zb-sharethis.medium a.zb-share.google-plus {
+		background-image: url('../includes/images/social_icons/icons_medium/googleplus.png');
+	}
+	/*LinkedIn*/
+	.zb-sharethis.medium a.zb-share.linkedin {
+		background-image: url('../includes/images/social_icons/icons_medium/linkedin.png');
+	}
+	/*StumbleUpon*/
+	.zb-sharethis.medium a.zb-share.stumbleupon {
+		background-image: url('../includes/images/social_icons/icons_medium/stumbleupon.png');
+	}
+	/*Reddit*/
+	.zb-sharethis.medium a.zb-share.reddit {
+		background-image: url('../includes/images/social_icons/icons_medium/reddit.png');
+	}
+	/*Digg*/
+	.zb-sharethis.medium a.zb-share.digg {
+		background-image: url('../includes/images/social_icons/icons_medium/digg.png');
+	}
+	/*Pinterest*/
+	.zb-sharethis.medium a.zb-share.pinterest {
+		background-image: url('../includes/images/social_icons/icons_medium/pinterest.png');
+	}
+	/*Delicious*/
+	.zb-sharethis.medium a.zb-share.delicious {
+		background-image: url('../includes/images/social_icons/icons_medium/delicious.png');
+	}
+	/*RSS*/
+	.zb-sharethis.medium a.zb-share.rss-feed {
+		background-image: url('../includes/images/social_icons/icons_medium/rss.png');
+	}	
+	/*Email*/
+	.zb-sharethis.small a.zb-share.zb-mail {
+		background-image: url('../includes/images/social_icons/icons_medium/email.png');
+	}
+	.zb-sharethis.large a.zb-share {
+		background-position: center center;
+		background-repeat: no-repeat;
+		height: 32px;
+		width: 32px;
+		min-width: 32px;
+		border-radius: 0;
+	}
+	.zb-sharethis.large a.zb-share span { display: none;}
+	.zb-sharethis.large a.zb-share.twitter {
+		background-image: url('../includes/images/social_icons/icons_large/twitter.png');
+	}
+	/*Facebook*/
+	.zb-sharethis.large a.zb-share.facebook {
+		background-image: url('../includes/images/social_icons/icons_large/facebook.png');
+	}
+	/*Google Plus*/
+	.zb-sharethis.large a.zb-share.google-plus {
+		background-image: url('../includes/images/social_icons/icons_large/googleplus.png');
+	}
+	/*LinkedIn*/
+	.zb-sharethis.large a.zb-share.linkedin {
+		background-image: url('../includes/images/social_icons/icons_large/linkedin.png');
+	}
+	/*StumbleUpon*/
+	.zb-sharethis.large a.zb-share.stumbleupon {
+		background-image: url('../includes/images/social_icons/icons_large/stumbleupon.png');
+	}
+	/*Reddit*/
+	.zb-sharethis.large a.zb-share.reddit {
+		background-image: url('../includes/images/social_icons/icons_large/reddit.png');
+	}
+	/*Digg*/
+	.zb-sharethis.large a.zb-share.digg {
+		background-image: url('../includes/images/social_icons/icons_large/digg.png');
+	}
+	/*Pinterest*/
+	.zb-sharethis.large a.zb-share.pinterest {
+		background-image: url('../includes/images/social_icons/icons_large/pinterest.png');
+	}
+	/*Delicious*/
+	.zb-sharethis.large a.zb-share.delicious {
+		background-image: url('../includes/images/social_icons/icons_large/delicious.png');
+	}
+	/*RSS*/
+	.zb-sharethis.large a.zb-share.rss-feed {
+		background-image: url('../includes/images/social_icons/icons_large/rss.png');
+	}	
+	/*Email*/
+	.zb-sharethis.large a.zb-share.zb-mail {
+		background-image: url('../includes/images/social_icons/icons_large/email.png');
+	}	
+	.zb-sharethis.label a.zb-share {
+		background-position: 3px center;
+		background-repeat: no-repeat;
+	}
+	.zb-sharethis.label a.zb-share span { 
+		padding-left: 25px;
+		line-height: 22px;
+	}
+	.zb-sharethis.label a.zb-share.twitter {
+		background-image: url('../includes/images/social_icons/icons_small/twitter.png');
+	}
+	/*Facebook*/
+	.zb-sharethis.label a.zb-share.facebook {
+		background-image: url('../includes/images/social_icons/icons_small/facebook.png');
+	}
+	/*Google Plus*/
+	.zb-sharethis.label a.zb-share.google-plus {
+		background-image: url('../includes/images/social_icons/icons_small/googleplus.png');
+	}
+	/*LinkedIn*/
+	.zb-sharethis.label a.zb-share.linkedin {
+		background-image: url('../includes/images/social_icons/icons_small/linkedin.png');
+	}
+	/*StumbleUpon*/
+	.zb-sharethis.label a.zb-share.stumbleupon {
+		background-image: url('../includes/images/social_icons/icons_small/stumbleupon.png');
+	}
+	/*Reddit*/
+	.zb-sharethis.label a.zb-share.reddit {
+		background-image: url('../includes/images/social_icons/icons_small/reddit.png');
+	}
+	/*Digg*/
+	.zb-sharethis.label a.zb-share.digg {
+		background-image: url('../includes/images/social_icons/icons_small/digg.png');
+	}
+	/*Pinterest*/
+	.zb-sharethis.label a.zb-share.pinterest {
+		background-image: url('../includes/images/social_icons/icons_small/pinterest.png');
+	}
+	/*Delicious*/
+	.zb-sharethis.label a.zb-share.delicious {
+		background-image: url('../includes/images/social_icons/icons_small/delicious.png');
+	}
+	/*RSS*/
+	.zb-sharethis.label a.zb-share.rss-feed {
+		background-image: url('../includes/images/social_icons/icons_small/rss.png');
+	}
+	/*Email*/
+	.zb-sharethis.label a.zb-share.zb-mail {
+		background-image: url('../includes/images/social_icons/icons_small/email.png');
+	}

@@ -1,0 +1,132 @@
+/* Make Menu into Sliding app panel */
+@media screen and (min-width: 640px) and (max-width: 782px) {
+	.auto-fold #adminmenuback, .auto-fold #adminmenuwrap {
+		position: fixed;
+		top: 46px;
+		bottom: 0px;
+		width: 320px;
+		left: -325px;
+		-webkit-transition-duration: 1s;
+		-moz-transition-duration: 1s;
+		-ms-transition-duration: 1s;
+		transition-duration: 1s;
+		display: block !important;
+		overflow: auto;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+		-moz-overflow-scrolling: touch;
+		-ms-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+	}
+		.auto-fold #adminmenu {
+			width: 100%;
+		}
+
+	.auto-fold .wp-responsive-open #adminmenuwrap,
+	.auto-fold .wp-responsive-open #adminmenuback {
+		left: 0%;
+		display: block !important;
+	}
+
+	/* Prevent Body from being pushed over */
+	#wpbody {
+		right: 0px;
+		-webkit-transition-duration: 1s;
+		-moz-transition-duration: 1s;
+		-ms-transition-duration: 1s;
+		transition-duration: 1s;	
+	}
+	.wp-responsive-open #wpbody { 
+		right: -320px;
+	}
+
+	
+	/* Fix horrible spacing on radio/checkboxes */
+	.form-table td { padding-left: 5px;}
+	.form-table td input[type="text"] { max-width:75%;}
+	.form-table td select { width: auto;}
+	.form-table input[type="radio"], .form-table input[type="checkbox"] {
+		margin: 5px;
+	}
+	.form-table span.description {
+		font-size: 12px;
+		padding: 5px;
+	}
+}
+@media screen and (max-width: 639px) {
+	#wpadminbar { position: fixed;}
+	.auto-fold #adminmenuback, .auto-fold #adminmenuwrap {
+		position: fixed;
+		top: 0px;
+		bottom: 0px;
+		width: 100%;
+		left: -100%;
+		right: auto;
+		-webkit-transition-duration: 1s;
+		-moz-transition-duration: 1s;
+		-ms-transition-duration: 1s;
+		transition-duration: 1s;
+		display: block !important;
+		overflow: auto;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+		-moz-overflow-scrolling: touch;
+		-ms-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+	}
+		.auto-fold #adminmenu {
+			width: 100%;
+		}
+
+	.auto-fold .wp-responsive-open #adminmenuback,
+	.auto-fold .wp-responsive-open #adminmenuwrap {
+		left: 0% !important;
+		display: block !important;
+	}
+
+	/* Prevent Body from being pushed over */
+	#wpbody {
+		height: 100%;
+		-webkit-overflow-scrolling: touch;
+		-moz-overflow-scrolling: touch;
+		-ms-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+	}
+	.wp-responsive-open #wpbody { 
+		right: 0;
+	}
+		#wp-content, .auto-fold #wp-content {
+			padding-left: 0;
+		}
+
+	/* Show Tabs stacked in mobile list style */
+	h2.nav-tab-wrapper {
+		padding-left: 0px;
+		margin-right: 7px;
+	}
+		h2 .nav-tab {
+			width: 100%;
+		}
+	
+	/* Fix horrible spacing on radio/checkboxes */
+	.form-table td { padding-left: 5px;}
+	.form-table input { max-width: 90%;}
+	.form-table input[type="radio"], .form-table input[type="checkbox"] {
+		margin: 5px;
+	}
+	.form-table span.description {
+		font-size: 12px;
+		padding: 5px;
+	}
+	/* Fix for iconpicker to prevent it appearing off-screen */
+	.icon-picker-container {
+		position: fixed;
+		top: 50% !important;
+		left: 50% !important;
+		margin-top: -145px;
+		margin-left: -138px;
+		border: 1px solid #ccc;
+		-webkit-box-shadow: 0 0px 10px rgba(0, 0, 0, .50);
+		box-shadow: 0 0px 10px rgba(0, 0, 0, .50);
+	}
+}
