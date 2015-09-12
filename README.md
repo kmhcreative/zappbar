@@ -41,11 +41,11 @@ I got tired of making the _same_ responsive layout modifications to different Wo
 * Try to HIDE sidebar(s) but only from narrow mobile screens
 * Try to HIDE sidebar(s) whenever ZappBars are being displayed
 
-*Admin Mobile Layout:* In my opinion the default, back-end Admin area layout on mobile devices like tablets and phones looks awful.  ZappBar can also try to tweak the back-end layout so it looks and works better (WordPress 3.8.1 or later only).
+**Admin Mobile Layout:** In my opinion the default, back-end Admin area layout on mobile devices like tablets and phones looks awful.  ZappBar can also try to tweak the back-end layout so it looks and works better (WordPress 3.8.1 or later only).
 
-*WP Admin Bar:* check this box to disable the Admin Toolbar on the FRONT end of the website (this would be the bar across the top of a website when you are logged into it).
+**WP Admin Bar:** check this box to disable the Admin Toolbar on the FRONT end of the website (this would be the bar across the top of a website when you are logged into it).
 
-*Include ZappBars On:* This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t:
+**Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t:
 
 * None (use this when you are setting up ZappBar)
 * Phones Only (screens < 736 pixels wide)
@@ -103,7 +103,7 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 
 **Default Facebook Image:** If a post has no “Featured Image” this is the image that will be displayed as the thumbnail when somebody shares the link on Facebook (if left blank ZappBar will _not_ inject _any_ Facebook `<meta>` tags).
 
-**Twitter ID:* Enter the @ Twitter ID associated with your blog (if any).  If you leave this blank then no Twitter `<meta>` tags will be injected.
+**Twitter ID:** Enter the @ Twitter ID associated with your blog (if any).  If you leave this blank then no Twitter `<meta>` tags will be injected.
 
 **Phone Number:** If you intend to link a ZappBar button to the “Phone” action this is the phone number that will be inserted into the on-screen notice box.
 
