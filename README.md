@@ -18,7 +18,7 @@ This plugin is still being tested is incomplete!  Do not use it in production un
 
 ## Description
 
-I got tired of making the _same_ responsive layout modifications to different WordPress themes over and over again and I wanted an easy way to create and modify a custom interface for mobile devices.  So I rolled all the stuff I was doing manually into a single plugin!
+I got tired of making the _same_ responsive layout modifications to different WordPress themes over and over again and I wanted an easy way to create and modify a custom interface for mobile devices.  So I rolled all the stuff I was doing manually into a single plugin! ZappBar adds highly configurable mobile app style button bars to the top and bottom of any WordPress theme.  You can decide at what screen/browser widths they activate (so you can show them only for phones or tablets without altering your site for desktop users).  This plugin can also *try* to convert non-responsive themes to responsive layouts that auto-adjust for mobile devices and it can *try* to fix some mobile layout issues that bugged me about the WordPress admin backend too.
 
 ## Installation
 
