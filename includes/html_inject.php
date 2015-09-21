@@ -264,11 +264,14 @@ function zappbar_inject() {
 	if ($zb_site['showon'] != 'none') {
 		if ( class_exists('woocommerce') && $zb_layout['use_woo_top_bar']=='yes' && (is_product() || is_cart() || is_checkout() || is_account_page()) ) {
 		build_zappbars($zb_layout['woo_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
-		} else if ( 	($post->post_type == 'comic' ||
+		} else if (
+			( 
+				(isset($post->post_type) && ($post->post_type == 'comic' || $post->post_type == 'mangapress')) ||
 				(function_exists('comicpress_display_comic') && comicpress_in_comic_category() && !is_home() ) ||
-				preg_match('/webcomic/',get_post_type()) ||
-				$post->post_type == 'mangapress_comic') && $zb_layout['use_comic_top_bar']=='yes' 
-				&& !is_archive()
+				preg_match('/webcomic/',get_post_type())
+			)
+			&& $zb_layout['use_comic_top_bar']=='yes' 
+			&& !is_archive()
 		) {
 		build_zappbars($zb_layout['comic_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
 		} else if ( $zb_layout['use_archive_top_bar']=='yes' && (is_archive() || is_search()) ) {
@@ -278,11 +281,14 @@ function zappbar_inject() {
 		}
 		if ( class_exists('woocommerce') && $zb_layout['use_woo_bottom_bar']=='yes' && is_product() ) {
 		build_zappbars($zb_layout['woo_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
-		} else if ( 	($post->post_type == 'comic' ||
+		} else if (
+			( 
+				(isset($post->post_type) && ($post->post_type == 'comic' || $post->post_type == 'mangapress')) ||
 				(function_exists('comicpress_display_comic') && comicpress_in_comic_category() && !is_home() ) ||
-				preg_match('/webcomic/',get_post_type()) ||
-				$post->post_type == 'mangapress_comic') && $zb_layout['use_comic_bottom_bar']=='yes' 
-				&& !is_archive()
+				preg_match('/webcomic/',get_post_type())
+			)
+			&& $zb_layout['use_comic_top_bar']=='yes' 
+			&& !is_archive()
 		) {
 		build_zappbars($zb_layout['comic_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
 		} else if ( $zb_layout['use_archive_bottom_bar']=='yes' && (is_archive() || is_search()) ) {
@@ -318,10 +324,11 @@ function zappbar_inject() {
 			if ( $panels['panel_tabs'] == 'yes' || $right_sidebar == 1) { ?>
 		<div id="zappbar_sidebar_right" class="zb-panel <?php if($panels['panel_tabs']=='no'){echo 'notabs ';}; ?>right hide"><div class="marginbox"><?php if ( dynamic_sidebar( 'zb-panel-right' ) ) : else : endif; ?></div></div>
 	<?php	}; 
-		if ($share_panel == 1 ) { ?>
+		if ($share_panel == 1 && !is_404() ) { ?>
 		<div id="zappbar_share_this" class="zb-panel right hide"><div class="marginbox">
 			<h2>Share this On:</h2>
 			<?php
+				global $post;
 				$zb_social = get_option('zappbar_social');
 				$zb_social_panel = $zb_social['social_panel'];
 				if ( $zb_social_panel['facebook'] != '') {	?>
@@ -379,7 +386,7 @@ if (!is_admin()) {	// inject this at the end of the code
 		$zb_css2 = $plugin_dir_url . 'css/social_buttons.css';
 		wp_enqueue_style( 'zb-social', $zb_css2, '', '');
 	}
-	add_action('wp_enqueue_scripts', 'zb_load_social',99);
+	add_action('wp_enqueue_scripts', 'zb_load_social',99);	
 	$zb_site = get_option('zappbar_site');
 	if ($zb_site['showon'] != 'none') {
 		function zb_load_assets() {
@@ -391,7 +398,7 @@ if (!is_admin()) {	// inject this at the end of the code
 
 			$font2 = $plugin_dir_url . 'fonts/font-awesome/css/font-awesome.css';
 			wp_enqueue_style( 'font-awesome', $font2,'','');
-		 	if ($zb_site['responsive']=='no') {
+		 	if ($zb_site['responsive']!='0') {
 				$css = $plugin_dir_url . 'css/site_tweaks.css';
 				wp_enqueue_style( 'zb-site-tweaks', $css, '', '');
 			}
@@ -529,28 +536,37 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 
 
 			require_once(zappbar_pluginfo('plugin_path').'includes/dynamic-css.php');
-			$zb_site_alter = $zb_site['altertheme'];
-
+			// fallback values
+			$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '');
+			if (isset($zb_site['altertheme'])) {	// one or more is set
+				foreach( $zb_site_alter as $key => $value ) {
+					if (isset($zb_site['altertheme'][$key])) {	// this one is set
+						$zb_site_alter[$key] = $zb_site['altertheme'][$key];
+					}
+				}
+			}
+			// now move vars into js config:
 ?>
 		<script type="text/javascript">
 			var zb_base = "<?php echo $plugin_dir_url; ?>";
 			var showon = "<?php echo $zb_site['showon']; ?>";
+			var applyto = "<?php echo $zb_site['applyto']; ?>";
 			var wrapper = ['page','page-wide','wrapper'<?php if ($zb_site['page_custom']!=''){ echo ',\''.$zb_site['page_custom'].'\'';}; ?>];
 			var is_responsive = "<?php echo $zb_site['responsive']; ?>";
 			var telnum = escape("<?php if($zb_social['phone_number']!='') {echo $zb_social['phone_number']; }; ?>");
 			var splash = "<?php if($zb_site['splash_screen']!=''){echo $zb_site['splash_screen']; }; ?>";
 			var splash_timer = <?php echo $zb_site['splash_timer']; ?>;
 			var splash_link = "<?php echo $zb_site['splash_link']; ?>";
-			var comments_open = "<?php echo comments_open(); ?>";
+			var comments_open = "<?php if(is_singular()){echo comments_open();} ?>";
 			var is_home = "<?php echo is_home(); ?>";
 			var is_archive = "<?php echo is_archive(); ?>";
 			var header_custom = "<?php echo $zb_site['header_custom']; ?>";
 			var nav_custom 	  = "<?php echo $zb_site['nav_custom']; ?>";
-			var altertheme_push = "<?php echo $zb_site_alter['push']; ?>";
-			var altertheme_commentform = "<?php echo $zb_site_alter['commentform']; ?>";
+			var altertheme_sidebars = "<?php echo $zb_site['sidebars']; ?>";
 			var altertheme_header 	= "<?php echo $zb_site_alter['header']; ?>";
 			var altertheme_sitenav	= "<?php echo $zb_site_alter['sitenav']; ?>";
-			var altertheme_sidebars = "<?php echo $zb_site['sidebars']; ?>";
+			var altertheme_commentform = "<?php echo $zb_site_alter['commentform']; ?>";
+			var altertheme_push = "<?php echo $zb_site_alter['push']; ?>";
 			var page_custom = "<?php echo $zb_site['page_custom']; ?>";
 			var sidebars_custom = "<?php echo $zb_site['sidebars_custom']; ?>";
 			var comment_custom = "<?php if ($zb_site['comment_custom']!=''){echo $zb_site['comment_custom'];}else{echo 'respond';}; ?>";

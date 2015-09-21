@@ -1,9 +1,13 @@
-/* zAppBar HD Tablets and Phones */
+/* 	====== ZappBar ========
+	for Phones & HD Tablets
+	=======================
+*/
 html {
 	-ms-touch-action: none; /* hopeful fix for IE10 on touch device */
 }
 .sbtab { display: none; }
-/* 	Surface 3: 		1920x1280 @ 150% scaling = 1280x853
+/* 	TABLETS PORTRAIT & LANDSCAPE
+	Surface 3: 		1920x1280 @ 150% scaling = 1280x853
 	Surface Pro 3:	2160x1440 @ 150% scaling = 1440x960
 	So largest HD tablet rendered screen size should be 1440px (in theory)
 */
@@ -24,6 +28,7 @@ html {
 	position: relative;
 	width: auto;
 	margin: 0 auto;
+	left: 0px;
 	padding-bottom: 50px !important;
 	-webkit-transition-duration: .5s;
 	-moz-transition-duration: .5s;
@@ -798,12 +803,17 @@ html {
 				.zb-admin-bar .zb-panel div.marginbox .widget_shopping_cart_content {
 					margin: 120px 0px;
 				}
-}	
-@media screen and (min-width: 721px) and (max-width:1440px) {
-	/* what was this for? */
 }
-@media screen and (max-width: 720px) {
-
+/* 	TABLET LANDSCAPE ONLY
+	iPad + 720p HD (16:9 & 16:10 ratio) 
+*/	
+@media screen and (min-width: 801px) and (max-width:1280px) {
+	/* Included in case future WP themes need over-rides here */
+}
+/* 	TABLET PORTRAIT ONLY
+	iPad + 720p HD (16:9 & 16:10 ratio)
+*/
+@media screen and (max-width: 800px) {
 	#page.pushleft, #page-wide.pushleft, #wrapper.pushleft,
 	#page.pushright, #page-wide.pushright, #wrapper.pushright {
 		left: 0px;
@@ -924,7 +934,104 @@ html {
 					}
 
 }
-@media screen and (max-width: 320px) {
+/* 	PHONES LANDSCAPE ONLY
+	iPhone (all) + most Android Phones
+*/
+@media screen and (max-width: 736px) {
+		/* woocommerce select for variables is crazy wide */
+		.woocommerce #content div.product form.cart .variations select, 
+		.woocommerce div.product form.cart .variations select, 
+		.woocommerce-page #content div.product form.cart .variations select, 
+		.woocommerce-page div.product form.cart .variations select {
+			width: auto;
+			float: none;
+		}
+		.woocommerce #reviews #comments ol.commentlist li .comment-text, 
+		.woocommerce-page #reviews #comments ol.commentlist li .comment-text {
+			margin: 0 10px 0 50px;
+			border: none;
+			border-bottom: 1px solid #f0eef0;
+			-webkit-border-radius: 0;
+			-moz-border-radius: 0;
+			-ms-border-radius: 0;
+			border-radius: 0;
+		}
+		.woocommerce tr.cart_item td {
+			padding: 0 !important;
+			border: 1px solid #eee;
+		}
+		.woocommerce table.shop_table th, 
+		.woocommerce-page table.shop_table th {
+			padding: 0 !important;
+			text-align: center;
+		}
+			.woocommerce tr.cart_item td.product-remove a {
+				margin: 0 auto;
+			}
+		.woocommerce div.cart_totals th { width: 50% !important; }
+	.zb-panel {
+		width: 100% !important;
+	}
+		.zb-panel.left.hide {
+			left: -105%;
+		}
+		.zb-panel.left.show {
+			left: 0%;
+		}
+		.zb-panel.right.hide {
+			top: 0px;
+			right: -105%;
+		}
+		.zb-panel.right.show {
+			top: 0px;
+			right: 0%;
+		}
+			/* Android 2.x need adjusting */
+			.zb-panel.panel.left.android2x.hide {
+				top: -60px;
+				left: -105%;
+			}
+			.zb-panel.panel.left.android2x.show {
+				top: -60px;
+				left: 0%;
+			}
+			.zb-panel.panel.right.android2x.hide {
+				top: -60px;
+				right: -105%;
+			}
+			.zb-panel.panel.right.android2x.show {
+				top: -60px;
+				right: 0%;
+			}
+			.pushleft .zb-panel.panel.left.android2x.hide {
+				top: -60px;
+				left: -105%;
+			}
+			.pushleft .zb-panel.panel.left.android2x.show {
+				top: -60px;
+				left: 0%;
+			}
+			.pushright .zb-panel.panel.right.android2x.hide {
+				top: -60px;
+				right: -105%;
+			}
+			.pushright .zb-panel.panel.right.android2x.show {
+				top: -60px;
+				right: 0%;
+			}
+			.zb-panel.android2x div.marginbox {
+				margin-top: 0px;
+			}		
+    		.zappbar a.searchbox.left span.search form, 
+    		.zappbar a.searchbox.right span.search form {
+    			float: none;
+    			margin: 0 auto;
+    		}
+}
+/*	PHONES PORTRAIT ONLY
+	iPhone (all) + most Android Phones
+*/
+@media screen and (max-width: 479px) {
 
 		/* woocommerce select for variables is crazy wide */
 		.woocommerce #content div.product form.cart .variations select, 

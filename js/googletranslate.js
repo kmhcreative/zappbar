@@ -1,6 +1,7 @@
 
 function googleTranslateElementInit() {
-	new google.translate.TranslateElement({
-		pageLanguage: 'en'
-	}, 'google_translate_element');
+    "use strict";
+    google.translate.TranslateElement({
+        pageLanguage: 'en'
+    }, 'google_translate_element');
 }

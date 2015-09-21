@@ -14,7 +14,6 @@ if ($bar_colors['color_src'] == 'custom' && $bar_colors['custom_styles'] != '') 
     $zb_style = '<style type="text/css" id="zb-customize">';
 	$custom_colors = '';
 
-
     function color_check($colors,$alpha) {
     	$opacity = array('1','1.0');
     	if ($colors != '') {
@@ -27,13 +26,12 @@ if ($bar_colors['color_src'] == 'custom' && $bar_colors['custom_styles'] != '') 
     	return $color;
     };
     function border_check($width,$style,$colors) {
+    	$border = '';
 		if ($width != '') {
         	$width = explode(',',$width);
         	if ($style != '') { $style = explode(',',$style); } else { $style = array('solid');}
         	if ($colors != '') { $color = $colors; } else { $color = "#000000";}
         	$border .= $width[0].' '.$style[0].' '.$color;
-        } else {
-        	$border = '';
         }
    		return $border;    
     };
@@ -55,7 +53,7 @@ if ($bar_colors['color_src'] == 'custom' && $bar_colors['custom_styles'] != '') 
 	} else {
 	$panel_bg	=	color_check($panels['panel_bg'],$panels['panel_bg_opacity']);
 	$panel_button_bg = color_check($panels['panel_button_bg'],$panels['panel_button_bg_opacity']);
-	$panel_button_hover_bg = color_check($panels['panel_button_hover_bg'],$panels['panel_button_hover_opacity']);
+	$panel_button_hover_bg = color_check($panels['panel_button_hover_bg'],$panels['panel_button_bg_hover_opacity']);
 	$panel_font_color = $panels['panel_font_color'];
 	$panel_font_hover_color = $panels['panel_font_hover_color'];
 	$panel_border =	border_check($panels['panel_border_width'],$panels['panel_border_style'],$panels['panel_border_color']);
@@ -276,7 +274,15 @@ $woo_adjust = '';
 $woo_adjust_phone = '';
 $custom_sidebars = '';
 $always_hide = '';
+if (isset($zb_site['altertheme'])) {
 	$zb_site_alter = $zb_site['altertheme'];
+	if (!isset($zb_site_alter['header'])) { $zb_site_alter['header'] = ''; };
+	if (!isset($zb_site_alter['sitenav'])){ $zb_site_alter['sitenav']= ''; };
+	if (!isset($zb_site_alter['commentform'])){$zb_site_alter['commentform']='';};
+	if (!isset($zb_site_alter['push'])){$zb_site_alter['push']='';};
+} else {
+	$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '');
+}
 if ($zb_site['header_custom'] != '') { 	$custom_header = ', '.$zb_site['header_custom'];}
 if ($zb_site['nav_custom'] != '') { 	$custom_nav = ', '.$zb_site['nav_custom'];}
 
@@ -294,6 +300,8 @@ if ($zb_site['nav_custom'] != '') { 	$custom_nav = ', '.$zb_site['nav_custom'];}
     		}
     	';
     	}
+    } else {
+    	$hide_header = '';
     }
     if ($zb_site_alter['sitenav'] != '') {
     	if ($custom_nav != '') {
@@ -309,8 +317,9 @@ if ($zb_site['nav_custom'] != '') { 	$custom_nav = ', '.$zb_site['nav_custom'];}
     		}
     	';
     	}
+    } else {
+    	$hide_nav = '';
     }
-
 if ($zb_site['page_custom'] != '') {
 	$custom_page[0] = '
 	#'.$zb_site['page_custom'].' {
@@ -359,7 +368,7 @@ if ($zb_site['sidebars_custom'] != '') {
 		$c++;
 	}
 }	
-if ($zb_site['responsive']=='no') {	// site is not responsive
+if ($zb_site['responsive']!='0') {	// site is not responsive
     if ($zb_site['sidebars'] == '1' || $zb_site['sidebars'] == '2' ) {
     	if ($custom_sidebars != '') {
      	$sidebars = '
@@ -416,7 +425,9 @@ if ($zb_site['responsive']=='no') {	// site is not responsive
     		';
     	}
     };
-};
+} else {
+	$sidebars = '';
+}
 if ($zb_site['comment_custom'] != '') {
 	$custom_comment = $zb_site['comment_custom'];
 };
@@ -458,7 +469,9 @@ if ($zb_site['comment_custom'] != '') {
    				}
     	';
     	}
-    };
+    } else {
+    	$commentform = '';
+    }
 if (class_exists( 'woocommerce' ) ) {
 	$zb_site_alterwoo = $zb_site['alter_woo_theme'];
     if ($zb_site_alterwoo['woo_reviews'] != '') {
@@ -615,8 +628,7 @@ if (class_exists( 'woocommerce' ) ) {
     	$panel_tabs_phone = 'div.sbtab { display: none; }
     	';
     }
-    
-    if ($zb_site['comic_nav']=='on') {
+    if (in_array('comic_nav',$zb_site) && $zb_site['comic_nav']=='on') {
     	$comic_nav = 'div#comic-foot { display: none; }';
     } else {
     	$comic_nav = '';
@@ -675,15 +687,18 @@ if (class_exists( 'woocommerce' ) ) {
     }
     
     // 980 is a break-point because so many WP themes use it as the page width //
+    // hd_desktops applies to all screen sizes so we don't need to define break-points //
     if ($zb_site['showon'] == 'desktops') {
-    	$screen1 = '1919';  $screen2 = '980';		$screen3 = '1024';
+    	$screen1 = '1919';  $screen2 = '980';		$screen3 = '1280';
     } else if ($zb_site['showon'] == 'tablets_hd') {
-    	$screen1 = '1440';	$screen2 = '980';		$screen3 = '720';
+    	$screen1 = '1440';	$screen2 = '980';		$screen3 = '800';
+    } else if ($zb_site['showon'] == 'tablets') {
+    	$screen1 = '1280';	$screen2 = '980';		$screen3 = '736';
     } else {
     	$screen1 = '1024';	$screen2 = '980';		$screen3 = '736';
     };
     
-    if ($zb_site['showon'] == 'desktops_hd') {
+    if ($zb_site['showon'] == 'desktops_hd' || $zb_site['applyto'] == 'force_mobile' || $zb_site['applyto'] == 'only_mobile_forced') {
     	$zb_style .= '
     		'.$splash.'
     		'.$custom_page[0].'
@@ -757,14 +772,14 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$panel_tabs_phone.'
     		'.$custom_colors.'
     	}
-    	@media screen and (max-width: 320px) {
+    	@media screen and (max-width: 479px) {
     		.zappbar a.searchbox.left span.search form, 
     		.zappbar a.searchbox.right span.search form {
     			float: none;
     			margin: 0 auto;
     		}
     	}';
-    } elseif ( $zb_site['showon'] == 'desktops' || $zb_site['showon'] == 'tablets' || $zb_site['showon'] == 'tablets_hd' ) {
+    } elseif ( $zb_site['showon'] == 'desktops' || $zb_site['showon'] == 'tablets' || $zb_site['showon'] == 'idevices' || $zb_site['showon'] == 'tablets_hd' ) {
     	$zb_style .= '
     	.zappbar, .zb-panel, .sbtab { 
     		display: none;
@@ -873,7 +888,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_colors.'
     		'.$comic_nav.'
     	}
-    	@media screen and (max-width: 320px) {
+    	@media screen and (max-width: 479px) {
     		.zappbar a.searchbox.left span.search form, 
     		.zappbar a.searchbox.right span.search form {
     			float: none;
@@ -936,7 +951,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_colors.'
     		'.$comic_nav.'
     	}
-    	@media screen and (max-width: 320px) {
+    	@media screen and (max-width: 479px) {
     		.zappbar a.searchbox.left span.search form, 
     		.zappbar a.searchbox.right span.search form {
     			float: none;

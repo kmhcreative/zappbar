@@ -109,10 +109,11 @@ class ZB_Settings_API_Test {
                     'name' => 'responsive',
                     'label' => __( 'Theme Layout', 'zbopts' ),
                     'type' => 'radio',
-                    'default' => 'yes',
+                    'default' => '0',
                     'options' => array(
-                        'yes' => 'Theme is already responsive',
-                        'no' => 'Make theme responsive'
+                        '0' => 'Theme is already responsive',
+                        '1' => 'Make theme responsive when ZappBars are displayed',
+                        '2' => 'Make theme responsive even when ZappBars are not displayed'
                     )
                 ),
                 array(
@@ -147,29 +148,39 @@ class ZB_Settings_API_Test {
                 ),
                 array(
                     'name' => 'showon',
-                    'label' => __( 'Include ZappBars On', 'zbopts' ),
-                    'desc' => __( 'Phones < 640px wide, 
-                    Tablets < 1024px wide,
-                    HD Tablets < 1440px wide, 
-                    Desktops  < 1920px,
-                    HD Desktops = all widths', 'zbopts' ),
+                    'label' => __( 'ZappBars On Screen Size', 'zbopts' ),
+                    'desc' => __( 'Determined by rendered width in browser not device or device screen size.', 'zbopts' ),
                     'type' => 'radio',
 					'default' => 'none',
                     'options' => array(
-                    	'none' => 'None (disable during set-up)',
-                        'phones' => 'Phones Only',
-                        'tablets' => 'Tablets and Phones',
-                        'tablets_hd' => 'HD Tablets and Phones',
-                        'desktops' => 'Desktops, Tablets, and Phones',
-                        'desktops_hd' => 'HD Desktops, Tablets, and Phones'
+                    	'none' => 'None (to disable during set-up)',
+                        'phones' => '< &nbsp;&nbsp;736px wide (Phones)',
+                        'idevices' => '< 1024px wide (Tablets & Phones)',
+                        'tablets' => '< 1280px wide (Tablets & Phones)',
+                        'tablets_hd' => '< 1440px wide (HD Tablets & Phones)',
+                        'desktops' => '< 1920px wide (Phones, Tablets, 720p HD Desktops)',
+                        'desktops_hd' => 'All Screen Sizes'
                     )
+                ),
+                array(
+                	'name' => 'applyto',
+                	'label' => __( 'Apply ZappBars On', 'zbopts' ),
+                	'desc' => __( '"Mobile Only" uses device detection, which can be spoofed. "Force" ignores screen size.', 'zbopts'),
+                	'type' => 'radio',
+                	'default' => 'all',
+                	'options' => array(
+                		'all' => 'ALL Devices by Screen Size',
+                		'only_mobile' =>  'ONLY Mobile Devices by Screen Size',
+                		'only_mobile_forced' => 'ONLY Mobile Devices & FORCE ZappBars',
+                		'force_mobile' => 'Desktops by Screen Size & FORCE Mobile Devices to use ZappBars',
+                	)
                 ),
                array(
                     'name' => 'altertheme',
                     'label' => __( 'When ZappBars are Included', 'zbopts' ),
                     'desc' => __( 'If header section is hidden and site navigation is inside it, site navigation will be automatically hidden as well.', 'zbopts' ),
                     'type' => 'multicheck',
-                    'default' => array('header' => 'header', 'sitenav' => 'sitenav', 'commentform' => 'commentform', 'push' => 'push'),
+           			'default' => array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => ''),
                     'options' => array(
                         'header' => 'Hide Entire &lt;header&gt; Section',
                         'sitenav' => 'Hide regular site navigation',
@@ -241,7 +252,7 @@ class ZB_Settings_API_Test {
                 		However a theme designer might assign any ID or class name to a given element, in 
                 		which case - if a selected layout option above is not working - you will need to look 
                 		at the source code for the theme you are using and in the boxes below provide the correct IDs/class names 
-                		so zAppBar can target them.','zbotps')
+                		so ZappBar can target them.','zbotps')
                 ),
                 array(
                 	'name' => 'header_custom',
@@ -331,8 +342,8 @@ class ZB_Settings_API_Test {
                array(
                     'name' => 'social_panel',
                     'label' => __( 'Social Media Panel', 'zbopts' ),
-                    'desc' => __( 'If you have linked a button to the social sharing panel this is where you can set which options appear in the panel. 
-                    If you are usin site-specific social media buttons on your ZappBars this list is ignored.  It is also ignored by the shortcode since 
+                    'desc' => __( 'If you have linked a button to the social sharing panel this is where you can set which options appear in the panel.  You cannot
+                    deselect all of them, however if you are usin site-specific social media buttons on your ZappBars this list is ignored.  It is also ignored by the shortcode since 
                     each instance can display a different list of sites.', 'zbopts' ),
                     'type' => 'multicheck',
                     'default' => array(
@@ -470,7 +481,7 @@ class ZB_Settings_API_Test {
                 array(
                     'name' => 'bar_border_color',
                     'label' => __( 'Bar Border color', 'zbopts' ),
-                    'desc' => __( 'Color of the (optional) border under/over the top/bottom zappbars.', 'zbopts' ),
+                    'desc' => __( 'Color of the (optional) border under/over the top/bottom ZappBars.', 'zbopts' ),
                     'type' => 'color',
                     'default' => '#000000'
                 ), 
@@ -618,7 +629,7 @@ class ZB_Settings_API_Test {
                 array(
                     'name' => 'panel_border_color',
                     'label' => __( 'Panel Bar Border color', 'zbopts' ),
-                    'desc' => __( 'Color of the (optional) border under/over the top/bottom zappbars.', 'zbopts' ),
+                    'desc' => __( 'Color of the (optional) border under/over the top/bottom ZappBars.', 'zbopts' ),
                     'type' => 'color',
                     'default' => '#000000'
                 ), 
@@ -685,7 +696,7 @@ class ZB_Settings_API_Test {
                 ),
                 array(
                     'name' => 'search_button',
-                    'label' => __( 'zAppBar Search Box', 'zbopts' ),
+                    'label' => __( 'ZappBar Search Box', 'zbopts' ),
                     'desc' => __( 'Hide "Search" button (form submits on Enter/Return)', 'zbopts' ),
                     'default' => 'on',
                     'type' => 'checkbox'

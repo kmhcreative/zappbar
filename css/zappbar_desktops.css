@@ -1,8 +1,13 @@
-/* zAppBar ALL - show on Desktop, Tablets, and Mobile */
+/* 	====== ZappBar ======================
+	for Phones, HD Tablets, and Desktops
+	=====================================
+*/
 .sbtab { display: none; }
-/* 	Surface Pro 3 should end tablets at 1440px and
+/* 	
+	DESKTOPS, HD TABLETS & PHONES
+	Surface Pro 3 should end tablets at 1440px and
 	this extends mobile UI for larger screens, but
-	stops just short of "full HD"
+	stops just short of 1080p "full HD"
 */
 @media screen and (max-width: 1919px) {
 	#zappbar_menu_left, #zappbar_menu_right,
@@ -18,6 +23,7 @@
 	}
 #page, #page-wide, #wrapper {
 	padding-bottom: 50px !important;
+	left: 0px;
 }
 
 	/* Android 2.x needs page element adjusted */
@@ -709,20 +715,37 @@
 			margin-top: 32px;
 		}
 }
-@media screen and (max-width: 1025px) {
-#page, #page-wide, #wrapper {
-	position: relative;
-	width: auto;
-	margin: 0 auto;
-	-webkit-transition-duration: .5s;
-	-moz-transition-duration: .5s;
-	-ms-transition-duration: .5s;
-	transition-duration: .5s;
+/* 	TABLET LANDSCAPE ONLY
+	iPad + 720p HD (16:9 & 16:10 ratio) 
+*/	
+@media screen and (min-width: 801px) and (max-width:1440px) {
+	#page, #page-wide, #wrapper {
+		position: relative;
+		width: auto;
+		margin: 0 auto;
+		-webkit-transition-duration: .5s;
+		-moz-transition-duration: .5s;
+		-ms-transition-duration: .5s;
+		transition-duration: .5s;
+	}
+		#page.pushleft, #page-wide.pushleft, #wrapper.pushleft { left: 320px;}
+		#page.pushright, #page-wide.pushright, #wrapper.pushright { left: -320px;}
 }
-	#page.pushleft, #page-wide.pushleft, #wrapper.pushleft { left: 320px;}
-	#page.pushright, #page-wide.pushright, #wrapper.pushright { left: -320px;}
-
-	
+/* 	TABLET PORTRAIT ONLY
+	iPad + 720p HD (16:9 & 16:10 ratio)
+*/
+@media screen and (max-width: 800px) {
+	#page, #page-wide, #wrapper {
+		position: relative;
+		width: auto;
+		margin: 0 auto;
+		-webkit-transition-duration: .5s;
+		-moz-transition-duration: .5s;
+		-ms-transition-duration: .5s;
+		transition-duration: .5s;
+	}
+		#page.pushleft, #page-wide.pushleft, #wrapper.pushleft { left: 320px;}
+		#page.pushright, #page-wide.pushright, #wrapper.pushright { left: -320px;}
 }
 @media screen and (max-width: 782px) { /* break-point for responsive wpadminbar */
 	html {
@@ -752,8 +775,10 @@
 					margin: 120px 0px;
 				}
 }
-@media screen and (max-width: 639px) {
-
+/*	PHONES LANDSCAPE ONLY
+	iPhone (all) + most Android Phones
+*/
+@media screen and (max-width: 736px) {
 	#page.pushleft, #page-wide.pushleft, #wrapper.pushleft,
 	#page.pushright, #page-wide.pushright, #wrapper.pushright {
 		left: 0px;
@@ -869,8 +894,10 @@
 					}
 
 }
-@media screen and (max-width: 320px) {
-
+/* 	PHONES PORTRAIT  ONLY
+	iPhone (all) + most Android Phones
+*/
+@media screen and (max-width: 479px) {
 		/* woocommerce select for variables is crazy wide */
 		.woocommerce #content div.product form.cart .variations select, 
 		.woocommerce div.product form.cart .variations select, 

@@ -1,7 +1,12 @@
-/* zAppBar ALL - show on Desktop, Tablets, and Mobile */
+/* 	===== ZappBar ======
+	for Phones & Tablets
+	====================
+*/
 .sbtab { display: none; }
-
-@media screen and (max-width: 1024px) {
+/* 	TABLETS & PHONES, PORTRAIT & LANDSCAPE 
+	iPad + 720p HD (16:9 & 16:10 ratio)
+*/
+@media screen and (max-width: 1280px) {
 /* Make sure Google Translate bar doesn't overlay ZappBar */
 .goog-te-banner-frame {
 	top: 47px !important;
@@ -19,6 +24,7 @@
 	width: auto;
 	margin: 0 auto;
 	padding-bottom: 50px !important;
+	left: 0px;
 	-webkit-transition-duration: .5s;
 	-moz-transition-duration: .5s;
 	-ms-transition-duration: .5s;
@@ -749,13 +755,17 @@
 				.zb-admin-bar .zb-panel div.marginbox .widget_shopping_cart_content {
 					margin: 120px 0px;
 				}
-}		
-@media screen and (min-width: 640px) and (max-width:1024px) {
-
-
 }
-@media screen and (max-width: 639px) {
-
+/*	TABLETS PORTRAIT ONLY
+	iPad & 720p HD (16:9 & 16:10 ratio)
+*/		
+@media screen and (min-width: 737px) and (max-width:1023px) {
+	/* Included in case future WP themes need over-rides here */
+}
+/* 	PHONES LANDSCAPE ONLY
+	iPhone (all) + most Android phones
+*/
+@media screen and (max-width: 736px) {
 	#page.pushleft, #page-wide.pushleft, #wrapper.pushleft,
 	#page.pushright, #page-wide.pushright, #wrapper.pushright {
 		left: 0px;
@@ -872,8 +882,10 @@
 					}
 
 }
-@media screen and (max-width: 320px) {
-
+/* PHONES PORTRAIT ONLY
+	iPhones (all) + most Android phones
+*/
+@media screen and (max-width: 479px) {
 		/* woocommerce select for variables is crazy wide */
 		.woocommerce #content div.product form.cart .variations select, 
 		.woocommerce div.product form.cart .variations select, 

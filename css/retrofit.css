@@ -1,3 +1,19 @@
+/*	RETROFIT THEME TO RESPONSIVE
+	
+	This file is used when you select the option to
+	"Make Theme Responsive even when ZappBars are not displayed"
+	and, in combination with any custom settings in a style block,
+	this will attempt to retrofit a non-responsive WP theme so that
+	it will react responsively based on browser window width.
+	
+	This stylesheet, the style block, and the jQuery script expect the
+	theme author to have used fairly standard IDs and classnames for
+	the various elements of the theme, and if not tries to use any
+	custom element names and classes outlined in ZappBar Site Layout.
+	
+	So no guarantees this will work with any given WP theme.
+*/
+	
 body {
 	padding: 0 0 50px 0;
 }
@@ -16,6 +32,10 @@ body {
 			-ms-background-size: contain;
 			background-size: contain;
 		}
+#page, #page-wide, #wrapper {
+	width: 100%;
+	max-width: 980px;
+}
 	.layout-3c #comic, .layout-3c2r #comic {
 		width: auto;
 		max-width: 100%;
@@ -60,6 +80,33 @@ body {
 		display: block;
 		text-align: center;
 	}
+			
+    	span.zb-label span.contents {
+			height:15px;
+			min-width:15px;
+			background: red;
+			color:white;
+			position:absolute;
+			top:-28px;
+			border-radius:100%;
+			line-height:15px;
+			font-size:8px;
+			text-shadow:none;
+			right: -3px;
+			text-align:center;
+			border:1px solid white;
+			}
+ 		
+    		#footer {
+    			display: block;
+    		}
+    		
+    		.zappbar { 
+    			display: none; 
+    		}
+    		
+    		div.sbtab { display: none; }
+	
 /* 4-up in comic archive */
 @media screen and (min-width: 1441px) {
 	div.comic.uentry, article.comic.uentry {
@@ -73,6 +120,13 @@ body {
 		float: left;
 		width: 24%;
 	}
+		#footer {
+    			display: block;
+    		}
+    		
+    		.zappbar { 
+    			display: none; 
+    		}
 }
 /* 3-up in comic archive */
 @media screen and (min-width: 737px) and (max-width:1024px) {
@@ -83,6 +137,23 @@ body {
 		float: left;
 		width: 33%;
 	}
+  		#footer {
+    			display: block;
+    		}
+    		
+    		.zappbar { 
+    			display: none; 
+    		}
+    		
+    		#sidebar-left, #sidebar-right,
+    		#content, #content-column {
+				float: none;
+    			width: auto;
+    			max-width: 100%;
+    			min-height: 0px;
+    			clear: both;
+    		}
+    		.site-content { width: auto; }
 }
 /* 2-up in comic archive */
 @media screen and (max-width: 736px) {
@@ -90,6 +161,21 @@ body {
 		float: left;
 		width: 45% !important;
 	}
+    		#footer {
+    			display: block;
+    		}
+    		.zappbar { 
+    			display: none; 
+    		}
+    		#sidebar-left, #sidebar-right,
+    		#content, #content-column {
+				float: none;
+    			width: auto;
+    			max-width: 100%;
+    			min-height: 0px;
+    			clear: both;
+    		}
+
 }
 /* 1-up in comic archive */
 @media screen and (max-width: 480px) {

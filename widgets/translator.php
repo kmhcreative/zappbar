@@ -15,14 +15,17 @@ for the ComicPress theme (http://frumph.net/)
 if (!class_exists('zb_google_translate_widget')) {
 
 class zb_google_translate_widget extends WP_Widget {
-	function zb_google_translate_widget($skip_widget_init = false) {
-		if (!$skip_widget_init) {
-			$widget_ops = array('classname' => __CLASS__, 'description' => 'Translate your site with Google.' );
-			$this->WP_Widget(__CLASS__, 'Google Translate', $widget_ops);
-		}
-	}
-	
-	function widget($args, $instance) {
+	/**
+	 * Register widget with WordPress.
+	 */
+	function __construct() {
+		parent::__construct(
+			__CLASS__, // Base ID
+			__( 'ZappBar Google Translator'), // Name
+			array( 'classname' => __CLASS__, 'description' => __( 'Translate your site with Google.'), ) //Args
+		);
+	}	
+	public function widget($args, $instance) {
 		global $post;
 		extract($args, EXTR_SKIP); 
 		echo $before_widget;
@@ -35,13 +38,13 @@ class zb_google_translate_widget extends WP_Widget {
 		echo $after_widget;
 	}
 	
-	function update($new_instance, $old_instance) {
+	public function update($new_instance, $old_instance) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		return $instance;
 	}
 	
-	function form($instance) {
+	public function form($instance) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
 		$title = strip_tags($instance['title']);
 		?>

@@ -11,18 +11,18 @@
 function zb_sidebars() {
 	if ( function_exists('register_sidebar') ){
 		register_sidebar(array(
-			'name' => 'zAppBar Left App Panel',
+			'name' => 'ZappBar Left App Panel',
 			'id' => 'zb-panel-left',
-			'description' => 'A sidebar for zAppBar.  It is only visible if zAppBars are shown and you have wired a button to slide it in/out',
+			'description' => 'A sidebar for ZappBar.  It is only visible if ZappBars are shown and you have wired a button to slide it in/out',
 			'before_widget' => '',
 			'after_widget' => '',
 			'before_title' => '',
 			'after_title' => '',
 		));
 		register_sidebar(array(
-			'name' => 'zAppBar Right App Panel',
+			'name' => 'ZappBar Right App Panel',
 			'id' => 'zb-panel-right',
-			'description' => 'A sidebar for zAppBar.  It is only visible if zAppBars are shown and you have wired a button to slide it in/out',
+			'description' => 'A sidebar for ZappBar.  It is only visible if ZappBars are shown and you have wired a button to slide it in/out',
 			'before_widget' => '',
 			'after_widget' => '',
 			'before_title' => '',

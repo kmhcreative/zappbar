@@ -1,11 +1,14 @@
-/* 	====== ZappBar =========================
-	for Phones, HD Tablets, and HD Desktops
-	========================================
+/* 	===== ZappBar ======
+	for iPhones & iPads
+	====================
 */
-
-	#zappbar_menu_left, #zappbar_menu_right,
-	#zappbar_sidebar_left, #zappbar_sidebar_right,
-	#zappbar_share_this, div.zappbar { display: block; }
+.sbtab { display: none; }
+/* 	iPad & iPhone, PORTRAIT & LANDSCAPE 
+	Should also work for most Android phones
+	16:9 & 16:10 Android tablets will probably get Desktop view in landscape &
+	table view in portrait (this is the way ZappBar 0.1 worked).
+*/
+@media screen and (max-width: 1024px) {
 /* Make sure Google Translate bar doesn't overlay ZappBar */
 .goog-te-banner-frame {
 	top: 47px !important;
@@ -14,10 +17,24 @@
 	.zb-admin-bar .goog-te-banner-frame {
 		top: 79px !important;
 	}
+	#zappbar_menu_left, #zappbar_menu_right,
+	#zappbar_sidebar_left, #zappbar_sidebar_right,
+	#zappbar_share_this, div.zappbar { display: block; }
+
 #page, #page-wide, #wrapper {
-	padding-bottom: 50px !important;	/* allowance for bottom zappbar */
+	position: relative;
+	width: auto;
+	margin: 0 auto;
+	padding-bottom: 50px !important;
 	left: 0px;
+	-webkit-transition-duration: .5s;
+	-moz-transition-duration: .5s;
+	-ms-transition-duration: .5s;
+	transition-duration: .5s;
 }
+	#page.pushleft, #page-wide.pushleft, #wrapper.pushleft { left: 320px;}
+	#page.pushright, #page-wide.pushright, #wrapper.pushright { left: -320px;}	
+	
 	/* Android 2.x needs page element adjusted */
 	.android2x_page {
 		width: 100% !important;
@@ -25,7 +42,9 @@
 		padding: 0px !important;
 		margin: 0px !important;
 		overflow: visible !important;
-	}	
+	}
+	
+	
 .zb-panel {
 	position: fixed !important;
 	height: 100%;
@@ -38,7 +57,7 @@
 	overflow: auto;
 	overflow-x: scroll;
 	-webkit-overflow-scrolling: touch;
-	z-index:9990;
+	z-index: 9990;
 }
 	.zb-panel {
 		margin: 0;
@@ -87,7 +106,6 @@
 				.zb-admin-bar .zb-panel div.marginbox .widget_shopping_cart_content {
 					margin: 90px 0px;
 				}
-
 			/* woo panels for Android 2.x need adjusting */
 			.zb-panel.android2x {
 				position: absolute !important;
@@ -163,7 +181,7 @@
 			float: none;
 			width: 75%;
 		}
- 		
+		
 			.sbtab {
 				background: #eee;
 				color: #333;
@@ -223,7 +241,7 @@
 					right: 320px;
 					z-index: 10;
 				}
-		
+
 /*social sharing buttons*/
 #zappbar_share_this a{
     display:block;
@@ -295,7 +313,6 @@
 	box-shadow: inset 0 0 10px rgba(0,0,0,.5);
 	position: relative;
 }
-
 #zappbar_notice {
 	position: fixed;
 	left: 50%;
@@ -329,7 +346,6 @@
 		.zb-phone a {
 			text-decoration: none;
 		}
-
 .zappbar {
 	position: fixed;
  	width: 100%;
@@ -373,7 +389,7 @@
 		}
 	.zappbar div.icon {
 		width: 100%;
-		height: 45px;	/* cannot use 100% or Android 2.x squishes */
+		height: 45px;
 		font-size: 24px;
 		margin: 0;
 		padding: 0;
@@ -713,37 +729,6 @@
 		.zb-admin-bar .zappbar.top a.searchbox span.search {
 			margin-top: 32px;
 		}
-/* 	TABLET LANDSCAPE ONLY
-	iPad + 720p HD (16:9 & 16:10 ratio) 
-*/	
-@media screen and (min-width: 801px) and (max-width:1440px) {
-	#page, #page-wide, #wrapper {
-		position: relative;
-		width: auto;
-		margin: 0 auto;
-		-webkit-transition-duration: .5s;
-		-moz-transition-duration: .5s;
-		-ms-transition-duration: .5s;
-		transition-duration: .5s;
-	}
-		#page.pushleft, #page-wide.pushleft, #wrapper.pushleft { left: 320px;}
-		#page.pushright, #page-wide.pushright, #wrapper.pushright { left: -320px;}
-}
-/* 	TABLET PORTRAIT ONLY
-	iPad + 720p HD (16:9 & 16:10 ratio)
-*/
-@media screen and (max-width: 800px) {
-	#page, #page-wide, #wrapper {
-		position: relative;
-		width: auto;
-		margin: 0 auto;
-		-webkit-transition-duration: .5s;
-		-moz-transition-duration: .5s;
-		-ms-transition-duration: .5s;
-		transition-duration: .5s;
-	}
-		#page.pushleft, #page-wide.pushleft, #wrapper.pushleft { left: 320px;}
-		#page.pushright, #page-wide.pushright, #wrapper.pushright { left: -320px;}
 }
 @media screen and (max-width: 782px) { /* break-point for responsive wpadminbar */
 	html {
@@ -773,8 +758,14 @@
 					margin: 120px 0px;
 				}
 }
-/*	PHONES LANDSCAPE ONLY
-	iPhone (all) + most Android Phones
+/*	TABLETS PORTRAIT ONLY
+	iPad & 720p HD (16:9 & 16:10 ratio)
+*/		
+@media screen and (min-width: 737px) and (max-width:1023px) {
+	/* Included in case future WP themes need over-rides here */
+}
+/* 	PHONES LANDSCAPE ONLY
+	iPhone (all) + most Android phones
 */
 @media screen and (max-width: 736px) {
 	#page.pushleft, #page-wide.pushleft, #wrapper.pushleft,
@@ -852,6 +843,7 @@
 			.zb-panel.android2x div.marginbox {
 				margin-top: 0px;
 			}
+			
 				#zappbar_sbtab_left.hide {
 					left: 0%;
 					margin-left: -5px;
@@ -892,8 +884,8 @@
 					}
 
 }
-/*	PHONES PORTRAIT ONLY
-	iPhone (all) + most Android Phones
+/* PHONES PORTRAIT ONLY
+	iPhones (all) + most Android phones
 */
 @media screen and (max-width: 479px) {
 		/* woocommerce select for variables is crazy wide */

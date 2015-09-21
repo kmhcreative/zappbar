@@ -319,13 +319,13 @@ label img {
 		.zb-pushout div.zb.button_e {
 			float: right;
 		}
-@media screen and (min-width:640px) and (max-width: 768px) {
+@media screen and (min-width:480px) and (max-width: 768px) {
 	input#zappbar_layout_logo.regular-text {
 		float: left;
 		margin-right: 10px;
 	}
 }	
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 479px) {
 	.zappbar {
 		width: 280px;
 	}

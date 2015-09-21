@@ -43,22 +43,28 @@ function zb_paginate() {
 	$pages = paginate_links( $pagination );
 	$links = array();
 		// first page $links[0]
+		if (isset($pages)) {	// make sure there are links first!
 		preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', $pages[1], $url);
 		$links[] = $url[2][0];
 		// previous page $links[1]
 		preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', $pages[0], $url);
+		if (count($url[2])==0) { $links[] = '';} else {
 		$links[] = $url[2][0];		
+		}
 		// next page $links[2]
 		preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', $pages[(count($pages)-1)], $url);
-		$links[] = $url[2][0];
+		if (count($url[2])==0) { $links[] = '';} else {
+		$links[] = $url[2][0];		
+		}
 		// last page $links[3]
 		preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', $pages[(count($pages)-2)], $url);
 		$links[] = $url[2][0];
-
+		}
 		return $links;
 };
 
 function zb_share_shortcode( $atts, $content = null ) {
+	global $post;
 	extract(shortcode_atts(array(
 		'type' => 'label',	// text, label (default), small, medium, large
 		'include' => '',
@@ -118,6 +124,12 @@ function zb_share_shortcode( $atts, $content = null ) {
 	return $social;
 }
 add_shortcode('zb-share', 'zb_share_shortcode');
+
+/* If Google Translate Widget is active load the script */
+if (is_active_widget('zb_google_translate_widget', false, 'zb_google_translate_widget', true)) {
+	wp_enqueue_script('google-translate', 'http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit', null, null, true);
+	wp_enqueue_script('google-translate-settings', zappbar_pluginfo('plugin_url') . '/js/googletranslate.js');
+}
 
 /*	
 	MODE SWITCH (experimental)

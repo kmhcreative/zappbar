@@ -34,7 +34,7 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
     	.zappbar, .zb-panel, .sbtab { 
     		display: none;
     	}
-    	@media screen and (min-width: 1367px) {
+    	@media screen and (min-width: 1440px) {
  			#page.push, #page-wide.push { left: 0px; }
  			
 			.zb-panel.show { left: -320px; }
@@ -69,7 +69,7 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
     			#tab-additional_information { display:none;}
 
     	}
-    	@media screen and (min-width: 980px) and (max-width: 1366px) {
+    	@media screen and (min-width: 800px) and (max-width: 1439px) {
     		html { margin-top: 46px !important; 
     		}
     		
@@ -193,7 +193,7 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
 						width: 33%;
 					}
 					}    	
-    	@media screen and (min-width: 720px) and (max-width: 979px) {
+    	@media screen and (min-width: 737px) and (max-width: 800px) {
     		html {	margin-top: 46px !important; 
     		}
     		
@@ -311,7 +311,7 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
 		
     		div#comic-foot { display: none; }
     	}
-    	@media screen and (max-width: 719px) {
+    	@media screen and (max-width: 736px) {
     		html { 
     			margin-top: 46px !important; 
     		}
@@ -432,7 +432,7 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
 		
     		div#comic-foot { display: none; }
     	}
-    	@media screen and (max-width: 320px) {
+    	@media screen and (max-width: 479px) {
     		.zappbar a.searchbox.left span.search form, 
     		.zappbar a.searchbox.right span.search form {
     			float: none;

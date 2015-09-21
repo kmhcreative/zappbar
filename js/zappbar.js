@@ -5,18 +5,85 @@
 */
 
 jQuery(document).ready(function($){	
-
-	// Add Android 2.x detection //
-	 var device = {};
-	 if (navigator.userAgent.match(/Android/i)) {
-		var ver = navigator.userAgent.match(/Android ./i);
+/*	DEVICE & BROWSER DETECTION
+	Pared down sniffer based on "Web-O-Detecto"
+	full script @ https://github.com/kmhcreative
+*/
+var device = {};
+if (navigator.userAgent.match(/Edge/i)) {
+	// Edge UA lies about what it is so check it first
+	if (navigator.userAgent.match(/Android/i)){
+		device.OS = "Windows 10 Mobile";	// Windows 10 Mobile (aka Windows Phone 10)
+	} else {
+		device.OS = "Windows 10";	// because only Win10 can run Edge
+	}
+} else if (navigator.userAgent.match(/MSIE/i) || navigator.userAgent.match(/Trident/i)){
+	// IE Mobile also lies about what it is
+	if (navigator.userAgent.match(/IEMobile/i)) {
+		if (navigator.userAgent.match(/Windows Phone 8/i)) {
+			device.OS = "Windows Phone 8";
+		} else {
+			device.OS = "Windows Phone 7";
+		}
+	} else {device.OS = "Windows"; }	// some version of it anyway
+} else if (navigator.userAgent.match(/Android/i)) {
+	device.OS = "Android";
+	if (navigator.userAgent.match(/Firefox/) || navigator.userAgent.match(/Fennec/)) {
+		device.v = 4; 	// assume it's at least 4, FFM UA string doesn't include Android version!
+	} else {
+		var ver = navigator.userAgent.match(/Android (\d+\.\d+)/i);
 		ver = ver[0].split(" ");
 		ver = parseFloat(ver[1]);
-		device.OS = "Android";
-		device.Platform = "Android";
-		device.v = ver;
-	};
-	
+		device.v = ver;	// Android Version from UA String
+	}
+} else if (navigator.userAgent.match(/wOSBrowser/i) || navigator.userAgent.match(/webOS/i)) {
+	device.OS = "webOS"; // check first since UA string contains Safari
+} else if (navigator.userAgent.match(/RIM/i) || navigator.userAgent.match(/PlayBook/i) || navigator.userAgent.match(/BlackBerry/i)) {
+	device.OS = "BlackBerryOS";	// check first since UA string contains Safari
+} else if (navigator.userAgent.match(/Safari/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i) ) {
+	device.Platform = "Safari";
+	if (navigator.userAgent.match(/iOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i) ) {
+		device.OS = "iOS";
+		var fullVersion = navigator.appVersion;
+		fullVersion = fullVersion.split("OS ");
+		var majorVersion = parseInt(fullVersion[1]);
+		if (majorVersion > 7) { // iOS 8.x userAgent string reports as v 10
+			if (navigator.appVersion.match(/Version/gi)) {	// browser view
+				fullVersion  = navigator.appVersion.split("Version/");
+				majorVersion = parseFloat(fullVersion[1]);	// point value is not accurate anyway
+			} else {	// appView so no version value!
+				majorVersion = 8;	// we will just have to assume it is at least v 8.0	
+			}
+		}
+		device.v = majorVersion; // This is OS major version, not browser version
+	}
+} else if (navigator.userAgent.match(/Firefox/i)) {
+	if (navigator.userAgent.match(/\(Mobile/i) || navigator.userAgent.match(/\(Tablet/i)) {
+		// only FF UA string with "Mobile"/"Tablet" right after parenthesis is Firefox OS	
+		device.OS = "Firefox OS";
+	}
+} else {
+	device.Platform = "Unknown";
+	device.appName  = "Unknown";
+}
+// Rectify device OS if not already set
+if (device.OS == undefined) {
+	if (navigator.userAgent.match(/Windows/i)) { device.OS = "Windows";}
+	else if (navigator.userAgent.match(/Macintosh/i)) { device.OS = "Mac";}
+	else if (navigator.userAgent.match(/Linux/i)) { device.OS = "Linux";}
+	else {};
+}
+// If Browser Version is not set use Device Version
+if (device.bv == undefined) { device.bv = device.v; }
+// If Browser AppName is not set use Platform Name
+if (device.appName == undefined) { device.appName = device.Platform; }
+// Now for a shorthand way to determine if we are on a mobile device or not
+if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mobile' || device.OS == 'Windows Phone 7' || device.OS == 'Windows Phone 8' || device.OS == 'BlackBerryOS' || device.OS == 'webOS' || device.OS == 'Firefox OS') {
+	device.mobile = true;
+} else {
+	device.mobile = false;
+}
+
 	if ($('body').hasClass('admin-bar')) {
 		$('html').addClass('zb-admin-bar');
 	}
@@ -35,17 +102,35 @@ jQuery(document).ready(function($){
 
         	function zb_check() {
         		var w = $(window).width();
-        		if ((showon == "tablets_hd" && w < 1441) ||
-        			(showon == "tablets" && w < 1025) || 
-        			(showon == "phones" && w < 737) || 
-        			(showon == "desktops" && w < 1920) || (showon == "desktops_hd") 
+        		if (
+					(	// apply based on screen size
+						(
+						   applyto == 'all' ||
+						  (applyto == 'force_mobile' && device.mobile == false) ||
+						  (applyto == 'only_mobile'  && device.mobile == true)
+						) &&
+						(
+						  (	showon == "phones" 		&& w < 737	)||
+						  (	showon == "idevices"	&& w < 1025 )||
+						  (	showon == "tablets" 	&& w < 1281 )||
+						  (	showon == "tablets_hd" 	&& w < 1441 )||
+						  ( showon == "desktops" 	&& w < 1920 )||
+						  ( showon == "desktops_hd")
+						)
+					) ||
+					(applyto == 'force_mobile' && device.mobile == true)||	// over-ride regardless of screen size
+					(applyto == 'only_mobile_forced' && device.mobile == true)
         		) { 
         			// we only need to attach button actions on initial load
         			if (zbinit==false) { 
         				zb_init();
         			}
-					if (is_responsive=="no") {
-        		 			document.getElementById('zb-site-tweaks-css').href=""+zb_base+"css/site_tweaks.css";
+					if (is_responsive!="0") {
+        		 		$('#zb-site-tweaks-css').attr("href",""+zb_base+"css/site_tweaks.css");
+        		 	}
+        		 	if ( (applyto == 'force_mobile' || applyto == 'only_mobile_forced') && device.mobile == true) {
+        		 		showon = "desktops_hd";
+        		 		$("#zb-response-css").attr("href",""+zb_base+"css/zappbar_desktops_hd.css");
         		 	}
         			// see if any of these need to convert to panels
         			comment2panel();
@@ -55,11 +140,14 @@ jQuery(document).ready(function($){
         			$(".zb-switch").each( function() {
         				$(this).show();
         			});
+        			zb_appify();
         		 } else {
-        		 	if (is_responsive == "no") {
-        		 	document.getElementById('zb-site-tweaks-css').href="";
-        		 	}
-        			un_appify();
+        		 	if (is_responsive == "1") {
+        		 		$('#zb-site-tweaks-css').attr("href","");
+        		 	} else if (is_responsive == "2") {
+        		 		$('#zb-site-tweaks-css').attr("href",""+zb_base+"css/retrofit.css");
+        		 	} else {}
+        			un_appify(1);
         			$(".zb-switch").each( function() {
         				$(this).hide();
         			});
@@ -159,27 +247,34 @@ jQuery(document).ready(function($){
 	
 	// Undo for not applied //
 		function un_appify(full) {
-			if (full!=null) {
+			if (full!=null && $(".zappbar").css("display") !='none') {
+				// adjust for admin bar
+				$('html').removeClass("zb-admin-bar");
 				$("#app_meta").attr("content","no");	// turn off app-capable
-				zb_styles[0] = $("#view_meta").attr("content");
 				$("#view_meta").attr("content","");		// clear app viewport
 				if (document.getElementById("zb-customize").tagName.toLowerCase()=="style") {
-					// store style content in var
-					zb_styles[1] = document.getElementById("zb-customize").innerHTML;
-					// remove content
-					document.getElementById("zb-customize").innerHTML="";
+					if ((applyto == 'force_mobile' || applyto == 'only_mobile_forced') && device.mobile == true) {
+						// ignore
+					} else {
+						// remove content
+						document.getElementById("zb-customize").innerHTML="";
+					}
 				} else {
-					// store link href in var
-					zb_styles[1] = $("#zb-customize").attr("href");
-					// empty href
-					$("#zb-customize").attr("href","");
+					if ((applyto == 'force_mobile' || applyto == 'only_mobile_forced') && device.mobile == true) {
+						// ignore
+					} else { 
+						// empty href
+						$("#zb-customize").attr("href","");
+					}
 				}
 				// empty zb-response-css link href
-				zb_styles[2] = $("#zb-response-css").attr("href");
-				$("#zb-response-css").attr("href","");
-				if (is_responsive=="no") {
+				if ((applyto == 'force_mobile' || applyto == 'only_mobile_forced') && device.mobile == true) {
+					// ignore
+				} else {
+					$("#zb-response-css").attr("href","");
+				}
+				if (is_responsive=="1") {
 					// remove site-tweaks
-					zb_styles[3] = $("#zb-site-tweaks-css").attr("href");
 					$("#zb-site-tweaks-css").attr("href","");
 				}
 				$(".zappbar").hide();
@@ -205,36 +300,61 @@ jQuery(document).ready(function($){
 				}
 		}
 		function zb_appify() {
-			$("#app_meta").attr("content","yes");	// turn off app-capable
-			zb_styles[0] = $("#view_meta").attr("content",""+zb_styles[0]+"");
-			$(".zappbar").show();
-			$("#zappbar_menu_left").attr("style","");
-			$("#zappbar_menu_right").attr("style","");
-			$("#zappbar_sidebar_left").attr("style","");
-			$("#zappbar_sidebar_right").attr("style","");
-			$("#zappbar_share_this").attr("style","");
-			$("#zappbar_sbtab_left").attr("style","");
-			$("#zappbar_sbtab_right").attr("style","");
-			$("#zappbar_splash").attr("style","");
-			$("#zappbar_notice").attr("style",""); 
-			if (document.getElementById("zb-customize").tagName.toLowerCase()=="style") {
-				// restore content
-				document.getElementById("zb-customize").innerHTML=zb_styles[1];
-			} else {
+        	// adjust for admin bar
+			if ($('body').hasClass('admin-bar')) {
+				$('html').addClass('zb-admin-bar');
+			}
+			if ($(".zappbar").css("display")=='none') {
+				$("#app_meta").attr("content","yes");	// turn off app-capable
+				zb_styles[0] = $("#view_meta").attr("content",""+zb_styles[0]+"");
+				$(".zappbar").show();
+				$("#zappbar_menu_left").attr("style","");
+				$("#zappbar_menu_right").attr("style","");
+				$("#zappbar_sidebar_left").attr("style","");
+				$("#zappbar_sidebar_right").attr("style","");
+				$("#zappbar_share_this").attr("style","");
+				$("#zappbar_sbtab_left").attr("style","");
+				$("#zappbar_sbtab_right").attr("style","");
+				$("#zappbar_splash").attr("style","");
+				$("#zappbar_notice").attr("style",""); 
+				if (document.getElementById("zb-customize").tagName.toLowerCase()=="style") {
+					// restore content
+					if (zb_styles[1].length>0) {
+						document.getElementById("zb-customize").innerHTML=zb_styles[1];
+					}
+				} else {
+					// restore link
+					if (zb_styles[1].length>0) {
+						$("#zb-customize").attr("href",""+zb_styles[1]+"");
+					}
+				}
 				// restore link
-				$("#zb-customize").attr("href",""+zb_styles[1]+"");
+				$("#zb-response-css").attr("href",""+zb_styles[2]+"");
+				if (is_responsive!="0") {
+					// restore site-tweaks
+					$("#zb-site-tweaks-css").attr("href",""+zb_styles[3]+"");
+				}
 			}
-			// restore link
-			$("#zb-response-css").attr("href",""+zb_styles[2]+"");
-			if (is_responsive=="no") {
-				// restore site-tweaks
-				$("#zb-site-tweaks-css").attr("href",""+zb_styles[3]+"");
-			}
-			zb_check();
 		}
 		
 	// Initialize button actions //
         function zb_init() {
+        	// store vars for remove/restore
+			zb_styles[0] = $("#view_meta").attr("content");
+			if (document.getElementById("zb-customize").tagName.toLowerCase()=="style") {
+				// store style content in var
+				zb_styles[1] = document.getElementById("zb-customize").innerHTML;
+			} else {
+				// store link href in var
+				zb_styles[1] = $("#zb-customize").attr("href");
+			}
+			// store zb-response-css link href
+			zb_styles[2] = $("#zb-response-css").attr("href");
+			if (is_responsive=="1") {
+				// remove site-tweaks
+				zb_styles[3] = $("#zb-site-tweaks-css").attr("href");
+			}
+
         	if (splash != '') {
         		if (splash_timer == '' || splash_timer == null) { splash_timer = 5000; };
         		var zb_cookie = $.cookie("zb_splash");
@@ -454,7 +574,7 @@ jQuery(document).ready(function($){
 	}); 
 	
 	/* 	If bookmarked to the home screen on iOS this prevents links from opening in Safari
-		and keeps you in App View --> tested up to iOS 7.1 <--
+		and keeps you in App View --> tested up to iOS 8.2 <--
 		Comment out line below if you want to ALWAYS open in Safari on iOS devices
 	*/
 	(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")
@@ -497,7 +617,5 @@ if (device.OS=="Android" && device.v < 3) {
 
 			};
 		};		
-	};
-
-  
+	};  
 });	

@@ -1,5 +1,11 @@
-/* zAppBar ALL - show on Desktop, Tablets, and Mobile */
+/* 	===== ZappBar ======
+		for Phones
+	====================
+*/
 .sbtab { display: none; }
+/* PHONES PORTRAIT & LANDSCAPE 
+	iPhone (all) + most Android phones
+*/
 @media screen and (max-width: 736px) {
 /* Make sure Google Translate bar doesn't overlay ZappBar */
 .goog-te-banner-frame {
@@ -14,6 +20,7 @@
 	position: relative;
 	width: auto;
 	margin: 0 auto;
+	left: 0px;
 	padding-bottom: 50px !important;
 	-webkit-transition-duration: .5s;
 	-moz-transition-duration: .5s;
@@ -731,8 +738,10 @@
 					margin: 120px 0px;
 				}
 }
+/* 	PHONES LANDSCAPE ONLY
+	iPhone (all) + Most Android Phones
+*/
 @media screen and (max-width: 736px) {
-
 	#page.pushleft, #page-wide.pushleft, #wrapper.pushleft,
 	#page.pushright, #page-wide.pushright, #wrapper.pushright {
 		left: 0px;
@@ -848,7 +857,10 @@
 					}
 
 }
-@media screen and (max-width: 320px) {
+/*	PHONES PORTRAIT ONLY
+	iPhone (all) + most Android Phones
+*/
+@media screen and (max-width: 479px) {
 
 		/* woocommerce select for variables is crazy wide */
 		.woocommerce #content div.product form.cart .variations select, 
