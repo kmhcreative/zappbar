@@ -50,15 +50,11 @@ The latter two options will _try_ to adjust a non-responsive theme so that it be
 
 **WP Admin Bar:** check this box to disable the Admin Toolbar on the FRONT end of the website (this would be the bar across the top of a website when you are logged into it).
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-**ZappBars On Screen Size:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t:
-=======
-**Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t:
->>>>>>> FETCH_HEAD
-=======
-**Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t:
->>>>>>> FETCH_HEAD
+**ZappBars On Screen Size:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t
+
+**Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t
+
+**Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t
 
 * None (use this when you are setting up ZappBar)
 * &lt; 736px wide (Phones) - this should work for most phones in portrait/landscape.
