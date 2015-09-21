@@ -2,9 +2,9 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.1
+**Version:** 0.2
 
-**Requires WordPress Version:** 3.5 or higher
+**Requires WordPress Version:** 3.5 or higher, PHP 5+
 
 **Compatible up to:** 4.3
 
@@ -33,7 +33,12 @@ I got tired of making the _same_ responsive layout modifications to different Wo
 
 ### Site Layout
 
-**Theme Layout:** Tell ZappBar if the theme is already has a responsive layout or if ZappBar should try to make the theme responsive (this may or may not work depending on how the theme was written).
+**Theme Layout:** 
+* Theme is already responsive (so ZappBar shouldn’t try to “fix” it)
+* Make theme responsive when ZappBars are displayed (if possible)
+* Make theme responsive even when ZappBars are not displayed (if possible)
+
+The latter two options will _try_ to adjust a non-responsive theme so that it behaves like a responsive layout (auto-adjusting to different screen sizes).  This works best when the theme is using standard class names and IDs for the theme parts, though you can try using “Custom Settings” (see below) to tell ZappBar how to find those elements.
 
 **Theme Sidebars:** Themes often have sidebars in them.  On narrow screen devices these can be a problem if the theme isn’t responsive.  If you told ZappBar to “Make theme responsive” now tell it what it should do with any sidebar containers it finds:
 
@@ -45,24 +50,32 @@ I got tired of making the _same_ responsive layout modifications to different Wo
 
 **WP Admin Bar:** check this box to disable the Admin Toolbar on the FRONT end of the website (this would be the bar across the top of a website when you are logged into it).
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+**ZappBars On Screen Size:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t:
+=======
 **Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t:
+>>>>>>> FETCH_HEAD
+=======
+**Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t:
+>>>>>>> FETCH_HEAD
 
 * None (use this when you are setting up ZappBar)
-* Phones Only (screens < 736 pixels wide)
-* Tablets and Phones (screens < 1024 pixels wide)
-* HD Tablets and Phones (screens < 1440 pixels wide)
-* Desktops, Tablets, and Phones (screens < 1920 pixels wide)
-* HD Desktops, Tablets, and Phones (screens of all widths)
+* &lt; 736px wide (Phones) - this should work for most phones in portrait/landscape.
+* &lt;1024px wide (Tablets & Phones) - up to “iPad” sized screen rendering, but many Android tablets will show ZappBars in portrait but not in landscape.
+* &lt;1280px wide (Tablets & Phones) - should work for most Android tablets in both portrait/landscape.
+* &lt;1440px wide (HD Tablets & Phones) - should work on Surface tablets
+* &lt;1920px wide (Phones, Tablets, 720p HD Desktops) - should work on any screen that is UNDER “Full HD” resolution.
+* All Screen Sizes - applies ZappBars regardless of screen size.
 
-_Note: The reasoning behind these cut-offs are the landscape rendering sizes:_
+**Apply ZappBars On:** This is where you decide what DEVICES of the screen size(s) you set above will have ZappBars applied to them:
 
-* Phones: “iPhone 6 Plus” @ 736 pixels
-* Tablets: “iPad” @ 1024 pixels
-* HD Tablets: “Surface Pro 3” @ 1440 pixels, “iPad Pro” @ 1366 pixels
-* Desktops: Any screen size up to, but not including, 1920 pixels wide
-* HD Desktops: All screen sizes, no matter how big they might be.
+* All Devices By Screen Size - exactly what it sounds like.
+* ONLY Mobile Devices by Screen Size - tries to exclude Desktops and Laptops.
+* ONLY Mobile Devices & FORCE ZappBars - ignores screen size and acts like “All Screen Sizes” but ONLY on Mobile devices.
+* Desktops by Screen Size & Force Mobile Devices to use Zappbars - the screen size(s) selected above will be used on Desktops and Laptops, but Mobile devices will have ZappBars applied regardless of the device screen size.
 
-_(You probably don’t want to use that last option in most circumstances because a mobile UI on a huge display is awkward to use)._
+_“Mobile Only” uses device detection, which can be spoofed.  “Force” ignores screen size selection._
 
 **When ZappBars are Included:** additional, optional, modifications to the theme layout:
 
@@ -196,6 +209,23 @@ If you are using the WooCommerce plugin you will also see options for custom e-c
 * Convert Woo Product Description to App Panel - moves the product description block into a slide-in panel.
 * Convert Woo Additional Product Info to App Panel - moves “Additional Info” block into a slide-in panel.
 
+## Changelog
+
+Version 0.2
+
+* [Issue #1] Responsive stylesheets updated to support HD Android and Surface tablets, iPhone 6.  Application is now a two-step process by screen size and/or device
+* [Issue #2] Disable Admin Toolbar no longer disabled by default.
+* [Issue #3] Show/Hide/Convert theme elements overhauled (now allows deselecting all), `zappbar.js` script updated with better apply/unapply action.
+* [Issue #4] Updated to PHP 5 Constructors
+* [Issue #4] Fixed numerous Notices of undefined variables
+* Added “Force” and “Only” over-rides for Mobile devices so you can now (fairly) reliably apply it just to phones and tablet while leaving your Desktop theme untouched.
+* Added “retrofit” option to try to make non-responsive themes responsive even when ZappBars are not being shown.
+* `zappbar.js` script updated with better device detection.
+
+Version 0.1
+
+Initial public release.
+
 ## Resources
 
 This uses my [Icon Picker](https://github.com/kmhcreative/icon-picker) (which is based on [Dashicons Picker](https://github.com/bradvin/dashicons-picker) by Brad Vincent) to get/set the icons on the ZappBars.
@@ -207,9 +237,4 @@ This uses my [Icon Picker](https://github.com/kmhcreative/icon-picker) (which is
 [Webcomic Plugin](https://wordpress.org/plugins/webcomic/)
 
 [WooCommerce Plugin](https://wordpress.org/plugins/woocommerce/)
-
-
-
-
-
 
