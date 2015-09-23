@@ -52,10 +52,6 @@ The latter two options will _try_ to adjust a non-responsive theme so that it be
 
 **ZappBars On Screen Size:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t
 
-**Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t
-
-**Include ZappBars On:** This is where you decide what size of screens will use the ZappBar user interface and which sizes won’t
-
 * None (use this when you are setting up ZappBar)
 * &lt; 736px wide (Phones) - this should work for most phones in portrait/landscape.
 * &lt;1024px wide (Tablets & Phones) - up to “iPad” sized screen rendering, but many Android tablets will show ZappBars in portrait but not in landscape.
