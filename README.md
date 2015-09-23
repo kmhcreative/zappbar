@@ -213,6 +213,8 @@ Version 0.2
 * Added “Force” and “Only” over-rides for Mobile devices so you can now (fairly) reliably apply it just to phones and tablet while leaving your Desktop theme untouched.
 * Added “retrofit” option to try to make non-responsive themes responsive even when ZappBars are not being shown.
 * `zappbar.js` script updated with better device detection.
+* Fixed “Hide Comic Navigation” checkbox
+* Added github-updater plugin code to plugin header
 
 Version 0.1
 

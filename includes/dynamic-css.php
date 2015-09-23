@@ -628,7 +628,7 @@ if (class_exists( 'woocommerce' ) ) {
     	$panel_tabs_phone = 'div.sbtab { display: none; }
     	';
     }
-    if (in_array('comic_nav',$zb_site) && $zb_site['comic_nav']=='on') {
+    if (isset($zb_site['comic_nav']) && $zb_site['comic_nav']=='on') {
     	$comic_nav = 'div#comic-foot { display: none; }';
     } else {
     	$comic_nav = '';
