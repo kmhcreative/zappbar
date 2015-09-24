@@ -215,6 +215,7 @@ Version 0.2
 * `zappbar.js` script updated with better device detection.
 * Fixed “Hide Comic Navigation” checkbox
 * Added github-updater plugin code to plugin header
+* Responsive layout fixes for ComicPress 4.3
 
 Version 0.1
 

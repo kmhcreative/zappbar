@@ -33,12 +33,48 @@ body {
 			background-size: contain;
 		}
 #page, #page-wide, #wrapper {
-	width: 100%;
-	max-width: 980px;
+	width: 100% !important;
+	max-width: 980px;	/* <-- or whatever the "normal" non-responsive width is */
 }
+	#menubar-wrapper, .menu-container, #comic-wrap, #subcontent-wrapper, #footer, #footer-sidebar-wrapper {
+		max-width: 100%;
+		height: auto;
+		margin-left: auto; margin-right: auto;
+		/* borders and padding included in width */
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		box-sizing: border-box;
+		/* box shadows introduce horizontal scrolling */
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		-ms-box-shadow: none !important;
+		-o-box-shadow: none !important;
+		box-shadow: none !important;
+	}
+	/* ComicPress 4.2.x "High Society" needs gradient bg for responsive menu */
+	body.scheme-high #menubar-wrapper {
+		position: relative;
+		top: -6px;
+		line-height: 37px;
+		background: rgb(250,236,127);
+		background: -moz-linear-gradient(top,  rgb(250,236,127) 0%, rgb(252,206,58) 3%, rgb(254,208,50) 6%, rgb(255,207,52) 8%, rgb(255,206,49) 11%, rgb(250,207,51) 14%, rgb(254,204,45) 17%, rgb(253,200,46) 25%, rgb(242,167,24) 75%, rgb(238,157,16) 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(250,236,127)), color-stop(3%,rgb(252,206,58)), color-stop(6%,rgb(254,208,50)), color-stop(8%,rgb(255,207,52)), color-stop(11%,rgb(255,206,49)), color-stop(14%,rgb(250,207,51)), color-stop(17%,rgb(254,204,45)), color-stop(25%,rgb(253,200,46)), color-stop(75%,rgb(242,167,24)), color-stop(100%,rgb(238,157,16)));
+		background: -webkit-linear-gradient(top,  rgb(250,236,127) 0%,rgb(252,206,58) 3%,rgb(254,208,50) 6%,rgb(255,207,52) 8%,rgb(255,206,49) 11%,rgb(250,207,51) 14%,rgb(254,204,45) 17%,rgb(253,200,46) 25%,rgb(242,167,24) 75%,rgb(238,157,16) 100%);
+		background: -o-linear-gradient(top,  rgb(250,236,127) 0%,rgb(252,206,58) 3%,rgb(254,208,50) 6%,rgb(255,207,52) 8%,rgb(255,206,49) 11%,rgb(250,207,51) 14%,rgb(254,204,45) 17%,rgb(253,200,46) 25%,rgb(242,167,24) 75%,rgb(238,157,16) 100%);
+		background: -ms-linear-gradient(top,  rgb(250,236,127) 0%,rgb(252,206,58) 3%,rgb(254,208,50) 6%,rgb(255,207,52) 8%,rgb(255,206,49) 11%,rgb(250,207,51) 14%,rgb(254,204,45) 17%,rgb(253,200,46) 25%,rgb(242,167,24) 75%,rgb(238,157,16) 100%);
+		background: linear-gradient(to bottom,  rgb(250,236,127) 0%,rgb(252,206,58) 3%,rgb(254,208,50) 6%,rgb(255,207,52) 8%,rgb(255,206,49) 11%,rgb(250,207,51) 14%,rgb(254,204,45) 17%,rgb(253,200,46) 25%,rgb(242,167,24) 75%,rgb(238,157,16) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#faec7f', endColorstr='#ee9d10',GradientType=0 );
+	}
+	.layout-3c .comic-table {
+		display: block;
+	}
 	.layout-3c #comic, .layout-3c2r #comic {
 		width: auto;
 		max-width: 100%;
+		display: block !important;
+		margin: 0 auto;	/* center it */
 	}
 	img {
 		max-width: 100%;
@@ -144,14 +180,18 @@ body {
     		.zappbar { 
     			display: none; 
     		}
-    		
-    		#sidebar-left, #sidebar-right,
+}
+@media screen and (max-width: 979px) {	/* <-- should be -1px of non-responsive max-width */
+    		#subcontent-wrapper { display: block !important; }
+    		#sidebar-left, #sidebar-right, #sidebar-left-of-comic,
     		#content, #content-column {
 				float: none;
-    			width: auto;
-    			max-width: 100%;
+    			width: auto !important;
+    			max-width: 100% !important;
+    			min-width: 0px !important;
     			min-height: 0px;
     			clear: both;
+    			display: block !important;
     		}
     		.site-content { width: auto; }
 }
@@ -167,13 +207,16 @@ body {
     		.zappbar { 
     			display: none; 
     		}
-    		#sidebar-left, #sidebar-right,
+    		#subcontent-wrapper { display: block !important; }
+    		#sidebar-left, #sidebar-right, #sidebar-left-of-comic,
     		#content, #content-column {
 				float: none;
-    			width: auto;
-    			max-width: 100%;
+    			width: auto !important;
+    			max-width: 100% !important;
+    			min-width: 0px !important;
     			min-height: 0px;
     			clear: both;
+    			display: block !important;
     		}
 
 }

@@ -26,7 +26,7 @@ html {
 
 #page, #page-wide, #wrapper {
 	position: relative;
-	width: auto;
+	width: auto !important;
 	margin: 0 auto;
 	left: 0px;
 	padding-bottom: 50px !important;

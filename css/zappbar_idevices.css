@@ -23,7 +23,7 @@
 
 #page, #page-wide, #wrapper {
 	position: relative;
-	width: auto;
+	width: auto !important;
 	margin: 0 auto;
 	padding-bottom: 50px !important;
 	left: 0px;

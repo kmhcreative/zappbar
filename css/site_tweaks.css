@@ -16,9 +16,32 @@ body {
 			-ms-background-size: contain;
 			background-size: contain;
 		}
+	#menubar-wrapper, .menu-container, #comic-wrap, #subcontent-wrapper, #footer, #footer-sidebar-wrapper {
+		max-width: 100%;
+		height: auto;
+		margin-left: auto; margin-right: auto;
+		/* borders and padding included in width */
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		box-sizing: border-box;
+		/* box shadows introduce horizontal scrolling */
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		-ms-box-shadow: none !important;
+		-o-box-shadow: none !important;
+		box-shadow: none !important;
+	}
+	.layout-3c .comic-table {
+		display: block;
+	}
 	.layout-3c #comic, .layout-3c2r #comic {
 		width: auto;
 		max-width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
 	}
 	img {
 		max-width: 100%;

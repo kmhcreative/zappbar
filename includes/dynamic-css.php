@@ -386,7 +386,7 @@ if ($zb_site['responsive']!='0') {	// site is not responsive
     		';   	
     	} else {
     	$sidebars = '
-    		#sidebar-left, #sidebar-right {
+    		#sidebar-left, #sidebar-right, #sidebar-left-of-comic {
     			display: none;
     		}
     		#content, #content-column {
@@ -413,13 +413,15 @@ if ($zb_site['responsive']!='0') {	// site is not responsive
     		';
     	} else {
     	$sidebars = '
-    		#sidebar-left, #sidebar-right,
+    		#sidebar-left, #sidebar-right, #sidebar-left-of-comic,
     		#content, #content-column {
 				float: none;
     			width: auto;
     			max-width: 100%;
     			min-height: 0px;
+    			min-width: 0;
     			clear: both;
+    			display: block;
     		}
     		.site-content { width: auto; }
     		';
@@ -628,11 +630,16 @@ if (class_exists( 'woocommerce' ) ) {
     	$panel_tabs_phone = 'div.sbtab { display: none; }
     	';
     }
-    if (isset($zb_site['comic_nav']) && $zb_site['comic_nav']=='on') {
+	if ( isset($zb_site['comic_nav']) && $zb_site['comic_nav']=='on' ) {
     	$comic_nav = 'div#comic-foot { display: none; }';
     } else {
     	$comic_nav = '';
     }
+	if (function_exists('ceo_pluginfo')) {	// adjust containers for ComicPress 4.2.x
+		$comic_adj = 'div.comic-table, #subcontent-wrapper { display: block; }';
+	} else {
+		$comic_adj = '';
+	}
     if ($zb_site['splash_screen'] != '') {
     	if ($panel_bg!='') { $bg_color = $panel_bg; } else { $bg_color = "#ffffff";}
     	if ($panel_font_color!='') {$fcolor = $panel_font_color; } else { $fcolor = "#333333";}
@@ -700,6 +707,7 @@ if (class_exists( 'woocommerce' ) ) {
     
     if ($zb_site['showon'] == 'desktops_hd' || $zb_site['applyto'] == 'force_mobile' || $zb_site['applyto'] == 'only_mobile_forced') {
     	$zb_style .= '
+    	/* desktops_hd / force_mobile / only_mobile_forced */
     		'.$splash.'
     		'.$custom_page[0].'
     		'.$hide_header.'
@@ -711,7 +719,8 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$commentform.'
     		'.$panel_tabs.'
     		'.$custom_colors.'
-    		'.$comic_nav.'';
+    		'.$comic_nav.'
+    		'.$comic_adj.'';
     	if ($zb_site['sidebars']==2) {
     	$zb_style .= ''.$sidebars.'
     		div.comicthumbwrap {
@@ -744,7 +753,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$always_hide.'
     		.zappbar { 
     			display: block; 
-    		}   	
+    		}  	
     	}
     	@media screen and (min-width: '.$screen3.'px) and (max-width: '.($screen2-1).'px) {
     		'.$splash.'
@@ -785,6 +794,7 @@ if (class_exists( 'woocommerce' ) ) {
     		display: none;
     	}
     	@media screen and (min-width: '.($screen1+1).'px) {
+    		/* desktops/tablets/idevices/tablets_hd */
  			#page.push, #page-wide.push { left: 0px; }
  			'.$custom_page[1].'
 			.zb-panel.show { left: -320px; }
@@ -831,7 +841,8 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$commentform.'
     		'.$panel_tabs.'
     		'.$custom_colors.'
-    		'.$comic_nav.'';
+    		'.$comic_nav.'
+    		'.$comic_adj.'';
     	if ($zb_site['sidebars']==2) {
     	$zb_style .= ''.$sidebars.'
     		div.comicthumbwrap {
@@ -871,6 +882,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$panel_tabs.'
     		'.$custom_colors.'
     		'.$comic_nav.'
+    		'.$comic_adj.'
     	}
     	@media screen and (max-width: '.($screen3-1).'px) {
     		'.$splash.'
@@ -887,6 +899,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$panel_tabs_phone.'
     		'.$custom_colors.'
     		'.$comic_nav.'
+    		'.$comic_adj.'
     	}
     	@media screen and (max-width: 479px) {
     		.zappbar a.searchbox.left span.search form, 
@@ -895,12 +908,16 @@ if (class_exists( 'woocommerce' ) ) {
     			margin: 0 auto;
     		}
     	}';
+		if (function_exists('ceo_pluginfo')) {
+			$zb_style .= 'div.comic-table, #subcontent-wrapper { display: block; }';
+		}
     } elseif ( $zb_site['showon'] == 'phones' ) {
    	$zb_style .= '
     	.zappbar, .zb-panel, .sbtab { 
     		display: none;
     	}
     	@media screen and (min-width: '.($screen3+1).'px) {
+    		/* phones */
  			#page.push, #page-wide.push { left: 0px; }
  			'.$custom_page[1].'
 			.zb-panel.show { left: -320px; }
@@ -933,7 +950,6 @@ if (class_exists( 'woocommerce' ) ) {
     			#tab-description { display: block; }
     			#tab-reviews { display: none; }
     			#tab-additional_information { display:none;}
-
     	}
     	@media screen and (max-width: '.$screen3.'px) {
     		'.$splash.'
@@ -950,6 +966,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$panel_tabs_phone.'
     		'.$custom_colors.'
     		'.$comic_nav.'
+    		'.$comic_adj.'
     	}
     	@media screen and (max-width: 479px) {
     		.zappbar a.searchbox.left span.search form, 
