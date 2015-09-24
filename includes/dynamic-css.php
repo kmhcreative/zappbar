@@ -723,20 +723,20 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$comic_adj.'';
     	if ($zb_site['sidebars']==2) {
     	$zb_style .= ''.$sidebars.'
-    		div.comicthumbwrap {
+    		.archive div.comicthumbwrap {
 				width: 33%;
 			}
     	';
     		if (function_exists('ceo_pluginfo')) {
 				$ceo_options = get_option('comiceasel-config');
 				if ($ceo_options['thumbnail_size_for_archive'] == 'thumbnail' || $ceo_options['thumbnail_size_for_archive'] == 'medium') {
-					$zb_style .= 'div.comic.uentry {
+					$zb_style .= '.archive div.comic.uentry {
 						float: left;
 						width: 33%;
 					}
 					';
 				} else if ( $ceo_options['thumbnail_size_for_archive'] == 'large')  {
-					$zb_style .= 'div.comic.uentry {
+					$zb_style .= '.archive div.comic.uentry {
 						float: left;
 						width: 45%;
 					}
@@ -845,20 +845,20 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$comic_adj.'';
     	if ($zb_site['sidebars']==2) {
     	$zb_style .= ''.$sidebars.'
-    		div.comicthumbwrap {
+    		.archive div.comicthumbwrap {
 				width: 33%;
 			}
     	';
     		if (function_exists('ceo_pluginfo')) {
 				$ceo_options = get_option('comiceasel-config');
 				if ($ceo_options['thumbnail_size_for_archive'] == 'thumbnail' || $ceo_options['thumbnail_size_for_archive'] == 'medium') {
-					$zb_style .= 'div.comic.uentry {
+					$zb_style .= '.archive div.comic.uentry {
 						float: left;
 						width: 33%;
 					}
 					';
 				} else if ( $ceo_options['thumbnail_size_for_archive'] == 'large') {
-					$zb_style .= 'div.comic.uentry {
+					$zb_style .= '.archive div.comic.uentry {
 						float: left;
 						width: 45%;
 					}

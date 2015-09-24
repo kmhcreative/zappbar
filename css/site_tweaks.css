@@ -48,79 +48,79 @@ body {
 	}
 	/* Un-clutter Comic Easel Archives */
 	.customsidebar { max-width: 100%; }
-	div.comic.uentry h2.post-title,
-	div.comic.uentry div.post-calendar-date,
-	div.comic.uentry span.post-author,
-	div.comic.uentry span.posted-on,
-	div.comic.uentry div.comic-post-info,
-	div.comic.uentry div.entry p {
+	.archive div.comic.uentry h2.post-title,
+	.archive div.comic.uentry div.post-calendar-date,
+	.archive div.comic.uentry span.post-author,
+	.archive div.comic.uentry span.posted-on,
+	.archive div.comic.uentry div.comic-post-info,
+	.archive div.comic.uentry div.entry p {
 		display: none;
 	}
-	article.comic.uentry h2.post-title,
-	article.comic.uentry div.post-calendar-date,
-	article.comic.uentry span.post-author,
-	article.comic.uentry span.posted-on,
-	article.comic.uentry span.posted-at,
-	article.comic.uentry span.post-time,
-	article.comic.uentry div.comic-post-info,
-	article.comic.uentry div.entry p {
+	.archive article.comic.uentry h2.post-title,
+	.archive article.comic.uentry div.post-calendar-date,
+	.archive article.comic.uentry span.post-author,
+	.archive article.comic.uentry span.posted-on,
+	.archive article.comic.uentry span.posted-at,
+	.archive article.comic.uentry span.post-time,
+	.archive article.comic.uentry div.comic-post-info,
+	.archive article.comic.uentry div.entry p {
 		display: none;
 	}
-	div.comic.uentry div.entry,
-	article.comic.uentry div.entry {
+	.archive div.comic.uentry div.entry,
+	.archive article.comic.uentry div.entry {
 		padding: 0 10px;
 	}
-	div.comic.uentry div.entry p.comic-thumbnail-in-archive,
-	article.comic.uentry div.entry p.comic-thumbnail-in-archive {
+	.archive div.comic.uentry div.entry p.comic-thumbnail-in-archive,
+	.archive article.comic.uentry div.entry p.comic-thumbnail-in-archive {
 		display: block;
 	}
-	div.comic.uentry div.post-info,
-	div.comic.uentry div.post-extras div.comment-link,
-	div.comic.uentry a.post-edit-link,
-	article.comic.uentry div.post-info,
-	article.comic.uentry div.post-extras div.comment-link,
-	article.comic.uentry a.post-edit-link {
+	.archive div.comic.uentry div.post-info,
+	.archive div.comic.uentry div.post-extras div.comment-link,
+	.archive div.comic.uentry a.post-edit-link,
+	.archive article.comic.uentry div.post-info,
+	.archive article.comic.uentry div.post-extras div.comment-link,
+	.archive article.comic.uentry a.post-edit-link {
 		display: block;
 		text-align: center;
 	}
 /* 4-up in comic archive */
 @media screen and (min-width: 1441px) {
-	div.comic.uentry, article.comic.uentry {
+	.archive div.comic.uentry, .archive article.comic.uentry {
 		float: left;
 		width: 24%;
 	}
 }
 /* 4-up in comic archive */
 @media screen and (min-width: 1025px) and (max-width:1440px) {
-	div.comic.uentry, article.comic.uentry {
+	.archive div.comic.uentry, .archive article.comic.uentry {
 		float: left;
 		width: 24%;
 	}
 }
 /* 3-up in comic archive */
 @media screen and (min-width: 737px) and (max-width:1024px) {
-	div.comicthumbwrap {
+	.archive div.comicthumbwrap {
 		width: 33%;
 	}
-	div.comic.uentry, article.comic.uentry {
+	.archive div.comic.uentry, .archive article.comic.uentry {
 		float: left;
 		width: 33%;
 	}
 }
 /* 2-up in comic archive */
 @media screen and (max-width: 736px) {
-	div.comic.uentry, article.comic.uentry {
+	.archive div.comic.uentry, .archive article.comic.uentry {
 		float: left;
 		width: 45% !important;
 	}
 }
 /* 1-up in comic archive */
 @media screen and (max-width: 480px) {
-	div.comicthumbwrap {
+	.archive div.comicthumbwrap {
 		float: none;
 		width: auto;
 	}
-	div.comic.uentry, article.comic.uentry {
+	.archive div.comic.uentry, .archive article.comic.uentry {
 		float: none !important;
 		width: auto !important;
 	}

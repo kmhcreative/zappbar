@@ -216,6 +216,9 @@ Version 0.2
 * Fixed “Hide Comic Navigation” checkbox
 * Added github-updater plugin code to plugin header
 * Responsive layout fixes for ComicPress 4.3
+* Fixed misaligned comic post receiving comic archive styling
+* Fixed undefined index social_panel and settings
+* Fixed missing default button bg opacity variable on activation
 
 Version 0.1
 

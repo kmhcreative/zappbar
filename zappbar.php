@@ -90,7 +90,20 @@ function zb_add_defaults($reset = false) {
 			'fb_default_img'	=>	'',
 			'twitter_id'		=>	'',
 			'phone_number'		=>	'',
-			'email_address'		=>	''
+			'email_address'		=>	'',
+			'social_panel'		=>  array(
+				'facebook'	=>	'facebook',
+				'twitter'	=>	'twitter',
+				'google'	=>	'google',
+				'reddit'	=>	'reddit',
+				'stumble'	=>	'stumble',
+				'digg'		=>	'digg',
+				'linkedin'	=>	'linkedin',
+				'pinterest'	=>	'pinterest',
+				'delicious'	=>	'delicious',
+				'rss'		=>	'rss',
+				'email'		=>	'email'
+			)
 		);
 		update_option('zappbar_social' , $zb_social);
 	}
@@ -104,7 +117,7 @@ function zb_add_defaults($reset = false) {
 			'button_bg'			=>	'#ffffff',
 			'button_bg_opacity'	=>	'1.0',
 			'button_hover_bg'	=>	'#cccccc',
-			'button_hover_opacity'	=>	'1.0',
+			'button_bg_hover_opacity' => '1.0',
 			'font_color'		=>	'#333333',
 			'font_hover_color'	=>	'#000000',
 			'bar_border_color'	=>	'#000000',
