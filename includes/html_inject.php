@@ -398,42 +398,24 @@ function zappbar_inject() {
 	
 if (!is_admin()) {	// inject this at the end of the code
 	// needs to run at init action time to make sure that webcomic and comic easel plugins are loaded, they could load *after* zappbar so this ensures they are loaded
-	add_action('init', 'zb_init_scipts_and_styles');
+	add_action('init', 'zb_init_scripts_and_styles');
 }
 
+
 function zb_init_scripts_and_styles() {
+	
+	// Load Social Button Styles even if ZappBars are disabled //
+	function zb_load_social() {	
+		$zb_site = get_option('zappbar_site');
+		$plugin_dir_url = zappbar_pluginfo('plugin_url');
+		$zb_css2 = $plugin_dir_url . 'css/social_buttons.css';
+		wp_enqueue_style( 'zb-social', $zb_css2, '', '');
+	}
+
 	add_action('wp_enqueue_scripts', 'zb_load_social',99);
 	$zb_site = get_option('zappbar_site');
 	if ($zb_site['showon'] != 'none') {
-		function zb_load_assets() {
-			$zb_site = get_option('zappbar_site');
-			$plugin_dir_url = zappbar_pluginfo('plugin_url');
-			wp_enqueue_style( 'dashicons' );
-			$font1 = $plugin_dir_url . 'fonts/genericons/genericons.css';
-			wp_enqueue_style( 'genericons', $font1, '', '');
-
-			$font2 = $plugin_dir_url . 'fonts/font-awesome/css/font-awesome.css';
-			wp_enqueue_style( 'font-awesome', $font2,'','');
-		 	if ($zb_site['responsive']!='0') {
-				$css = $plugin_dir_url . 'css/site_tweaks.css';
-				wp_enqueue_style( 'zb-site-tweaks', $css, '', '');
-			}
-			$zb_css1 = $plugin_dir_url . 'css/zappbar_'.$zb_site['showon'].'.css';
-			wp_enqueue_style( 'zb-response', $zb_css1, '', '');
-			
-			$zb_js1 = $plugin_dir_url . 'js/zappbar.js';
-			wp_enqueue_script( 'zb-functions', $zb_js1, array( 'jquery' ), '1.0', true );
-			if ($zb_site['splash_screen']!='') {
-				$zb_js2 = $plugin_dir_url . 'js/jquery.coo.kie.js';
-				wp_enqueue_script( 'zb-cookiejar', $zb_js2, array( 'jquery' ), '1.0', true );
-			}
-			if (is_active_widget('comicpress_google_translate_widget', false, 'comicpress_google_translate_widget', true)) {
-				wp_enqueue_script('google-translate', 'http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit', null, null, true);
-				wp_enqueue_script('google-translate-settings', $plugin_dir_url.'/js/googletranslate.js');
-			}
-		}
-	$zb_site = get_option('zappbar_site');
-	if ($zb_site['showon'] != 'none') {
+		
 		function zb_load_assets() {
 			$zb_site = get_option('zappbar_site');
 			$plugin_dir_url = zappbar_pluginfo('plugin_url');
@@ -644,10 +626,4 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 	}
 }
 
-// Load Social Button Styles even if ZappBars are disabled //
-function zb_load_social() {	
-	$zb_site = get_option('zappbar_site');
-	$plugin_dir_url = zappbar_pluginfo('plugin_url');
-	$zb_css2 = $plugin_dir_url . 'css/social_buttons.css';
-	wp_enqueue_style( 'zb-social', $zb_css2, '', '');
-}
+
