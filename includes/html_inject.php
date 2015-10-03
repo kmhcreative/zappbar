@@ -44,21 +44,39 @@ function zappbar_inject() {
 				};
 			} 
 			if ( get_post_type() == 'comic' || function_exists('ceo_pluginfo') ) {
-				if ($val[2] == 'prev_chapter') {
-					$val[2] = ceo_get_previous_chapter();
-				} else if ($val[2] == 'first_comic') {
-					$val[2] = ceo_get_first_comic_permalink();
-				} else if ($val[2] == 'prev_comic') {
-					$val[2] = ceo_get_previous_comic_permalink();
-				} else if ($val[2] == 'next_comic') {
-					$val[2] = ceo_get_next_comic_permalink();
-				} else if ($val[2] == 'last_comic') {
-					$val[2] = ceo_get_last_comic_permalink();
-				} else if ($val[2] == 'next_chapter') {
-					$val[2] = ceo_get_next_chapter();
-				} else if ($val[2] == 'comic_archive') {
-					$val[2] = get_site_url().'/comic';
-				} else {};
+				if (ceo_pluginfo('navigate_only_chapters')) {
+					if ($val[2] == 'prev_chapter') {
+						$val[2] = ceo_get_previous_chapter();
+					} else if ($val[2] == 'first_comic') {
+						$val[2] = ceo_get_first_comic_in_chapter_permalink();
+					} else if ($val[2] == 'prev_comic') {
+						$val[2] = ceo_get_previous_comic_in_chapter_permalink();
+					} else if ($val[2] == 'next_comic') {
+						$val[2] = ceo_get_next_comic_in_chapter_permalink();
+					} else if ($val[2] == 'last_comic') {
+						$val[2] = ceo_get_last_comic_in_chapter_permalink();
+					} else if ($val[2] == 'next_chapter') {
+						$val[2] = ceo_get_next_chapter();
+					} else if ($val[2] == 'comic_archive') {
+						$val[2] = get_site_url().'/comic';
+					} else {};
+				} else {
+					if ($val[2] == 'prev_chapter') {
+						$val[2] = ceo_get_previous_chapter();
+					} else if ($val[2] == 'first_comic') {
+						$val[2] = ceo_get_first_comic_permalink();
+					} else if ($val[2] == 'prev_comic') {
+						$val[2] = ceo_get_previous_comic_permalink();
+					} else if ($val[2] == 'next_comic') {
+						$val[2] = ceo_get_next_comic_permalink();
+					} else if ($val[2] == 'last_comic') {
+						$val[2] = ceo_get_last_comic_permalink();
+					} else if ($val[2] == 'next_chapter') {
+						$val[2] = ceo_get_next_chapter();
+					} else if ($val[2] == 'comic_archive') {
+						$val[2] = get_site_url().'/comic';
+					} else {};
+				}
 			} 
 			if ( function_exists('comicpress_display_comic')  ) {	
 				if ($val[2] == 'prev_chapter') {
@@ -379,6 +397,13 @@ function zappbar_inject() {
 }
 	
 if (!is_admin()) {	// inject this at the end of the code
+	// needs to run at init action time to make sure that webcomic and comic easel plugins are loaded, they could load *after* zappbar so this ensures they are loaded
+	add_action('init', 'zb_init_scripts_and_styles');
+}
+
+
+function zb_init_scripts_and_styles() {
+	
 	// Load Social Button Styles even if ZappBars are disabled //
 	function zb_load_social() {	
 		$zb_site = get_option('zappbar_site');
@@ -386,9 +411,11 @@ if (!is_admin()) {	// inject this at the end of the code
 		$zb_css2 = $plugin_dir_url . 'css/social_buttons.css';
 		wp_enqueue_style( 'zb-social', $zb_css2, '', '');
 	}
-	add_action('wp_enqueue_scripts', 'zb_load_social',99);	
+
+	add_action('wp_enqueue_scripts', 'zb_load_social',99);
 	$zb_site = get_option('zappbar_site');
 	if ($zb_site['showon'] != 'none') {
+		
 		function zb_load_assets() {
 			$zb_site = get_option('zappbar_site');
 			$plugin_dir_url = zappbar_pluginfo('plugin_url');
@@ -598,4 +625,5 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 		add_filter('wp_footer','zappbar_inject');
 	}
 }
-?>
+
+
