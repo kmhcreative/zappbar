@@ -27,9 +27,6 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
 			opacity: .5;
 			cursor: not-allowed;
 		}
-    #wpadminbar { 
-			display:none !important; 
-		}
 		html { margin-top: 0px !important;}
     	.zappbar, .zb-panel, .sbtab { 
     		display: none;
@@ -173,26 +170,7 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
 		}
 		div.sbtab {
 			border: 4px solid #dd9933;}
-		
-    		div#comic-foot { display: none; }
-    		#sidebar-left, #sidebar-right {
-    			display: none;
-    		}
-    		#content, #content-column {
- 				float: none;
-    			width: auto;
-    			max-width: 100%;
-    			min-height: 0px;   			
-    		}
-    		
-    		div.comicthumbwrap {
-				width: 33%;
-			}
-    	div.comic.uentry {
-						float: left;
-						width: 33%;
-					}
-					}    	
+}    	
     	@media screen and (min-width: 737px) and (max-width: 800px) {
     		html {	margin-top: 46px !important; 
     		}
@@ -229,17 +207,6 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
    					max-width: 100%;
    					resize: vertical;
    				}
-    	
-    		
-    		#sidebar-left, #sidebar-right {
-    			display: none;
-    		}
-    		#content, #content-column {
- 				float: none;
-    			width: auto;
-    			max-width: 100%;
-    			min-height: 0px;   			
-    		}
     		
     		div.sbtab { display: none; }
     	
@@ -348,17 +315,6 @@ div.zb-panel a:hover, div.zb-panel .button:hover,
    					max-width: 100%;
    					resize: vertical;
    				}
-    	
-    		
-    		#sidebar-left, #sidebar-right {
-    			display: none;
-    		}
-    		#content, #content-column {
- 				float: none;
-    			width: auto;
-    			max-width: 100%;
-    			min-height: 0px;   			
-    		}
     		
     		div.sbtab { display: none; }
     	

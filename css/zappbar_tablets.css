@@ -154,6 +154,12 @@
 			display: block;
 			width: 100%;
 		}
+			.zb-panel div.marginbox div.menu {
+				float: none !important;
+			}
+			.zb-panel div.marginbox div.menu li {
+				float: none !important;
+			}
 			.zb-panel div.marginbox li a {
 				font-size: 18px;
 				line-height: 48px;

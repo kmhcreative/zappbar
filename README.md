@@ -35,10 +35,12 @@ I got tired of making the _same_ responsive layout modifications to different Wo
 
 **Theme Layout:** 
 * Theme is already responsive (so ZappBar shouldn’t try to “fix” it)
-* Make theme responsive when ZappBars are displayed (if possible)
-* Make theme responsive even when ZappBars are not displayed (if possible)
+* Tweak theme to be responsive when ZappBars are displayed
+* Retrofit to responsive theme even when ZappBars are not displayed (if possible)
 
 The latter two options will _try_ to adjust a non-responsive theme so that it behaves like a responsive layout (auto-adjusting to different screen sizes).  This works best when the theme is using standard class names and IDs for the theme parts, though you can try using “Custom Settings” (see below) to tell ZappBar how to find those elements.
+
+Applying "Tweaks" to a theme that is already responsive may or may not have any discernible effect, depending on the theme.  "Retrofit" is intended ONLY for themes that are not already responsive, and applying it to a theme that is already responsive will most likely really mess up the layout.
 
 **Theme Sidebars:** Themes often have sidebars in them.  On narrow screen devices these can be a problem if the theme isn’t responsive.  If you told ZappBar to “Make theme responsive” now tell it what it should do with any sidebar containers it finds:
 
@@ -59,6 +61,8 @@ The latter two options will _try_ to adjust a non-responsive theme so that it be
 * &lt;1440px wide (HD Tablets & Phones) - should work on Surface tablets
 * &lt;1920px wide (Phones, Tablets, 720p HD Desktops) - should work on any screen that is UNDER “Full HD” resolution.
 * All Screen Sizes - applies ZappBars regardless of screen size.
+
+Note: if you've set Theme Layout to "Retrofit" but this is set to "None" it also will not retrofit the theme.  "None" completely disables ZappBar on the front-end of the site.
 
 **Apply ZappBars On:** This is where you decide what DEVICES of the screen size(s) you set above will have ZappBars applied to them:
 
@@ -140,7 +144,7 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 
 ### ZappBar Colors
 
-You can use either an external stylesheet (and then give the FULL URL to it) or you can set individual item colors from within the plugin.
+You can use either an external stylesheet or you can set individual item colors from within the plugin.  If you are using an external stylesheet it can be stored anywhere on the same server, just give the full URL to its location.  There is a `sample_styles.css` file in _zappbar/css/_ you can use as a starting point for creating your own.
 
 _(the color options in the plugin are pretty self-explanatory, so they won’t be covered in this README)_
 
@@ -211,18 +215,33 @@ Version 0.2
 * [Issue #4] Updated to PHP 5 Constructors
 * [Issue #4] Fixed numerous Notices of undefined variables
 * Added “Force” and “Only” over-rides for Mobile devices so you can now (fairly) reliably apply it just to phones and tablet while leaving your Desktop theme untouched.
-* Added “retrofit” option to try to make non-responsive themes responsive even when ZappBars are not being shown.
+* Added “retrofit” option to try to make non-responsive themes responsive even when ZappBars are not being shown
+* Added option to customize when "retrofit" kicks-in linearization
 * `zappbar.js` script updated with better device detection.
 * Fixed “Hide Comic Navigation” checkbox
 * Added github-updater plugin code to plugin header
 * Responsive layout fixes for ComicPress 4.3
+* Auto-detect theme width for retrofit added
 * Fixed misaligned comic post receiving comic archive styling
 * Fixed undefined index social_panel and settings
 * Fixed missing default button bg opacity variable on activation
+* Cleaned up sprintf in `class.settings-api.php`
+* Added type for HTML5 input type="number" to `class.settings-api.php`
+* Fixed inline styling of ZappBar menu items
+* Fixed `#wpadminbar` and sidebar display issues with `sample_styles.css` file
+* Merged in fixes to `html_inject.php` for ComicPress chapter navigation
 
 Version 0.1
 
 Initial public release.
+
+## Developers
+
+K.M. Hansen @kmhcreative - Lead Developer
+http://www.kmhcreative.com
+
+Philip Hofer @frumph - Contributor
+http://frumph.net
 
 ## Resources
 

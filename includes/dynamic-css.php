@@ -2,12 +2,12 @@
 /*	DYNAMIC STYLESHEET for ZappBar
 	or it loads your custom stylesheet
 */
+$zb_site = get_option('zappbar_site');
 $bar_colors = get_option('zappbar_colors');    
 if ($bar_colors['color_src'] == 'custom' && $bar_colors['custom_styles'] != '') {
     echo '<link rel="stylesheet" type="text/css" href="'.$bar_colors['custom_styles'].'" id="zb-customize" />';
     return;
 } else {
-	$zb_site = get_option('zappbar_site');
     $panels = get_option('zappbar_panels');
     $zb_layout = get_option('zappbar_layout');
 	// now build it //
@@ -373,7 +373,7 @@ if ($zb_site['responsive']!='0') {	// site is not responsive
     	if ($custom_sidebars != '') {
      	$sidebars = '
     		'.$custom_sidebars.' {
-    			display: none;
+    			display: none !important;
     		}
     		#content, #content-column {
  				float: none;
@@ -387,7 +387,7 @@ if ($zb_site['responsive']!='0') {	// site is not responsive
     	} else {
     	$sidebars = '
     		#sidebar-left, #sidebar-right, #sidebar-left-of-comic {
-    			display: none;
+    			display: none !important;
     		}
     		#content, #content-column {
  				float: none;
@@ -696,13 +696,13 @@ if (class_exists( 'woocommerce' ) ) {
     // 980 is a break-point because so many WP themes use it as the page width //
     // hd_desktops applies to all screen sizes so we don't need to define break-points //
     if ($zb_site['showon'] == 'desktops') {
-    	$screen1 = '1919';  $screen2 = '980';		$screen3 = '1280';
+    	$screen1 = '1919';  $screen2 = '960';		$screen3 = '800';
     } else if ($zb_site['showon'] == 'tablets_hd') {
-    	$screen1 = '1440';	$screen2 = '980';		$screen3 = '800';
+    	$screen1 = '1440';	$screen2 = '960';		$screen3 = '768';
     } else if ($zb_site['showon'] == 'tablets') {
-    	$screen1 = '1280';	$screen2 = '980';		$screen3 = '736';
+    	$screen1 = '1280';	$screen2 = '800';		$screen3 = '736';
     } else {
-    	$screen1 = '1024';	$screen2 = '980';		$screen3 = '736';
+    	$screen1 = '1024';	$screen2 = '768';		$screen3 = '736';
     };
     
     if ($zb_site['showon'] == 'desktops_hd' || $zb_site['applyto'] == 'force_mobile' || $zb_site['applyto'] == 'only_mobile_forced') {
@@ -745,7 +745,7 @@ if (class_exists( 'woocommerce' ) ) {
 			};
     	}
     	$zb_style .= '
-    	@media screen and (min-width: '.$screen2.'px) and (max-width: '.$screen1.'px) {
+    	@media screen and (min-width: '.($screen2+1).'px) and (max-width: '.$screen1.'px) {
     		'.$splash.'
     		'.$custom_page[0].'
     		'.$hide_header.'
@@ -755,7 +755,7 @@ if (class_exists( 'woocommerce' ) ) {
     			display: block; 
     		}  	
     	}
-    	@media screen and (min-width: '.$screen3.'px) and (max-width: '.($screen2-1).'px) {
+    	@media screen and (min-width: '.($screen3+1).'px) and (max-width: '.$screen2.'px) {
     		'.$splash.'
     		'.$custom_page[0].'
     		'.$hide_header.'
@@ -766,7 +766,7 @@ if (class_exists( 'woocommerce' ) ) {
     		}
     		'.$sidebars.'
     	}
-    	@media screen and (max-width: '.($screen3-1).'px) {
+    	@media screen and (max-width: '.$screen3.'px) {
     		'.$splash.'
     		'.$custom_page[1].'
     		'.$hide_header.'
@@ -793,7 +793,7 @@ if (class_exists( 'woocommerce' ) ) {
     	.zappbar, .zb-panel, .sbtab { 
     		display: none;
     	}
-    	@media screen and (min-width: '.($screen1+1).'px) {
+    	@media screen and (min-width: '.$screen1.'px) {
     		/* desktops/tablets/idevices/tablets_hd */
  			#page.push, #page-wide.push { left: 0px; }
  			'.$custom_page[1].'
@@ -829,7 +829,7 @@ if (class_exists( 'woocommerce' ) ) {
     			#tab-additional_information { display:none;}
 
     	}
-    	@media screen and (min-width: '.$screen2.'px) and (max-width: '.$screen1.'px) {
+    	@media screen and (min-width: '.($screen2+1).'px) and (max-width: '.$screen1.'px) {
     		'.$splash.'
     		'.$custom_page[0].'
     		'.$hide_header.'
@@ -867,7 +867,7 @@ if (class_exists( 'woocommerce' ) ) {
 			};
     	}
     	$zb_style .= '}    	
-    	@media screen and (min-width: '.$screen3.'px) and (max-width: '.($screen2-1).'px) {';
+    	@media screen and (min-width: '.($screen3+1).'px) and (max-width: '.$screen2.'px) {';
     	$zb_style .='
     		'.$splash.'
     		'.$custom_page[0].'
@@ -878,13 +878,12 @@ if (class_exists( 'woocommerce' ) ) {
     			display: block; 
     		}
     		'.$commentform.'
-    		'.$sidebars.'
     		'.$panel_tabs.'
     		'.$custom_colors.'
     		'.$comic_nav.'
     		'.$comic_adj.'
     	}
-    	@media screen and (max-width: '.($screen3-1).'px) {
+    	@media screen and (max-width: '.$screen3.'px) {
     		'.$splash.'
     		'.$custom_page[1].'
     		'.$hide_header.'
@@ -916,7 +915,7 @@ if (class_exists( 'woocommerce' ) ) {
     	.zappbar, .zb-panel, .sbtab { 
     		display: none;
     	}
-    	@media screen and (min-width: '.($screen3+1).'px) {
+    	@media screen and (min-width: '.$screen3.'px) {
     		/* phones */
  			#page.push, #page-wide.push { left: 0px; }
  			'.$custom_page[1].'

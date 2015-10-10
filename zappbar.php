@@ -59,6 +59,8 @@ function zb_add_defaults($reset = false) {
 	if (empty($zb_site)) {
 		$zb_site = array(
 			'responsive'	=>	'0',
+			'auto_width'	=>	'off',
+			'theme_width'	=>	'940',
 			'fix_admin'		=>	'no',
 			'sidebars'		=>	'1',
 			'adminbar'		=>	'off',

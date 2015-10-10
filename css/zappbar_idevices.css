@@ -23,7 +23,7 @@
 
 #page, #page-wide, #wrapper {
 	position: relative;
-	width: auto !important;
+	width: auto!important;
 	margin: 0 auto;
 	padding-bottom: 50px !important;
 	left: 0px;
@@ -156,6 +156,12 @@
 			display: block;
 			width: 100%;
 		}
+			.zb-panel div.marginbox div.menu {
+				float: none !important;
+			}
+			.zb-panel div.marginbox div.menu li {
+				float: none !important;
+			}
 			.zb-panel div.marginbox li a {
 				font-size: 18px;
 				line-height: 48px;

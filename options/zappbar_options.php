@@ -103,6 +103,17 @@ class ZB_Settings_API_Test {
      */
     function get_settings_fields() {
 		$plugin_dir_url = zappbar_pluginfo('plugin_url');
+		$cp_msg = get_theme_mod('comicpress-customize-range-site-width') ?
+                array(
+                	'name' => 'cp_auto_width',
+                	'label' => 'Note:',
+                	'type' => 'paragraph',
+                	'desc' => __( 'Retrofit width of ComicPress 4.3 theme is automatically synchronized with <em>Appearance --&gt; Customize</em> setting.  Please change it there instead.','zbotps')
+                ) : array(
+                	'name' => 'cp_auto_width',
+                	'label' => '',
+                	'type' => 'paragraph'
+                );
         $settings_fields = array(
             'zappbar_site' => array(
                 array(
@@ -112,10 +123,26 @@ class ZB_Settings_API_Test {
                     'default' => '0',
                     'options' => array(
                         '0' => 'Theme is already responsive',
-                        '1' => 'Make theme responsive when ZappBars are displayed',
-                        '2' => 'Make theme responsive even when ZappBars are not displayed'
+                        '1' => 'Tweak theme to be responsive when ZappBars are displayed',
+                        '2' => 'Retrofit to responsive theme even when ZappBars are not displayed'
                     )
                 ),
+                array(
+                    'name' => 'auto_width',
+                    'label' => __( 'Auto-detect Theme Width', 'zbopts' ),
+                    'desc' => __( 'ZappBar can try to auto detect theme width before applying Retrofit (ignored if not retrofitting)', 'zbopts' ),
+                    'default' => 'on',
+                    'type' => 'checkbox'
+                ),
+                array(
+                	'name' => 'theme_width',
+                	'label' => __( 'Manual Theme Width', 'zbopts'),
+                	'type' => 'number',
+                	'default' => '940',
+                	'size' => '5',
+                	'desc' => __( 'If retrofitting and auto-detect is off, what is the theme width in pixels?', 'zbopts' )
+                ),
+                $cp_msg,
                 array(
                     'name' => 'sidebars',
                     'label' => __( 'Theme Sidebars', 'zbopts' ),
@@ -143,7 +170,7 @@ class ZB_Settings_API_Test {
                     'name' => 'adminbar',
                     'label' => __( 'WP Admin Bar', 'zbopts' ),
                     'desc' => __( 'Disable Admin Toolbar on Front-End', 'zbopts' ),
-                    'default' => 'on',
+                    'default' => 'off',
                     'type' => 'checkbox'
                 ),
                 array(
@@ -252,7 +279,7 @@ class ZB_Settings_API_Test {
                 		However a theme designer might assign any ID or class name to a given element, in 
                 		which case - if a selected layout option above is not working - you will need to look 
                 		at the source code for the theme you are using and in the boxes below provide the correct IDs/class names 
-                		so ZappBar can target them.','zbotps')
+                		so ZappBar can target them.<hr/>','zbotps')
                 ),
                 array(
                 	'name' => 'header_custom',
@@ -424,11 +451,16 @@ class ZB_Settings_API_Test {
 						'name' => 'bar_bg_opacity',
 						'label' => __( 'Bar BG Opacity', 'zbopts' ),
 						'desc' => __( '(optional)', 'zbopts' ),
-						'type' => 'text',
+						'type' => 'number',
 						'default' => '1.0',
 						'class' => 'none',
 						'size' => '3',
-						'sanitize_callback' => 'floatval'	// breaks everything!
+						'options' => array(
+							'min' => '0',
+							'max' => '1',
+							'step'=> '0.1'
+						),
+						'sanitize_callback' => 'floatval'
 					),
                  array(
                     'name' => 'button_bg',
@@ -441,11 +473,16 @@ class ZB_Settings_API_Test {
 						'name' => 'button_bg_opacity',
 						'label' => __( 'Button BG Opacity', 'zbopts' ),
 						'desc' => __( '(optional)', 'zbopts' ),
-						'type' => 'text',
+						'type' => 'number',
 						'default' => '1.0',
 						'class' => 'none',
 						'size' => '3',
-						'sanitize_callback' => 'floatval'	// breaks everything!
+						'options' => array(
+							'min' => '0',
+							'max' => '1',
+							'step'=> '0.1'
+						),
+						'sanitize_callback' => 'floatval'
 					),
                 array(
                     'name' => 'button_hover_bg',
@@ -458,10 +495,15 @@ class ZB_Settings_API_Test {
 						'name' => 'button_bg_hover_opacity',
 						'label' => __( 'Button Hover Opacity', 'zbopts' ),
 						'desc' => __( '(optional)', 'zbopts' ),
-						'type' => 'text',
+						'type' => 'number',
 						'default' => '1.0',
 						'class' => 'none',
 						'size' => '3',
+						'options' => array(
+							'min' => '0',
+							'max' => '1',
+							'step'=> '0.1'
+						),
 						'sanitize_callback' => 'floatval'
 					),               
                  array(
@@ -572,10 +614,15 @@ class ZB_Settings_API_Test {
 						'name' => 'panel_bg_opacity',
 						'label' => __( 'Panel BG Opacity', 'zbopts' ),
 						'desc' => __( '(optional)', 'zbopts' ),
-						'type' => 'text',
+						'type' => 'number',
 						'default' => '1.0',
 						'class' => 'none',
 						'size' => '3',
+						'options' => array(
+							'min' => '0',
+							'max' => '1',
+							'step'=> '0.1'
+						),
 						'sanitize_callback' => 'floatval'	// breaks everything!
 					),
                  array(
@@ -589,10 +636,15 @@ class ZB_Settings_API_Test {
 						'name' => 'panel_button_bg_opacity',
 						'label' => __( 'Panel Button BG Opacity', 'zbopts' ),
 						'desc' => __( '(optional)', 'zbopts' ),
-						'type' => 'text',
+						'type' => 'number',
 						'default' => '1.0',
 						'class' => 'none',
 						'size' => '3',
+						'options' => array(
+							'min' => '0',
+							'max' => '1',
+							'step'=> '0.1'
+						),
 						'sanitize_callback' => 'floatval'	// breaks everything!
 					),
                 array(
@@ -606,10 +658,15 @@ class ZB_Settings_API_Test {
 						'name' => 'panel_button_bg_hover_opacity',
 						'label' => __( 'Panel Button Hover Opacity', 'zbopts' ),
 						'desc' => __( '(optional)', 'zbopts' ),
-						'type' => 'text',
+						'type' => 'number',
 						'default' => '1.0',
 						'class' => 'none',
 						'size' => '3',
+						'options' => array(
+							'min' => '0',
+							'max' => '1',
+							'step'=> '0.1'
+						),
 						'sanitize_callback' => 'floatval'
 					),               
                  array(
@@ -997,6 +1054,13 @@ class ZB_Settings_API_Test {
 						jQuery(this).removeClass().addClass('zappbar zb-'+newclass+' '+c[2]+'');
 					});
 				});
+				var zb_theme_width = "<?php echo get_theme_mod('comicpress-customize-range-site-width') ? intval( get_theme_mod('comicpress-customize-range-site-width')) : ''; ?>";
+				if (zb_theme_width != '') {
+					jQuery('[name="zappbar_site\\[auto_width\\]"]').parent().parent().css({ opacity : 0.5 });
+					jQuery('[name="zappbar_site\\[auto_width\\]"]').checked = true;
+					jQuery('[name="zappbar_site\\[theme_width\\]"]').parent().parent().css({ opacity : 0.5 });				
+					jQuery('[name="zappbar_site\\[theme_width\\]"]').val(zb_theme_width);
+				}
         	});
 <?php  echo '</script>';
     }

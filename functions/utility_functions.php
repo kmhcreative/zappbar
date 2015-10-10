@@ -125,12 +125,6 @@ function zb_share_shortcode( $atts, $content = null ) {
 }
 add_shortcode('zb-share', 'zb_share_shortcode');
 
-/* If Google Translate Widget is active load the script */
-if (is_active_widget('zb_google_translate_widget', false, 'zb_google_translate_widget', true)) {
-	wp_enqueue_script('google-translate', 'http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit', null, null, true);
-	wp_enqueue_script('google-translate-settings', zappbar_pluginfo('plugin_url') . '/js/googletranslate.js');
-}
-
 /*	
 	MODE SWITCH (experimental)
 	TO-DO: Make this persistent.  

@@ -4,10 +4,198 @@
 	must be in the code before this script.
 */
 
-jQuery(document).ready(function($){	
+jQuery(document).ready(function($){
+// get/set main page wrapper element
+var wrapper = wrapper || ["#page","#page-wide","#wrapper"];
+if (page_custom != "") {
+    wrapper.push(page_custom);
+};
+	var my_wrapper = "#page";	// default page wrapper
+	for (var x=0;x<wrapper.length;x++) {
+		if ($(''+wrapper[x]+'').length) {
+			var my_wrapper = wrapper[x];	// find actual page wrapper
+		}
+	};
+var retrofitTheme = function() {
+
+	if (header_custom == '') { var my_header = "#header"; } else { var my_header = "#"+header_custom; };
+	if (nav_custom == '') { var my_nav = "#menubar-wrapper"; } else { var my_nav = "#"+nav_custom; };
+	var my_sidebars = "#sidebar-left, #sidebar-right, #primary, #secondary";
+	if (sidebars_custom.length > 0) {
+		for (var x=0; x < sidebars_custom.length; x++) {
+			my_sidebars += ","+sidebars_custom[x]+" ";
+		}
+	}
+	var barlist = my_sidebars.split(',');
+	var twocols = '';
+	for (var s=0; s < barlist.length; s++) {
+		var c = s<barlist.length-1 ? ', ' : '';
+		twocols+='.layout-2cl '+barlist[s].trim()+', .layout-2cr '+barlist[s].trim()+c;
+	}
+	// get width of site wrapper element
+	if (auto_width == 'on') {
+		var site_width = (parseInt($(''+my_wrapper+'').css('width'))+parseInt($(''+my_wrapper+'').css('border-left-width'))-1 );
+	} else {
+		var site_width = theme_width;
+	}
+	var kickin = 767;
+	var retrofit = '/* Retrofit Theme with Responsive Layout */\n'+
+	'html { overflow-x: hidden; }\n'+
+	'	'+my_wrapper+', '+my_wrapper+' '+my_header+', '+my_wrapper+' '+my_nav+', #main, #branding,\n'+
+	'	'+my_wrapper+' #subcontent-wrapper, '+my_wrapper+' #footer, '+my_wrapper+' #colophon,\n'+
+	'	'+my_wrapper+' #comic-header, '+my_wrapper+' #comic-foot {\n'+
+	'		width: auto !important;\n'+
+	'		max-width: '+site_width+'px;\n'+
+	'	}\n'+
+	'	#branding img {\n'+
+	'		height: auto;\n'+
+	'	}\n'+
+	'		'+my_wrapper+' '+my_header+' h1 {\n'+
+	'			max-width: 100%;\n'+
+	'			-webkit-background-size: contain;\n'+
+	'			-moz-background-size: contain;\n'+
+	'			-ms-background-size: contain;\n'+
+	'			background-size: contain;\n'+
+	'		}\n'+
+	'	'+my_nav+', #access, #menu, .menu, .menu-container, #comic-wrap, #subcontent-wrapper, #footer, #footer-sidebar-wrapper {\n'+
+	'		max-width: 100%;\n'+
+	'		height: auto;\n'+
+	'		margin-left: auto; margin-right: auto;\n'+
+	'	}\n'+
+	'	img {\n'+
+	'		max-width: 100%;\n'+
+	'	}	\n'+
+	'   	#footer {\n'+
+	'  			display: block;\n'+
+	' 		}\n'+
+	'		.zappbar { \n'+
+	'			display: none; \n'+
+	'		}	\n'+	
+	'		div.sbtab { display: none; }\n';
+	// if site is > kickin @ 1px narrower make content and sidebars fluid
+	if (site_width > kickin) {
+	retrofit += '\n'+
+	'@media screen and (max-width: '+(site_width-1)+'px) { /* switch columns to percentages */\n'+
+	'	'+my_wrapper+', '+my_nav+', .menu-container, \n'+
+	'	#comic-wrap, #subcontent-wrapper, #footer, #footer-sidebar-wrapper {\n'+
+	'		/* borders and padding included in width */\n'+
+	'		-webkit-box-sizing: border-box;\n'+
+	'		-moz-box-sizing: border-box;\n'+
+	'		-ms-box-sizing: border-box;\n'+
+	'		-o-box-sizing: border-box;\n'+
+	'		box-sizing: border-box;\n'+
+	'		/* box shadows introduce horizontal scrolling */\n'+
+	'		-webkit-box-shadow: none !important;\n'+
+	'		-moz-box-shadow: none !important;\n'+
+	'		-ms-box-shadow: none !important;\n'+
+	'		-o-box-shadow: none !important;\n'+
+	'		box-shadow: none !important;\n'+
+	'	}\n'+
+	'	'+my_sidebars+' {\n'+
+	'		width: 25% !important;\n'+
+	'		max-width: 25% !important;\n'+
+	'		min-width: 25% !important;\n'+
+	'		margin: 0;\n'+
+	'		-webkit-box-sizing: border-box;\n'+
+	'		-moz-box-sizing: border-box;\n'+
+	'		-ms-box-sizing: border-box;\n'+
+	'		box-sizing: border-box;\n'+
+	'	}\n'+
+	'	#content-column {\n'+
+	'		width: 50% !important;\n'+
+	'		max-width: 50% !important;\n'+
+	'		min-width: 50% !important;\n'+
+	'		margin: 0;\n'+
+	'		-webkit-box-sizing: border-box;\n'+
+	'		-moz-box-sizing: border-box;\n'+
+	'		-ms-box-sizing: border-box;\n'+
+	'		box-sizing: border-box;\n'+
+	'	}\n'+
+	'	'+twocols+' {\n'+
+	'		width: 33% !important;\n'+
+	'		max-width: 33% !important;\n'+
+	'		min-width: 33% !important;\n'+
+	'		margin: 0;\n'+
+	'		-webkit-box-sizing: border-box;\n'+
+	'		-moz-box-sizing: border-box;\n'+
+	'		-ms-box-sizing: border-box;\n'+
+	'		box-sizing: border-box;\n'+
+	'	}\n'+
+	'	.comic-table {\n'+
+	'		display: block !important;\n'+
+	'	}\n'+
+	'	#comic, #comic {\n'+
+	'		width: auto;\n'+
+	'		max-width: 100%;\n'+
+	'		display: block !important;\n'+
+	'		margin: 0 auto;	/* center it */\n'+
+	'	}\n'+
+	'	.layout-2cl #content-column, .layout-2cr #content-column {\n'+
+	'		width: 66% !important;\n'+
+	'		max-width: 66% !important;\n'+
+	'		min-width: 66% !important;\n'+
+	'		margin: 0;\n'+
+	'		-webkit-box-sizing: border-box;\n'+
+	'		-moz-box-sizing: border-box;\n'+
+	'		-ms-box-sizing: border-box;\n'+
+	'		box-sizing: border-box;\n'+
+	'	}\n'+
+	'}\n';
+	}
+	// Below 800px wide everything should be fluid (<800px should be most tablets in portrait)
+	if (site_width < kickin) { kickin = site_width-1; }
+	retrofit += '\n'+
+	'@media screen and (max-width: '+kickin+'px) {	/* below this width alter layout */\n'+
+	'	'+my_wrapper+', #menubar-wrapper, .menu-container, \n'+
+	'	#comic-wrap, #subcontent-wrapper, #footer, #footer-sidebar-wrapper {\n'+
+	'		/* borders and padding included in width */\n'+
+	'		-webkit-box-sizing: border-box;\n'+
+	'		-moz-box-sizing: border-box;\n'+
+	'		-ms-box-sizing: border-box;\n'+
+	'		-o-box-sizing: border-box;\n'+
+	'		box-sizing: border-box;\n'+
+	'		/* box shadows introduce horizontal scrolling */\n'+
+	'		-webkit-box-shadow: none !important;\n'+
+	'		-moz-box-shadow: none !important;\n'+
+	'		-ms-box-shadow: none !important;\n'+
+	'		-o-box-shadow: none !important;\n'+
+	'		box-shadow: none !important;\n'+
+	'	}\n'+
+	'   		#subcontent-wrapper { display: block !important; }\n'+
+	'  			'+my_sidebars+' #sidebar-left-of-comic,\n'+
+	' 			#content, #content-column, .layout-2cl #content-column, .layout-2cr #content-column,\n'+
+	'			'+twocols+'{\n'+
+	'				float: none;\n'+
+	'				width: auto !important;\n'+
+	'				max-width: 100% !important;\n'+
+	'				min-width: 0px !important;\n'+
+	'				min-height: 0px;\n'+
+	'				margin-left: 0;\n'+
+	'				margin-right: 0;\n'+
+	'				clear: both;\n'+
+	'				display: block !important;\n'+
+	'			}\n'+
+	'	.comic-table {\n'+
+	'		display: block !important;\n'+
+	'	}\n'+
+	'	#comic, #comic {\n'+
+	'		width: auto;\n'+
+	'		max-width: 100%;\n'+
+	'		display: block !important;\n'+
+	'		margin: 0 auto;	/* center it */\n'+
+	'	}\n'+
+	'}\n';
+	var zb_retrofit = document.createElement('style');
+		zb_retrofit.id = "zb-retrofit";
+		zb_retrofit.type = "text/css";
+		zb_retrofit.innerHTML = retrofit;
+	$('head')[0].appendChild(zb_retrofit);	// <-- has to come last or causes ugly reflow
+	retrofitTheme = null;
+}
+
 /*	DEVICE & BROWSER DETECTION
 	Pared down sniffer based on "Web-O-Detecto"
-	full script @ https://github.com/kmhcreative
+	full script @ https://gist.github.com/kmhcreative/cc73f6a5da2e0919432f
 */
 var device = {};
 if (navigator.userAgent.match(/Edge/i)) {
@@ -121,9 +309,8 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 					(applyto == 'force_mobile' && device.mobile == true)||	// over-ride regardless of screen size
 					(applyto == 'only_mobile_forced' && device.mobile == true)
         		) { 
-        			// we only need to attach button actions on initial load
-        			if (zbinit==false) { 
-        				zb_init();
+        			if (is_responsive == "2" && retrofitTheme != null) {
+        				retrofitTheme();
         			}
 					if (is_responsive!="0") {
         		 		$('#zb-site-tweaks-css').attr("href",""+zb_base+"css/site_tweaks.css");
@@ -131,7 +318,13 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
         		 	if ( (applyto == 'force_mobile' || applyto == 'only_mobile_forced') && device.mobile == true) {
         		 		showon = "desktops_hd";
         		 		$("#zb-response-css").attr("href",""+zb_base+"css/zappbar_desktops_hd.css");
+        		 	} else {
+        		 		$("#zb-response-css").attr("href",""+zb_base+"css/zappbar_"+showon+".css");
         		 	}
+        			// we only need to attach button actions on initial load
+        			if (zbinit==false) { 
+        				zb_init();
+        			}
         			// see if any of these need to convert to panels
         			comment2panel();
         			review2panel();
@@ -142,12 +335,11 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
         			});
         			zb_appify();
         		 } else {
-        		 	if (is_responsive == "1") {
-        		 		$('#zb-site-tweaks-css').attr("href","");
-        		 	} else if (is_responsive == "2") {
-        		 		$('#zb-site-tweaks-css').attr("href",""+zb_base+"css/retrofit.css");
-        		 	} else {}
+        		 	$('#zb-site-tweaks-css').attr("href","");
         			un_appify(1);
+					if (is_responsive == "2" && retrofitTheme != null) {
+						retrofitTheme();
+					}
         			$(".zb-switch").each( function() {
         				$(this).hide();
         			});
@@ -174,9 +366,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 								window.scrollTo(0,0);
 							};
 							$(this).removeClass("hide").addClass("show");
-							for (var x=0;x<wrapper.length;x++) {
-								$("#"+wrapper[x]+"").removeClass(""+pull+"").addClass(""+push+"");
-							};
+							$(''+my_wrapper+'').removeClass(""+pull+"").addClass(""+push+"");
 							$(".sbtab").each(function() {
 								if ( $(this).attr("id") == plus) {
 									$(this).removeClass("hide").addClass("show");
@@ -189,9 +379,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 								window.scrollTo(0,0);
 							};
 							$(this).removeClass("show").addClass("hide");
-							for (var x=0;x<wrapper.length;x++) {
-								$("#"+wrapper[x]+"").removeClass(""+push+"");
-							};
+							$(''+my_wrapper+'').removeClass(""+push+"");
 							$(".sbtab").each(function() {
 								$(this).removeClass("show").addClass("hide");
 							});
@@ -384,11 +572,6 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 			});
         	// Hide empty buttons
         	$(".dashicons-blank").parent().hide();
-        	var wrapper = ["page","page-wide","wrapper"];
-        	if (page_custom != "") {
-        		wrapper.push(page_custom);
-			};	        	
-
         	// click outside search box hides it
         	$(document).on("touchend mouseup",function (e){
 					if (!$(".search").is(e.target) && $(".search").has(e.target).length === 0) {
@@ -611,9 +794,7 @@ if (device.OS=="Android" && device.v < 3) {
 					we need to adjust the main page element or they will
 					not be positioned correctly, so let us fix that...
 				*/
-				for (var x=0;x<wrapper.length;x++) {
-					$("#"+wrapper[x]+"").addClass('android2x_page');
-				};			
+				$(''+my_wrapper+'').addClass('android2x_page');			
 
 			};
 		};		

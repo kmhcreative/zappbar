@@ -168,7 +168,33 @@ class ZB_Settings_API {
         $class = isset( $args['class'] ) && !is_null( $args['class'] ) ? $args['class'] : 'regular';
 		$size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
 
-        $html = sprintf( '<input type="text" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" size="'.$size.'"/>', $class, $args['section'], $args['id'], $value );
+        $html = sprintf( '<input type="text" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" size="%5$s"/>', $class, $args['section'], $args['id'], $value, $size );
+        $html .= sprintf( '<span class="description"> %s</span>', $args['desc'] );
+
+        echo $html;
+    }
+    
+    /**
+     * Displays an HTML5 number input field for a settings field
+     * If browser does not support type="number" it shows a text field
+     *
+     * @param array   $args settings field args
+     */
+    function callback_number( $args ) {
+    
+        $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+        $class = isset( $args['class'] ) && !is_null( $args['class'] ) ? $args['class'] : 'regular';
+        // input type="number" does not have "size" param, so fake it with inline style + space allowance for up/down arrows
+		$size = isset( $args['size'] ) && !is_null( $args['size'] ) ? 'style="width:'.( (float)$args['size']+.5 ).'em;"' : '';
+		$attr = '';	// assume none
+		if ($args['options'] != ''){
+			foreach ( $args['options'] as $key => $val ) {
+				if ($key == 'min') {	$attr.='min="'.$val.'"';}
+				if ($key == 'max') { 	$attr.='max="'.$val.'"';}
+				if ($key == 'step'){	$attr.='step="'.$val.'"';}
+			}
+		}
+        $html = sprintf( '<input type="number" class="%1$s-number" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" %6$s %5$s/>', $class, $args['section'], $args['id'], $value, $size, $attr );
         $html .= sprintf( '<span class="description"> %s</span>', $args['desc'] );
 
         echo $html;
@@ -184,8 +210,8 @@ class ZB_Settings_API {
     	$class = isset( $args['class'] ) && !is_null( $args['class'] ) ? $args['class'] : 'regular';
  		if ($value != '') { $preview = explode('|',$value); } else { $preview = array('','');};
 
-    	$html = sprintf( '<input class="%1$s-text" id="%2$s_%3$s" name="%2$s[%3$s]" type="hidden" value="'.$value.'"  />', $class, $args['section'], $args['id'], $value );
-		$html .= sprintf( '<div id="preview_%2$s_%3$s" class="button icon-picker '.$preview[0].' '.$preview[1].'" data-target="#%2$s_%3$s"></div>',$class, $args['section'], $args['id'], $value);
+    	$html = sprintf( '<input class="%1$s-text" id="%2$s_%3$s" name="%2$s[%3$s]" type="hidden" value="%4$s"  />', $class, $args['section'], $args['id'], $value );
+		$html .= sprintf( '<div id="preview_%2$s_%3$s" class="button icon-picker %5$s %6$s" data-target="#%2$s_%3$s"></div>',$class, $args['section'], $args['id'], $value, $preview[0], $preview[1] );
 
     	echo $html;
     }
@@ -235,11 +261,11 @@ class ZB_Settings_API {
 			$html .= '<div class="zb '.$name[$x].'">';
 
 			$preview = explode('|',$val[0]);
-			$label = sprintf( '<input class="zb-label" id="label_%2$s_%3$s_'.$x.'_1" name="%2$s[%3$s]['.$x.'][1]" type="text" value="'.$val[1].'" size="'.$class.'" />', $class, $args['section'], $args['id'], $val[1] );;
+			$label = sprintf( '<input class="zb-label" id="label_%2$s_%3$s_%5$s_1" name="%2$s[%3$s][%5$s][1]" type="text" value="%4$s" size="%1$s" />', $class, $args['section'], $args['id'], $val[1], $x );;
 			
-    		$html .= sprintf( '<input class="" id="%2$s_%3$s_'.$x.'_0" name="%2$s[%3$s]['.$x.'][0]" type="hidden" value="'.$val[0].'"  />', $class, $args['section'], $args['id'], $val[0] );
-			$html .= sprintf('<div class="button"><div id="preview_%2$s_%3$s_'.$x.'_0" class="icon-picker '.$preview[0].' '.$preview[1].'" data-target="#%2$s_%3$s_'.$x.'_0"></div><br/>'.$label.'</div>', $class, $args['section'], $args['id'], $val[0] );
-			$html .= sprintf( '<input class="" id="%2$s_%3$s_'.$x.'_2" name="%2$s[%3$s]['.$x.'][2]" type="hidden" value="'.$val[2].'"  />', $class, $args['section'], $args['id'], $val[2] );
+    		$html .= sprintf( '<input class="" id="%2$s_%3$s_'.$x.'_0" name="%2$s[%3$s]['.$x.'][0]" type="hidden" value="%4$s"  />', $class, $args['section'], $args['id'], $val[0] );
+			$html .= sprintf('<div class="button"><div id="preview_%2$s_%3$s_%4$s_0" class="icon-picker %5$s %6$s" data-target="#%2$s_%3$s_'.$x.'_0"></div><br/>'.$label.'</div>', $class, $args['section'], $args['id'], $x, $preview[0], $preview[1] );
+			$html .= sprintf( '<input class="" id="%2$s_%3$s_'.$x.'_2" name="%2$s[%3$s][%4$s][2]" type="hidden" value="%5$s"  />', $class, $args['section'], $args['id'], $x, $val[2] );
 			$html .= '<div class="helper">Button '.($x+1).'</div>';
 			$html .= '</div>';
 			$x++;
@@ -630,7 +656,7 @@ class ZB_Settings_API {
         $class = isset( $args['class'] ) && !is_null( $args['class'] ) ? $args['class'] : 'regular';
 		$id = $args['section'] . '_' . $args['id'];
 		$button = isset($args['button']) && !is_null( $args['button']) ? esc_attr($args['button']) : 'Media Library';
-        $html = sprintf( '<div class="uploader"><input type="text" class="%1$s-text" id="'.$id.'" name="%2$s[%3$s]" value="%4$s"/>', $class, $args['section'], $args['id'], $value );
+        $html = sprintf( '<div class="uploader"><input type="text" class="%1$s-text" id="%2$s_%3$s" name="%2$s[%3$s]" value="%4$s"/>', $class, $args['section'], $args['id'], $value );
         $html .= '<a href="#" class="button" id="'.$id.'_button">'.$button.'</a></div><br/>';
 
         // Now enqueue the correct jQuery handler

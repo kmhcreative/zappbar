@@ -1,6 +1,7 @@
 <?php
 
 function zappbar_inject() {
+	wp_reset_query();	// need this or it may apply archive bars on non-archive pages!
 	$zb_layout = get_option('zappbar_layout');
 	global $post;
 	$zb_pages = zb_paginate();
@@ -348,7 +349,7 @@ function zappbar_inject() {
 			<?php
 				global $post;
 				$zb_social = get_option('zappbar_social');
-				$zb_social_panel = $zb_social['social_panel'];
+				$zb_social_panel = isset($zb_social['social_panel']) ? $zb_social['social_panel'] : [];
 				if ( $zb_social_panel['facebook'] != '') {	?>
 			<a href="http://www.facebook.com/sharer.php?u=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;t=<?php echo urlencode(get_the_title($post->ID)); ?>" title="Share on Facebook" rel="nofollow" target="_blank" class="zb-social facebook">Facebook</a>
 			<?php	};
@@ -401,9 +402,7 @@ if (!is_admin()) {	// inject this at the end of the code
 	add_action('init', 'zb_init_scripts_and_styles');
 }
 
-
 function zb_init_scripts_and_styles() {
-	
 	// Load Social Button Styles even if ZappBars are disabled //
 	function zb_load_social() {	
 		$zb_site = get_option('zappbar_site');
@@ -425,13 +424,16 @@ function zb_init_scripts_and_styles() {
 
 			$font2 = $plugin_dir_url . 'fonts/font-awesome/css/font-awesome.css';
 			wp_enqueue_style( 'font-awesome', $font2,'','');
-		 	if ($zb_site['responsive']!='0') {
+		 	if ($zb_site['responsive']=='1') {
 				$css = $plugin_dir_url . 'css/site_tweaks.css';
 				wp_enqueue_style( 'zb-site-tweaks', $css, '', '');
 			}
-			$zb_css1 = $plugin_dir_url . 'css/zappbar_'.$zb_site['showon'].'.css';
+			if ($zb_site['responsive']=='2' && $zb_site['auto_width'] == 'on') {
+				$zb_css1 = $plugin_dir_url . 'css/blank.css';	// <-- auto_width needs to get theme width BEFORE retrofit is applied
+			} else {
+				$zb_css1 = $plugin_dir_url . 'css/zappbar_'.$zb_site['showon'].'.css';
+			}
 			wp_enqueue_style( 'zb-response', $zb_css1, '', '');
-			
 			$zb_js1 = $plugin_dir_url . 'js/zappbar.js';
 			wp_enqueue_script( 'zb-functions', $zb_js1, array( 'jquery' ), '1.0', true );
 			if ($zb_site['splash_screen']!='') {
@@ -580,6 +582,8 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 			var applyto = "<?php echo $zb_site['applyto']; ?>";
 			var wrapper = ['page','page-wide','wrapper'<?php if ($zb_site['page_custom']!=''){ echo ',\''.$zb_site['page_custom'].'\'';}; ?>];
 			var is_responsive = "<?php echo $zb_site['responsive']; ?>";
+			var auto_width  = "<?php echo get_theme_mod('comicpress-customize-range-site-width') ? 'off' : $zb_site['auto_width']; ?>";
+			var theme_width = "<?php echo get_theme_mod('comicpress-customize-range-site-width') ? intval( get_theme_mod('comicpress-customize-range-site-width')) : $zb_site['theme_width']; ?>";
 			var telnum = escape("<?php if($zb_social['phone_number']!='') {echo $zb_social['phone_number']; }; ?>");
 			var splash = "<?php if($zb_site['splash_screen']!=''){echo $zb_site['splash_screen']; }; ?>";
 			var splash_timer = <?php echo $zb_site['splash_timer']; ?>;
@@ -625,5 +629,4 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 		add_filter('wp_footer','zappbar_inject');
 	}
 }
-
-
+?>

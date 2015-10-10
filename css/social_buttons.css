@@ -161,7 +161,7 @@ a.zb-share {
 		background-image: url('../includes/images/social_icons/icons_medium/rss.png');
 	}	
 	/*Email*/
-	.zb-sharethis.small a.zb-share.zb-mail {
+	.zb-sharethis.medium a.zb-share.zb-mail {
 		background-image: url('../includes/images/social_icons/icons_medium/email.png');
 	}
 	.zb-sharethis.large a.zb-share {
