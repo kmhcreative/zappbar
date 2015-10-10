@@ -65,6 +65,9 @@ function zb_paginate() {
 
 function zb_share_shortcode( $atts, $content = null ) {
 	global $post;
+	if (!$post) {	// on search results not found $post doesn't exist and who would share empty search results?
+		$social = '';
+	} else {
 	extract(shortcode_atts(array(
 		'type' => 'label',	// text, label (default), small, medium, large
 		'include' => '',
@@ -119,7 +122,7 @@ function zb_share_shortcode( $atts, $content = null ) {
 
 	}
 	$social .= '</div>';
-
+	}
 
 	return $social;
 }

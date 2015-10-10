@@ -2,7 +2,7 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2
+**Version:** 0.2.1
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
@@ -206,6 +206,9 @@ If you are using the WooCommerce plugin you will also see options for custom e-c
 * Convert Woo Additional Product Info to App Panel - moves “Additional Info” block into a slide-in panel.
 
 ## Changelog
+
+Version 0.2.1
+* Fixed problem on search results pages where nothing is found where social media share panel tried to build but can't because $post doesn't exist.
 
 Version 0.2
 
