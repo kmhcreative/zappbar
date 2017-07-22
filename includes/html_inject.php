@@ -27,6 +27,8 @@ function zappbar_inject() {
 		$x = 0;
 		foreach ($value as $val) {
 			$html .= '<div class="zb '.$zb_name[$x].' integrated-webcomic">';
+			$xtra = ''; // reset extra styling for each loop through
+			// Comic and Specific Archive Pages
 			if ( array_filter($paged) ) {
 				if ( function_exists('comicpress_display_comic') && comicpress_themeinfo('archive_display_order') == "asc" ) {
 					$first_page = $paged[0]; $last_page = $paged[3];
@@ -35,92 +37,132 @@ function zappbar_inject() {
 				} else { $first_page = $paged[3]; $last_page = $paged[0]; }
 				if ($val[2] == 'first_page') {
 					$val[2] = $first_page;
+					$xtra = '';
 				} else if ($val[2] == 'prev_page') {
 					$val[2] = $paged[1];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'next_page') {
 					$val[2] = $paged[2];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'last_page') {
 					$val[2] = $last_page;
+					$xtra = '';
 				} else {
 				};
-			} 
+			}
+			// Comic Easel Post 
 			if ( get_post_type() == 'comic' || function_exists('ceo_pluginfo') ) {
 				if (ceo_pluginfo('navigate_only_chapters')) {
 					if ($val[2] == 'prev_chapter') {
 						$val[2] = ceo_get_previous_chapter();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 					} else if ($val[2] == 'first_comic') {
 						$val[2] = ceo_get_first_comic_in_chapter_permalink();
+						if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
 					} else if ($val[2] == 'prev_comic') {
 						$val[2] = ceo_get_previous_comic_in_chapter_permalink();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 					} else if ($val[2] == 'next_comic') {
 						$val[2] = ceo_get_next_comic_in_chapter_permalink();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 					} else if ($val[2] == 'last_comic') {
 						$val[2] = ceo_get_last_comic_in_chapter_permalink();
+						if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
 					} else if ($val[2] == 'next_chapter') {
 						$val[2] = ceo_get_next_chapter();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 					} else if ($val[2] == 'comic_archive') {
 						$val[2] = get_site_url().'/comic';
-					} else {};
+						$xtra = '';
+					} else {
+					};
 				} else {
 					if ($val[2] == 'prev_chapter') {
 						$val[2] = ceo_get_previous_chapter();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 					} else if ($val[2] == 'first_comic') {
 						$val[2] = ceo_get_first_comic_permalink();
+						if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
 					} else if ($val[2] == 'prev_comic') {
 						$val[2] = ceo_get_previous_comic_permalink();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 					} else if ($val[2] == 'next_comic') {
 						$val[2] = ceo_get_next_comic_permalink();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 					} else if ($val[2] == 'last_comic') {
 						$val[2] = ceo_get_last_comic_permalink();
+						if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
 					} else if ($val[2] == 'next_chapter') {
 						$val[2] = ceo_get_next_chapter();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 					} else if ($val[2] == 'comic_archive') {
 						$val[2] = get_site_url().'/comic';
-					} else {};
+						$xtra = '';
+					} else {
+					};
 				}
 			} 
+			// ComicPress Post
 			if ( function_exists('comicpress_display_comic')  ) {	
 				if ($val[2] == 'prev_chapter') {
 					$val[2] = comicpress_get_previous_storyline_start_permalink();
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'first_comic') {
 					$val[2] = comicpress_get_first_comic_permalink();
+					if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
 				} else if ($val[2] == 'prev_comic') {
 					$val[2] = comicpress_get_previous_comic_permalink();
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'next_comic') {
 					$val[2] = comicpress_get_next_comic_permalink();
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'last_comic') {
 					$val[2] = comicpress_get_last_comic_permalink();
+					if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
 				} else if ($val[2] == 'next_chapter') {
 					$val[2] = comicpress_get_next_storyline_start_permalink();
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'comic_archive') {
 					$val[2] = get_site_url().'/?cat='.comicpress_themeinfo('comiccat').'/';
-				} else {};
+					$xtra = '';
+				} else {
+				};
 			} 
+			// Webcomic Post
 			if ( preg_match('/webcomic/',get_post_type()) ) {
 				// Yes, this is a very convoluted way of getting the URLs
 				if ($val[2] == 'prev_chapter') {
 					preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', do_shortcode('[previous_webcomic_storyline_link]'), $matches);				
-					$val[2] = $matches[2][0];				
+					$val[2] = $matches[2][0];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }				
 				} else if ($val[2] == 'first_comic') {
 					preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', do_shortcode('[first_webcomic_link]'), $matches);				
 					$val[2] = $matches[2][0];
+					if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
 				} else if ($val[2] == 'prev_comic') {
 					preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', do_shortcode('[previous_webcomic_link]'), $matches);
 					$val[2] = $matches[2][0];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'next_comic') {
 					preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', do_shortcode('[next_webcomic_link]'), $matches);
-					$val[2] = $matches[2][0];;
+					$val[2] = $matches[2][0];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'last_comic') {
 					preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', do_shortcode('[last_webcomic_link]'), $matches);				
 					$val[2] = $matches[2][0];
+					if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
 				} else if ($val[2] == 'next_chapter') {
 					preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', do_shortcode('[next_webcomic_storyline_link]'), $matches);				
 					$val[2] = $matches[2][0];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
 				} else if ($val[2] == 'comic_archive') {
 					preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', do_shortcode('[the_webcomic_collections]'), $matches);				
-					$val[2] = $matches[2][0];							
-				} else {};
+					$val[2] = $matches[2][0];
+					$xtra = '';							
+				} else {
+				};
 			} 
+			// WooCommerce Product Post
 			if ( class_exists( 'woocommerce' ) && ( is_product() || is_cart() || is_checkout() || is_account_page() )  ) {
 				global $woo_options, $woocommerce;
 				if ($val[2] == 'woo_store') {
@@ -170,6 +212,17 @@ function zappbar_inject() {
 				global $left_appmenu;
 				$left_appmenu = 1;
 			}
+			// Single Blog Post
+			if ( get_post_type() == 'post'  ) {	
+				if ($val[2] == 'previous_post') {
+					$val[2] = get_permalink( get_adjacent_post(false,'',true) );
+					if ($val[2]==get_permalink()) {$xtra = ' zb-disabled';} else { $xtra=''; }
+				} else if ($val[2] == 'next_post') {
+					$val[2] = get_permalink( get_adjacent_post(false,'',false) );
+					if ($val[2]==get_permalink()) {$xtra = ' zb-disabled';} else { $xtra=''; }
+				} else {};
+			} 
+			// ZappBar Panels
 			if ($val[2] == 'appmenu_right') {
 				global $right_appmenu;
 				$right_appmenu = 1;
@@ -182,10 +235,12 @@ function zappbar_inject() {
 				global $right_sidebar;
 				$right_sidebar = 1;
 			}
+			// Contact
 			if ($val[2] == 'custom_email') {
 				$zb_social = get_option('zappbar_social');
 				$val[2] = 'mailto:'.$zb_social['email_address'];
 			}
+			// All Blog Posts Archive
 			if ($val[2] == 'blogposts') {
 				$cats = get_categories();
 				$pls = get_option('permalink_structure');
@@ -214,9 +269,11 @@ function zappbar_inject() {
 				}
 				$val[2] .= '/';
 			}
+			// Ryuzine Rack
 			if ($val[2] == 'ryuzine_rack') {
 				$val[2] = esc_url(home_url()).'/ryuzine-rack/';
 			}
+			// Search Button
 			if (in_array($val[2],array('search_box','search_left','search_right'))) {
 				if ($val[2] == 'search_left') { 		$shift = ' left"';
 				} else if ($val[2] == 'search_right') { $shift = ' right"';
@@ -233,7 +290,7 @@ function zappbar_inject() {
 					</span>';
 			
 			}
-			// now all the share options
+			// Specific Social Media Buttons
 			if ($val[2] == 'commentform') {
 				if (get_comments_number() > 0) {
 						 $count = '<span class="contents">'.get_comments_number().'</span>';
@@ -266,9 +323,6 @@ function zappbar_inject() {
 			} else if ($val[2] == 'share_pinterest') {
 				$val[2] = 'http://pinterest.com/pin/create/button/?url='.urlencode(get_permalink($post->ID)).'&media='.urlencode(wp_get_attachment_url( get_post_thumbnail_id($post->ID) )).'';
 				$xtra = ' zb-social';			
-			} else if ($val[2] == 'share_delicious') {
-				$val[2] = 'http://del.icio.us/post?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'';
-				$xtra = ' zb-social';			
 			} else {};
 			$icon = explode('|',$val[0]);
 			$html .= '<a href="'.$val[2].'" class="button'.$xtra.'" target="_self"><div class="icon '.$icon[0].' '.$icon[1].'"></div><br/><span class="zb-label">'.$val[1].'</span></a>';
@@ -281,37 +335,58 @@ function zappbar_inject() {
 	}
 	$zb_site = get_option('zappbar_site');
 	if ($zb_site['showon'] != 'none') {
-		if ( class_exists('woocommerce') && $zb_layout['use_woo_top_bar']=='yes' && (is_product() || is_cart() || is_checkout() || is_account_page()) ) {
-		build_zappbars($zb_layout['woo_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
+		if ( class_exists('woocommerce') && $zb_layout['use_woo_top_bar']!='no' && (is_product() || is_cart() || is_checkout() || is_account_page()) ) {
+			if ($zb_layout['use_woo_top_bar']=='yes'){
+				build_zappbars($zb_layout['woo_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
+			}
 		} else if (
 			( 
 				(isset($post->post_type) && ($post->post_type == 'comic' || $post->post_type == 'mangapress')) ||
 				(function_exists('comicpress_display_comic') && comicpress_in_comic_category() && !is_home() ) ||
 				preg_match('/webcomic/',get_post_type())
 			)
-			&& $zb_layout['use_comic_top_bar']=='yes' 
+			&& $zb_layout['use_comic_top_bar']!='no' 
 			&& !is_archive()
 		) {
-		build_zappbars($zb_layout['comic_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
-		} else if ( $zb_layout['use_archive_top_bar']=='yes' && (is_archive() || is_search()) ) {
-		build_zappbars($zb_layout['archive_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
+			if ($zb_layout['use_comic_top_bar']=='yes') {
+				build_zappbars($zb_layout['comic_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
+			}
+		} else if ( $zb_layout['use_archive_top_bar']!='no' && (is_archive() || is_search()) ) {
+			if ($zb_layout['use_archive_top_bar']=='yes'){
+				build_zappbars($zb_layout['archive_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
+			}
+		} else if ( $zb_layout['use_blog_top_bar']!='no' && isset($post->post_type) && $post->post_type == 'post' && !is_archive() && !is_home() ) {
+			if ($zb_layout['use_blog_top_bar']=='yes'){
+				build_zappbars($zb_layout['blog_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
+			}
 		} else {
 		build_zappbars($zb_layout['default_top'],$zb_layout['button_layout'],'top',$zb_pages);
 		}
-		if ( class_exists('woocommerce') && $zb_layout['use_woo_bottom_bar']=='yes' && is_product() ) {
-		build_zappbars($zb_layout['woo_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
+		
+		if ( class_exists('woocommerce') && $zb_layout['use_woo_bottom_bar']!='no' && is_product() ) {
+			if ($zb_layout['use_woo_bottom_bar']=='yes'){
+				build_zappbars($zb_layout['woo_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
+			}
 		} else if (
 			( 
 				(isset($post->post_type) && ($post->post_type == 'comic' || $post->post_type == 'mangapress')) ||
 				(function_exists('comicpress_display_comic') && comicpress_in_comic_category() && !is_home() ) ||
 				preg_match('/webcomic/',get_post_type())
 			)
-			&& $zb_layout['use_comic_top_bar']=='yes' 
+			&& $zb_layout['use_comic_bottom_bar']!='no' 
 			&& !is_archive()
 		) {
-		build_zappbars($zb_layout['comic_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
-		} else if ( $zb_layout['use_archive_bottom_bar']=='yes' && (is_archive() || is_search()) ) {
-		build_zappbars($zb_layout['archive_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
+			if ($zb_layout['use_comic_bottom_bar']=='yes'){
+				build_zappbars($zb_layout['comic_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
+			}
+		} else if ( $zb_layout['use_archive_bottom_bar']!='no' && (is_archive() || is_search()) ) {	
+			if ($zb_layout['use_archive_bottom_bar']=='yes'){
+				build_zappbars($zb_layout['archive_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
+			}
+		} else if ( $zb_layout['use_blog_bottom_bar']!='no' && isset($post->post_type) && $post->post_type == 'post' && !is_archive() && !is_home() ) {
+			if ($zb_layout['use_blog_bottom_bar']=='yes'){
+				build_zappbars($zb_layout['blog_bottom_bar'],$zb_layout['button_layout'],'bottom',$zb_pages);
+			}
 		} else {
 		build_zappbars($zb_layout['default_bottom'],$zb_layout['button_layout'],'bottom',$zb_pages);
 		}
@@ -374,9 +449,6 @@ function zappbar_inject() {
 				if ( $zb_social_panel['pinterest'] != '') { ?>
 			<a href="http://pinterest.com/pin/create/button/?url=<?php echo urlencode(get_permalink($post->ID)); ?>&media=<?php echo urlencode(wp_get_attachment_url( get_post_thumbnail_id($post->ID) )); ?>" title="Pin this!" rel="nofollow" target="_blank" class="zb-social pinterest">Pinterest</a>
 			<?php 	};
-				if ( $zb_social_panel['delicious'] != '') { ?>
-			<a href="http://del.icio.us/post?url=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;title=<?php echo urlencode(get_the_title($post->ID)); ?>" title="Bookmark on del.icio.us" rel="nofollow" target="_blank" class="zb-social delicious">Del.icio.us</a>
-			<?php	};
 				if ( $zb_social_panel['rss'] != '') { ?>
 			<a href="<?php echo get_site_url(); ?>/?feed=rss" title="RSS Feed" rel="nofollow" target="_blank" class="zb-social rss-feed">RSS Feed</a>
 			<?php	};
@@ -521,13 +593,15 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 				$tablet = aq_resize( $icon, 72, 72, true);
 				$hi_res = aq_resize( $icon, 114, 114, true);
 				$phones = aq_resize( $icon, 57, 57, true);
+				if ($zb_site['icon2favicon'] == 'on') {
+					echo '<link rel="icon" type="image/png" href="'.$favicon.'" />';				
+				}
 			} else {
 				$favicon = $plugin_dir_url.'includes/images/app_icons/wordpress-logo_16x16.png';
 				$tablet = $plugin_dir_url.'includes/images/app_icons/wordpress-logo_72x72.png';
 				$hi_res = $plugin_dir_url.'includes/images/app_icons/wordpress-logo_114x114.png';
 				$phones = $plugin_dir_url.'includes/images/app_icons/wordpress-logo_57x57.png';
 			}
-			echo '<link rel="icon" type="image/png" href="'.$favicon.'" />';
 			echo '<link rel="apple-touch-icon-precomposed" sizes="114x114" href="'.$hi_res.'" />';
 			echo '<link rel="apple-touch-icon-precomposed" sizes="72x72" href="'.$tablet.'" />';
 			echo '<link rel="apple-touch-icon-precomposed" href="'.$phones.'" />';
@@ -566,7 +640,7 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 
 			require_once(zappbar_pluginfo('plugin_path').'includes/dynamic-css.php');
 			// fallback values
-			$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '');
+			$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '', 'blognav' => '');
 			if (isset($zb_site['altertheme'])) {	// one or more is set
 				foreach( $zb_site_alter as $key => $value ) {
 					if (isset($zb_site['altertheme'][$key])) {	// this one is set
@@ -598,6 +672,7 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 			var altertheme_sitenav	= "<?php echo $zb_site_alter['sitenav']; ?>";
 			var altertheme_commentform = "<?php echo $zb_site_alter['commentform']; ?>";
 			var altertheme_push = "<?php echo $zb_site_alter['push']; ?>";
+			var altertheme_blognav = "<?php echo $zb_site_alter['blognav']; ?>";
 			var page_custom = "<?php echo $zb_site['page_custom']; ?>";
 			var sidebars_custom = "<?php echo $zb_site['sidebars_custom']; ?>";
 			var comment_custom = "<?php if ($zb_site['comment_custom']!=''){echo $zb_site['comment_custom'];}else{echo 'respond';}; ?>";

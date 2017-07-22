@@ -78,7 +78,7 @@ function zb_share_shortcode( $atts, $content = null ) {
 			$include = strtolower($include);
 			$include = explode(",",$include);
 		} else {
-			$include = array('facebook','twitter','googleplus','reddit','stumbleupon','digg','linkedin','pinterest','delicious','rss','email');	
+			$include = array('facebook','twitter','googleplus','reddit','stumbleupon','digg','linkedin','pinterest','rss','email');	
 		}
 		if ($exclude != null && $exclude != '') {
 			$exclude = strtolower($exclude);
@@ -111,9 +111,6 @@ function zb_share_shortcode( $atts, $content = null ) {
 	if ( in_array('pinterest',$include) && !in_array('pinterest',$exclude) ) {
 	$social .=  '<a href="http://pinterest.com/pin/create/button/?url='.urlencode(get_permalink($post->ID)).'&media='.urlencode(wp_get_attachment_url( get_post_thumbnail_id($post->ID) )).'" title="Pin this!" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share pinterest"><span>Pinterest</span></a>';
 	}
-	if ( in_array('delicious',$include) && !in_array('delicious',$exclude) ) {
-	$social .=  '<a href="http://del.icio.us/post?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'" title="Bookmark on del.icio.us" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share delicious"><span>Del.icio.us</span></a>';
-	}
 	if ( in_array('rss',$include) && !in_array('rss',$exclude) ) {
 	$social .=  '<a href="'.get_site_url().'/?feed=rss" title="RSS Feed" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share rss-feed"><span>RSS Feed</span></a>';
 	}
@@ -134,6 +131,9 @@ add_shortcode('zb-share', 'zb_share_shortcode');
 	Drops in a toggle between Desktop and Mobile modes
 	Note that this will also likely break scrolling and
 	fixed positioning on Android 2.x devices.
+	
+	Also, it is pointless if you have Zappbars set to display
+	for All Devices because there wouldn't be a "desktop" mode.
 */
 function zb_switch_modes( $atts, $content = null ) {
 	$switch = '<a href="switch_mode" class="zb-switch" style="display:none;"><span class="sw_desktop">Switch to Desktop View</span></a>';

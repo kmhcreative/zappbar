@@ -27,10 +27,17 @@ var retrofitTheme = function() {
 		}
 	}
 	var barlist = my_sidebars.split(',');
-	var twocols = '';
+	var cols0 = '';	  // #content-column with no columns left or right (layout-ncl)
+	var cols2 = '';	  // #content-column with 1 column to left (layout-2cl) or right (layout-2cr)
+	var cols3 = '';   // #content-column with 1 column to left AND 1 to right (layout-3c)
+					  // #content-column with 2 columns to left  (layout-3cl)
+					  // #content-column with 2 columns to right (layout-3cr)
+					  // #content-column with 3 columns, main to left (layout-3clgn) or right (layout-3crgn)
 	for (var s=0; s < barlist.length; s++) {
 		var c = s<barlist.length-1 ? ', ' : '';
-		twocols+='.layout-2cl '+barlist[s].trim()+', .layout-2cr '+barlist[s].trim()+c;
+		cols2+='body.layout-2cl '+barlist[s].trim()+', body.layout-2cr '+barlist[s].trim()+c;
+		cols3+='body.layout-3c '+barlist[s].trim()+',  body.layout-3cl '+barlist[s].trim()+', body.layout-3cr '+barlist[s].trim()+c+', '+
+		'body.layout-3clgn '+barlist[s].trim()+', body.layout-3crgn '+barlist[s].trim()+c;
 	}
 	// get width of site wrapper element
 	if (auto_width == 'on') {
@@ -91,7 +98,19 @@ var retrofitTheme = function() {
 	'		-o-box-shadow: none !important;\n'+
 	'		box-shadow: none !important;\n'+
 	'	}\n'+
-	'	'+my_sidebars+' {\n'+
+	'/* No Columns (zero sidebars) */\n'+
+	'   #content-column, .layout-ncl #content-column {\n'+
+	'		width: 100% !important;\n'+
+	'		max-width: 100% !important;\n'+
+	'		min-width: 100% !important;\n'+
+	'		margin: 0;\n'+
+	'		-webkit-box-sizing: border-box;\n'+
+	'		-moz-box-sizing: border-box;\n'+
+	'		-ms-box-sizing: border-box;\n'+
+	'		box-sizing: border-box;\n'+
+	'   }\n'+
+	'/* 2 Columns (1 sidebar right or left) */\n'+      
+	'	'+cols2+' {\n'+
 	'		width: 25% !important;\n'+
 	'		max-width: 25% !important;\n'+
 	'		min-width: 25% !important;\n'+
@@ -101,20 +120,32 @@ var retrofitTheme = function() {
 	'		-ms-box-sizing: border-box;\n'+
 	'		box-sizing: border-box;\n'+
 	'	}\n'+
-	'	#content-column {\n'+
-	'		width: 50% !important;\n'+
-	'		max-width: 50% !important;\n'+
-	'		min-width: 50% !important;\n'+
+	'	.layout2cl #content-column, .layout2cr #content-column {\n'+
+	'		width: 75% !important;\n'+
+	'		max-width: 75% !important;\n'+
+	'		min-width: 75% !important;\n'+
 	'		margin: 0;\n'+
 	'		-webkit-box-sizing: border-box;\n'+
 	'		-moz-box-sizing: border-box;\n'+
 	'		-ms-box-sizing: border-box;\n'+
 	'		box-sizing: border-box;\n'+
 	'	}\n'+
-	'	'+twocols+' {\n'+
-	'		width: 33% !important;\n'+
-	'		max-width: 33% !important;\n'+
-	'		min-width: 33% !important;\n'+
+	'/* 3 Columns (1 both sides or 2 right or left) */\n'+
+	'	'+cols3+' {\n'+
+	'		width: 25% !important;\n'+
+	'		max-width: 25% !important;\n'+
+	'		min-width: 25% !important;\n'+
+	'		margin: 0;\n'+
+	'		-webkit-box-sizing: border-box;\n'+
+	'		-moz-box-sizing: border-box;\n'+
+	'		-ms-box-sizing: border-box;\n'+
+	'		box-sizing: border-box;\n'+
+	'	}\n'+
+	'   .layout-3c #content-column, .layout-3cl #content-column, .layout-3cr #content-column,\n'+
+	'   .layout-3clgn #content-column, .layout-3crgn #content-column {\n'+
+	'		width: 50% !important;\n'+
+	'		max-width: 50% !important;\n'+
+	'		min-width: 50% !important;\n'+
 	'		margin: 0;\n'+
 	'		-webkit-box-sizing: border-box;\n'+
 	'		-moz-box-sizing: border-box;\n'+
@@ -129,16 +160,6 @@ var retrofitTheme = function() {
 	'		max-width: 100%;\n'+
 	'		display: block !important;\n'+
 	'		margin: 0 auto;	/* center it */\n'+
-	'	}\n'+
-	'	.layout-2cl #content-column, .layout-2cr #content-column {\n'+
-	'		width: 66% !important;\n'+
-	'		max-width: 66% !important;\n'+
-	'		min-width: 66% !important;\n'+
-	'		margin: 0;\n'+
-	'		-webkit-box-sizing: border-box;\n'+
-	'		-moz-box-sizing: border-box;\n'+
-	'		-ms-box-sizing: border-box;\n'+
-	'		box-sizing: border-box;\n'+
 	'	}\n'+
 	'}\n';
 	}
@@ -161,20 +182,55 @@ var retrofitTheme = function() {
 	'		-o-box-shadow: none !important;\n'+
 	'		box-shadow: none !important;\n'+
 	'	}\n'+
-	'   		#subcontent-wrapper { display: block !important; }\n'+
-	'  			'+my_sidebars+' #sidebar-left-of-comic,\n'+
-	' 			#content, #content-column, .layout-2cl #content-column, .layout-2cr #content-column,\n'+
-	'			'+twocols+'{\n'+
-	'				float: none;\n'+
-	'				width: auto !important;\n'+
-	'				max-width: 100% !important;\n'+
-	'				min-width: 0px !important;\n'+
-	'				min-height: 0px;\n'+
-	'				margin-left: 0;\n'+
-	'				margin-right: 0;\n'+
-	'				clear: both;\n'+
-	'				display: block !important;\n'+
-	'			}\n'+
+	'   #subcontent-wrapper { display: block !important; }\n'+
+	'\n'+
+	'  	'+my_sidebars+' #sidebar-left-of-comic, #content {\n'+
+	'		float: none !important;\n'+
+	'		width: auto !important;\n'+
+	'		max-width: 100% !important;\n'+
+	'		min-width: 0px !important;\n'+
+	'		min-height: 0px;\n'+
+	'		margin-left: 0;\n'+
+	'		margin-right: 0;\n'+
+	'		clear: both;\n'+
+	'		display: block !important;\n'+	
+	'   }\n'+
+	'   '+cols2+' {\n'+
+	'		float: none !important;\n'+
+	'		width: auto !important;\n'+
+	'		max-width: 100% !important;\n'+
+	'		min-width: 0px !important;\n'+
+	'		min-height: 0px;\n'+
+	'		margin-left: 0;\n'+
+	'		margin-right: 0;\n'+
+	'		clear: both;\n'+
+	'		display: block !important;\n'+
+	'	}\n'+
+	'   '+cols3+' {\n'+
+	'		float: none !important;\n'+
+	'		width: auto !important;\n'+
+	'		max-width: 100% !important;\n'+
+	'		min-width: 0px !important;\n'+
+	'		min-height: 0px;\n'+
+	'		margin-left: 0;\n'+
+	'		margin-right: 0;\n'+
+	'		clear: both;\n'+
+	'		display: block !important;\n'+
+	'	}\n'+
+	' 	#content-column, .layout-ncl #content-column, \n'+
+	'   .layout-2cl #content-column, .layout-2cr #content-column,\n'+
+	'   .layout-3c #content-column, .layout-3cl #content-column, .layout-3cr #content-column, \n'+
+	'   .layout-3clgn #content-column, .layout-3crgn #content-column {\n'+
+	'		float: none !important;\n'+
+	'		width: auto !important;\n'+
+	'		max-width: 100% !important;\n'+
+	'		min-width: 0px !important;\n'+
+	'		min-height: 0px;\n'+
+	'		margin-left: 0;\n'+
+	'		margin-right: 0;\n'+
+	'		clear: both;\n'+
+	'		display: block !important;\n'+
+	'	}\n'+
 	'	.comic-table {\n'+
 	'		display: block !important;\n'+
 	'	}\n'+
@@ -677,7 +733,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 				};
 				if ( $(this).attr("href") == "commentform") {
 					comment_button = true;
-					if (comments_open=="1" && is_home!="1" && is_archive!="1") {
+					if (comments_open=="1" && is_home!="1" && is_archive!="1" && $("#"+comment_custom+"").length ) {
 						if (altertheme_commentform != "") {
 							$(this).on("click", function(e) {
 								zappPanel(""+comment_custom+"",0);
@@ -695,7 +751,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 				if (woocommerce==true) {
 					if ($(this).attr("href") == "woo_review") {
 						woo_review_button = true;
-						if (comments_open=="1" && is_product=="1") {
+						if (comments_open=="1" && is_product=="1" && $("#tab-reviews").length ) {
 							if (alter_woo_theme_woo_reviews != "") {
 								$(this).on("click", function(e) {
 									zappPanel("tab-reviews",0);
@@ -712,7 +768,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 				};
 				if ($(this).attr("href") == "woo_desc") {
 					woo_desc_button = true;
-					if ( is_product=="1") {
+					if ( is_product=="1" && $("#tab-description").length ) {
 						if ( alter_woo_theme_woo_desc != "") {
 							$(this).on("click", function(e) {
 								zappPanel("tab-description",0);
@@ -729,7 +785,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 				};
 				if ($(this).attr("href") == "woo_addl") {
 					woo_addl_button = true;
-					if ( is_product=="1") {
+					if ( is_product=="1" && $("#tab-additional_information").length ) {
 						if ( alter_woo_theme_woo_addl != "" ) {
 							$(this).on("click", function(e) {
 								zappPanel("tab-additional_information",0);
@@ -746,6 +802,16 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 				};
 			};				
 		});
+		// Allow Reply-To links to also open the Comment Panel
+		if (comments_open=="1" && is_home!="1" && is_archive!="1" && $("#"+comment_custom+"").length ) {
+			if (altertheme_commentform != "") {
+				$('a.comment-reply-link').each( function() {
+					$(this).on("click", function(e) {
+						zappPanel(""+comment_custom+"",0);
+					});					
+				});
+			}
+		}
 		zbinit = true;
 	}; // end of init
 	

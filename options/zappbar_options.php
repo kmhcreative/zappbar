@@ -42,6 +42,7 @@ if ($sitelayout['fix_admin']=='yes') {
 }
 
 
+
 if ( !class_exists('ZB_Settings_API_Test' ) ):
 class ZB_Settings_API_Test {
 
@@ -205,14 +206,15 @@ class ZB_Settings_API_Test {
                array(
                     'name' => 'altertheme',
                     'label' => __( 'When ZappBars are Included', 'zbopts' ),
-                    'desc' => __( 'If header section is hidden and site navigation is inside it, site navigation will be automatically hidden as well.', 'zbopts' ),
+                    'desc' => __( 'If header section is hidden and site navigation is inside it, site navigation will be automatically hidden as well.<br/>If you hide blog navigation you should set ZappBar buttons for it.', 'zbopts' ),
                     'type' => 'multicheck',
-           			'default' => array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => ''),
+           			'default' => array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '', 'blognav' => ''),
                     'options' => array(
                         'header' => 'Hide Entire &lt;header&gt; Section',
                         'sitenav' => 'Hide regular site navigation',
                         'commentform' => 'Convert Comment Form to App Panel',
-                        'push' => 'Push #page element over when App Panel is open'
+                        'push' => 'Push #page element over when App Panel is open',
+                        'blognav' => 'Hide Blog Navigation links'
                     )
                 ),
                 array(
@@ -224,6 +226,13 @@ class ZB_Settings_API_Test {
                     'type' => 'media',
                     'button' => __('Choose Image'),
                     'default' => ''
+                ),
+                array(
+                    'name' => 'icon2favicon',
+                    'label' => __( '', 'zbopts' ),
+                    'desc' => __( 'Use App Icon as site Favicon (over-rides any set in Theme)' ),
+                    'default' => 'off',
+                    'type' => 'checkbox'
                 ),
                 array(
                     'name' => 'splash_screen',
@@ -382,7 +391,6 @@ class ZB_Settings_API_Test {
                     		'digg'		=>	'digg',
                     		'linkedin'	=>	'linkedin',
                     		'pinterest'	=>	'pinterest',
-                    		'delicious'	=>	'delicious',
                     		'rss'		=>	'rss',
                     		'email'		=>	'email'
                     	),
@@ -395,7 +403,6 @@ class ZB_Settings_API_Test {
 						'digg'		=> 	'Digg (digg)',
 						'linkedin'	=>	'LinkedIn (linkedin)',
 						'pinterest'	=>	'Pinterest (pinterest)',
-						'delicious'	=>	'Del.icio.us (delicious)',
 						'rss'		=>	'RSS Feed (rss)',
 						'email'		=>	'Share via E-Mail (email)'
                     )
@@ -420,7 +427,7 @@ class ZB_Settings_API_Test {
 						The social shortcode will work even if the ZappBars are set to "Display on: None" under the Site settings.  The names to enter 
 						in include/exclude lists are in parenthesis above in the Social Media Panel section.
                 		','zbotps')
-                ),              
+                )          
             ),
             'zappbar_colors' => array(
                 array(
@@ -798,7 +805,8 @@ class ZB_Settings_API_Test {
 						'default' => 'yes',
 						'options' => array(
 							'yes' => 'Use Archive top bar on archive pages',
-							'no' => 'Use Default top bar on archive pages'
+							'no' => 'Use Default top bar on archive pages',
+							'none' => 'NO top bar on archive pages'
 						)
 					),
 				array(
@@ -822,7 +830,8 @@ class ZB_Settings_API_Test {
 						'default' => 'yes',
 						'options' => array(
 							'yes' => 'Use Archive bottom bar on archive pages',
-							'no' => 'Use Default bottom bar on archive pages'
+							'no' => 'Use Default bottom bar on archive pages',
+							'none'=> 'NO bottom bar on archive pages'
 						)
 					),
 				array(
@@ -838,7 +847,58 @@ class ZB_Settings_API_Test {
 							array('dashicons|dashicons-arrow-right-alt2','Next', 'next_page'),
 							array('dashicons|dashicons-arrow-right-alt','Last','last_page')
 						)
-					) 
+					),
+					
+				array(
+						'name' => 'use_blog_top_bar',
+						'label' => __( 'Top Blog ZappBar', 'zbopts' ),
+						'type' => 'radio',
+						'default' => 'no',
+						'options' => array(
+							'yes' => 'Use Blog top bar on blog posts',
+							'no' => 'Use Default top bar on blog posts',
+							'none' => 'NO top bar on blog posts'
+						)
+					),
+				array(
+						'name' => 'blog_top_bar',
+						'label' => __( 'Blog Top ZappBar', 'zbopts'),
+						'desc' => __( 'Used on blog posts of any kind.','zbopts'),
+						'type' => 'appbar',
+						'class' => 'top',
+						'default' => array(
+							array('dashicons|dashicons-menu','Menu','appmenu_left'),
+							array('dashicons|dashicons-blank','',''),
+							array('dashicons|dashicons-admin-home','Home',get_home_url()),
+							array('dashicons|dashicons-blank','', ''),
+							array('dashicons|dashicons-wordpress','Blog','blog_posts')
+						)
+					),
+				array(
+						'name' => 'use_blog_bottom_bar',
+						'label' => __( 'Bottom Blog ZappBar', 'zbopts' ),
+						'type' => 'radio',
+						'default' => 'no',
+						'options' => array(
+							'yes' => 'Use Blog bottom bar on blog posts',
+							'no' => 'Use Default bottom bar on blog posts',
+							'none'=> 'NO bottom bar on blog posts'
+						)
+					),
+				array(
+						'name' => 'blog_bottom_bar',
+						'label' => __( 'Blog Bottom ZappBar', 'zbopts'),
+						'desc' => __( 'Used on plog posts of any kind.','zbopts'),
+						'type' => 'appbar',
+						'class' => 'bottom',
+						'default' => array(
+							array('dashicons|dashicons-arrow-left-alt2','Previous','previous_post'),
+							array('dashicons|dashicons-blank','',''),
+							array('dashicons|dashicons-admin-comments','Comment','commentform'),
+							array('dashicons|dashicons-blank','', ''),
+							array('dashicons|dashicons-arrow-right-alt2','Next','next_post')
+						)
+					)
             )
 
         );
@@ -867,7 +927,8 @@ class ZB_Settings_API_Test {
                     'default' => 'yes',
                     'options' => array(
                         'yes' => 'Use Comic top bar on comics pages',
-                        'no' => 'Use Default top bar on comics pages'
+                        'no' => 'Use Default top bar on comics pages',
+                        'none'=> 'NO top bar on comics pages'
                     )
                 );
         	$settings_fields['zappbar_layout'][] = array(
@@ -891,7 +952,8 @@ class ZB_Settings_API_Test {
                     'default' => 'yes',
                     'options' => array(
                         'yes' => 'Use Comic bottom bar on comics pages',
-                        'no' => 'Use Default bottom bar on comics pages'
+                        'no' => 'Use Default bottom bar on comics pages',
+                        'none'=> 'NO bottom bar on comics pages'
                     )
                 );
         	$settings_fields['zappbar_layout'][] = array(
@@ -926,7 +988,8 @@ class ZB_Settings_API_Test {
                     'default' => 'yes',
                     'options' => array(
                         'yes' => 'Use WooCommerce top bar on store pages',
-                        'no' => 'Use Default top bar on store pages'
+                        'no' => 'Use Default top bar on store pages',
+                        'none'=> 'NO top bar on store pages'
                     )
                 );
         	$settings_fields['zappbar_layout'][] = array(
@@ -950,7 +1013,8 @@ class ZB_Settings_API_Test {
                     'default' => 'yes',
                     'options' => array(
                         'yes' => 'Use WooCommerce bottom bar on store pages',
-                        'no' => 'Use Default bottom bar on store pages'
+                        'no' => 'Use Default bottom bar on store pages',
+                        'none'=> 'NO bottom bar on store pages'
                     )
                 );
         	$settings_fields['zappbar_layout'][] = array(
@@ -972,7 +1036,7 @@ class ZB_Settings_API_Test {
                     'label' => __( 'WooCommerce Site', 'zbopts' ),
                     'desc' => __( 'Select which WooCommerce features to alter.', 'zbopts' ),
                     'type' => 'multicheck',
-                    'default' => array('woo_reviews' => 'woo_reviews', 'woo_desc' => 'woo_desc', 'woo_addl' => 'woo_addl'),
+                    'default' => array('woo_reviews' => '', 'woo_desc' => '', 'woo_addl' => ''),
                     'options' => array(
                         'woo_reviews' => 'Convert Woo Reviews to App Panel',
                         'woo_desc' => 'Convert Woo Product Description to App Panel',
@@ -985,9 +1049,17 @@ class ZB_Settings_API_Test {
     }
 
     function plugin_page() {
-        echo '<div class="wrap">';
-        $this->settings_api->show_navigation();
-        $this->settings_api->show_forms();
+    ?>
+        <div class="wrap zb_settings_page">
+        <?php $this->settings_api->show_navigation(); ?>
+        <?php $this->settings_api->show_forms(); ?>
+        <form id="zb_reset" method="post" action="">
+        <?php wp_nonce_field('zb_reset','zb_reset_nonce'); ?>
+        <input type="hidden" name="reset" value="1" />
+        <input type="button" type="submit" name="resetbutton" class="reset button secondary-button" value="Reset to defaults" style="float:right;" />
+        <div style="clear:both;"></div>
+        </form>        
+        <?php
         echo '</div>';
         echo '<style type="text/css">';
         $colors = get_option('zappbar_colors');
@@ -1045,22 +1117,29 @@ class ZB_Settings_API_Test {
         }
         echo '</style>';
         echo '<script type="text/javascript">' ?>
-        	jQuery(document).ready(function(){	
-				jQuery('[name="zappbar_layout\\[button_layout\\]"]').on('change',function(e) {
-					jQuery('.zappbar').each( function() {
-						var c = jQuery(this).attr('class');
+        	jQuery(document).ready(function($){	
+				$('[name="zappbar_layout\\[button_layout\\]"]').on('change',function(e) {
+					$('.zappbar').each( function() {
+						var c = $(this).attr('class');
 						c = c.split(' ');
-						var newclass = jQuery('[name="zappbar_layout\\[button_layout\\]"]:checked').val();
-						jQuery(this).removeClass().addClass('zappbar zb-'+newclass+' '+c[2]+'');
+						var newclass = $('[name="zappbar_layout\\[button_layout\\]"]:checked').val();
+						$(this).removeClass().addClass('zappbar zb-'+newclass+' '+c[2]+'');
 					});
 				});
 				var zb_theme_width = "<?php echo get_theme_mod('comicpress-customize-range-site-width') ? intval( get_theme_mod('comicpress-customize-range-site-width')) : ''; ?>";
 				if (zb_theme_width != '') {
-					jQuery('[name="zappbar_site\\[auto_width\\]"]').parent().parent().css({ opacity : 0.5 });
-					jQuery('[name="zappbar_site\\[auto_width\\]"]').checked = true;
-					jQuery('[name="zappbar_site\\[theme_width\\]"]').parent().parent().css({ opacity : 0.5 });				
-					jQuery('[name="zappbar_site\\[theme_width\\]"]').val(zb_theme_width);
+					$('[name="zappbar_site\\[auto_width\\]"]').parent().parent().css({ opacity : 0.5 });
+					$('[name="zappbar_site\\[auto_width\\]"]').checked = true;
+					$('[name="zappbar_site\\[theme_width\\]"]').parent().parent().css({ opacity : 0.5 });				
+					$('[name="zappbar_site\\[theme_width\\]"]').val(zb_theme_width);
 				}
+				
+				$( '#zb_reset input.reset' ).on( 'click', function() {
+					if ( confirm( "ARE YOU SURE? Resetting ALL Zappbar settings to defaults CANNOT BE UNDONE!" ) ) {
+						$('#zb_reset').submit();
+					}
+				} );
+				
         	});
 <?php  echo '</script>';
     }

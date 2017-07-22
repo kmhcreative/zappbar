@@ -2,17 +2,16 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.1
+**Version:** 0.2.2
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
-**Compatible up to:** 4.3
+**Compatible up to:** 4.8
 
 **Alpha Version Disclaimer**
 
 This plugin is still being tested is incomplete!  Do not use it in production unless you can live without the things it is missing and are willing to accept the possibility that it could screw up your website.  Things left on To-Do list:
 
-* option to clear/reset settings
 * auto-update from repository
 * make it more awesome!
 
@@ -128,7 +127,6 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 * Digg
 * LinkedIn
 * Pinterest
-* Del.icio.us
 * RSS Feed
 * Share via E-Mail
 
@@ -183,19 +181,23 @@ This tab section shows you editable previews of what the ZappBars will look like
 
 **Default Top/Bottom ZappBar:** Shows a preview of the default top bar.  Click on a button to change the icon and text.  Click on the “Show Button Actions” below it to “wire” a button to an action in the drop-down lists.
 
-**Top/Bottom Archive ZappBar:** Determines whether the Default top/bottom bar is used on Archive pages or the custom “Archive Top/Bottom ZappBar” will be used instead.
+**Top/Bottom Archive ZappBar:** Determines whether the Default, Custom Archive, or NO top/bottom bar is used on Archive pages.
 
 **Archive Top/Bottom ZappBar:** these bars will ONLY appear on an Archive page on your blog, and only if you enabled them under *Top Archive ZappBar* and/or *Bottom Archive ZappBar*
 
+**Top/Bottom Blog ZappBar:** Determines whether the Default, Custom Blog, or NO top/bottom bar is used on single blog post pages.
+
+**Blog Top/Bottom ZappBar:** these bars will ONLY appear on a single blog post, and only if you enabled them under *Top Blog ZappBar* and/or *Bottom Blog ZappBar*
+
 If you are using the ComicPress theme, Comic Easel plugin, or Webcomic plugin more bar options are displayed for the custom comic post pages:
 
-**Top/Bottom Comic ZappBar:** Choose whether to use the custom “comic” bars on comics pages or the Default ones.
+**Top/Bottom Comic ZappBar:** Choose whether to use the custom “comic” bars on comics pages, the Default ones, or no top/bottom bar.
 
 **Comic Top/Bottom ZappBar:** optional bars you can have displayed only on comic post pages (if you are using one of the aforementioned comic themes/plugins).
 
 If you are using the WooCommerce plugin you will also see options for custom e-commerce ZappBars:
 
-**Top/Bottom WooCommerce ZappBar:** set whether to use custom or default bars on WooCommerce store-related pages.
+**Top/Bottom WooCommerce ZappBar:** set whether to use custom, default, or no top/bottom bars on WooCommerce store-related pages.
 
 **WooCommerce Top/Bottom Bar:** optional bars and buttons you can link to WooCommerce functions.
 
@@ -205,7 +207,41 @@ If you are using the WooCommerce plugin you will also see options for custom e-c
 * Convert Woo Product Description to App Panel - moves the product description block into a slide-in panel.
 * Convert Woo Additional Product Info to App Panel - moves “Additional Info” block into a slide-in panel.
 
+## TIPS!
+
+* If you set it to show ZappBars on all screen sizes/devices you may need to select *Site Layout > Theme Layout > Retrofit to responsive* even if the theme is already responsive.
+* If you are using the WooCommerece plugin be aware the WooCart, WooAccount, etc., button actions ONLY work on WooCommerce-enabled pages.  
+With themes that do not have built-in support for WooCommerce you can only use those actions on the pages the WooCommerce plugin creates. 
+On other pages you can still have "Cart" and "Account" buttons, but the actions will have to link them to the actual PAGES and *not* the 
+"Woo" functions.  Consequently the Cart icon will only show the number of items and total on WooCommerce-enabled pages, elsewhere it will 
+simply be an icon with no dynamic elements.
+* The "All Blog Posts" option in the button actions will show an ascending list of all blog posts in all categories.  If what you want is to show blog posts in descending order (newest to oldest) create a page named "Blog" and point the button action to that page instead of "All Blog Posts."
+* The first three settings under "Site Layout" are very inter-related. If retro-fitting a theme you may have to try different combinations to find the right ones if the site, or parts of the site are not becoming responsive.  You may also need to enter custom target element IDs or classes if the theme uses custom ones.  ZappBar was designed for use with child themes based on the default WordPress, ComicPress, Inkblot, Webcomic, or WooCommerce themes.  So if you're using a child theme of some *other* base theme, you will likely need to customize the target settings to get retrofitting to work.
+* Depending on what other plugins you have activated that ZappBar interacts with, you may need to go to *Dashboard > Settings > Permalinks* after activating/deactivating ZappBar.  ZappBar doesn't create any custom post types or rewrite rules but it does utilize those created by WooCommerce and any of the comic plugins.
+
+## Notes
+
+* Zappbar buttons are not functional when shown in Theme "Customize" interface.
+
 ## Changelog
+
+Version 0.2.2
+* Fixed error where ComicPress sidebars would be displayed on iPad in portrait even when set to be hidden.
+* Fixed error where ComicPress comic post was using comic bottom bar when set to use default one.
+* Fixed minor sidebar display errors when "Retrofit" is applied to a ComicPress theme.
+* Fixed issue where Comment box converted to Zappbar Panel was not kicking in for iPad in landscape.
+* Removed Delicious from Social Media options
+* Added option to Reset all settings to defaults
+* Added option to hide Blog Navigation links
+* Added options to selectively NOT display top/bottom Zappbar(s)
+* Added options for custom top/bottom ZappBars on single Blog Post
+* Added disabled button styling to blog, comic, and archive pages where you are already on the first or last page/post/chapter.
+* Zappbar now checks Woocommerce product pages for the existence of elements converted to panels and disables buttons wired to them in the event they do not exist.
+* Fixed error in Site Layout that always showed Woocommerce tab-to-panel conversion enabled, even when it wasn't.
+* If comment form is converted to panel, Reply-to links can now also open/close it.
+* Added setting to make using App Icon as site Favicon optional (ZappBar gets added to head tag late, so it over-rides any favicon set by theme, but not everyone wants this).
+* Fixed problem with some settings going back to default on re-activation.
+* Combined WP version compatibility check with other activation hook functions
 
 Version 0.2.1
 * Fixed problem on search results pages where nothing is found where social media share panel tried to build but can't because $post doesn't exist.

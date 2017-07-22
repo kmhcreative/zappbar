@@ -3,7 +3,7 @@
 Plugin Name: ZappBar
 Plugin URI:  https://github.com/kmhcreative/zappbar
 Description: Adds mobile-friendly web app navigation and toolbars to any WordPress theme.
-Version: 	 0.2
+Version: 	 0.2.2
 Author: 	 K.M. Hansen
 Author URI:  http://www.kmhcreative.com
 License: 	 GPLv3
@@ -11,9 +11,9 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 GitHub Plugin URI: https://github.com/kmhcreative/zappbar
 GitHub Branch: master
 
-Copyright 2012-2015  K.M. Hansen  (email : software@kmhcreative.com)
+Copyright 2012-2017  K.M. Hansen  (email : software@kmhcreative.com)
 
-==== Alpha Version Disclaimer =====
+==== Beta Version Disclaimer =====
 
 This plugin is still being tested is incomplete!  
 Do not use it in production unless you can live 
@@ -21,8 +21,6 @@ without the things it is missing and are willing
 to accept the possibility that it could screw up 
 your website.  Things left on To-Do list:
 
-* option to clear/reset settings
-* database clean-up on uninstall
 * auto-update from repository
 * make it more awesome!
 
@@ -31,8 +29,13 @@ your website.  Things left on To-Do list:
 
 
 
-// Make sure they are using the minimum supported WP version first, if not then bail
-function zb_version_check() {
+
+/*
+	ACTIVATION SETTINGS
+*/
+
+function zb_activate($reset = false) {
+	// version check - if not using minimum WP version, bail!
 	$wp_version = get_bloginfo('version');
 	if ($wp_version < 3.5) {
 		global $pagenow;
@@ -41,14 +44,7 @@ function zb_version_check() {
 		}
 		return;
 	};
-}
-register_activation_hook( __FILE__, 'zb_version_check' );
-
-/*
-	DEFAULT SETTINGS
-*/
-
-function zb_add_defaults($reset = false) {
+	// still here? Then lets set defaults!
 	if ( $reset===true ) {
 		delete_option('zappbar_site');
 		delete_option('zappbar_colors');
@@ -56,7 +52,7 @@ function zb_add_defaults($reset = false) {
 		delete_option('zappbar_layout');
 	}
 	$zb_site = get_option('zappbar_site');
-	if (empty($zb_site)) {
+	if (empty($zb_site) || $reset == 'zappbar_site' ) {
 		$zb_site = array(
 			'responsive'	=>	'0',
 			'auto_width'	=>	'off',
@@ -70,8 +66,10 @@ function zb_add_defaults($reset = false) {
 								'header'	 =>	'header',
 								'sitenav'	 =>	'sitenav',
 								'commentform'=>	'commentform',
-								'push'		 => 'push'),
+								'push'		 => 'push',
+								'blognav'    => 'blognav'),
 			'app_icon'		 => '',
+			'icon2favicon'   => '',
 			'splash_screen'	 => '',
 			'splash_size'	 => 'contain',
 			'header_custom'	 =>	'',
@@ -87,7 +85,7 @@ function zb_add_defaults($reset = false) {
 		update_option('zappbar_site'	,	$zb_site);
 	}
 	$zb_social = get_option('zappbar_social');
-	if (empty($zb_social)) {
+	if (empty($zb_social) || $reset == 'zappbar_social' ) {
 		$zb_social = array(
 			'fb_default_img'	=>	'',
 			'twitter_id'		=>	'',
@@ -102,7 +100,6 @@ function zb_add_defaults($reset = false) {
 				'digg'		=>	'digg',
 				'linkedin'	=>	'linkedin',
 				'pinterest'	=>	'pinterest',
-				'delicious'	=>	'delicious',
 				'rss'		=>	'rss',
 				'email'		=>	'email'
 			)
@@ -110,7 +107,7 @@ function zb_add_defaults($reset = false) {
 		update_option('zappbar_social' , $zb_social);
 	}
 	$zb_colors = get_option('zappbar_colors');
-	if (empty($zb_colors)) {
+	if (empty($zb_colors) || $reset == 'zappbar_colors' ) {
 		$zb_colors = array(
 			'color_src'			=> 	'basic',
 			'custom_styles'		=>	'',
@@ -129,7 +126,7 @@ function zb_add_defaults($reset = false) {
 		update_option('zappbar_colors'	,	$zb_colors);
 	};
 	$zb_panels = get_option('zappbar_panels');
-	if (empty($zb_panels)) {
+	if (empty($zb_panels) || $reset == 'zappbar_panels' ) {
 		$zb_panels = array(
 			'panel_menu'	=>	'0',
 			'panel_tabs'	=>	'yes',
@@ -149,7 +146,7 @@ function zb_add_defaults($reset = false) {
 		update_option('zappbar_panels'	,	$zb_panels);
 	}
 	$zb_layout = get_option('zappbar_layout');
-	if (empty($zb_layout)) {
+	if (empty($zb_layout) || $reset == 'zappbar_layout' ) {
 		$zb_layout = array(
 			'button_layout'		=>	'spread',
 			'search_button'		=>	'on',
@@ -220,7 +217,7 @@ function zb_add_defaults($reset = false) {
 		update_option('zappbar_layout'	,	$zb_layout);
 	};
 };
-register_activation_hook(__FILE__, 'zb_add_defaults');
+register_activation_hook(__FILE__, 'zb_activate');
 
 
 // Plugin Info Function
@@ -235,7 +232,7 @@ function zappbar_pluginfo($whichinfo = null) {
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
 				'plugin_basename' => plugin_basename(__FILE__),
-				'version' => '0.2'
+				'version' => '0.2.2'
 		);
 		// Combine em.
 		$zappbar_pluginfo = array_merge($zappbar_pluginfo, $zappbar_addinfo);

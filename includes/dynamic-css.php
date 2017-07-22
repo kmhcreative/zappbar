@@ -280,8 +280,9 @@ if (isset($zb_site['altertheme'])) {
 	if (!isset($zb_site_alter['sitenav'])){ $zb_site_alter['sitenav']= ''; };
 	if (!isset($zb_site_alter['commentform'])){$zb_site_alter['commentform']='';};
 	if (!isset($zb_site_alter['push'])){$zb_site_alter['push']='';};
+	if (!isset($zb_site_alter['blognav'])){$zb_site_alter['blognav']='';};
 } else {
-	$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '');
+	$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '', 'blognav' => '');
 }
 if ($zb_site['header_custom'] != '') { 	$custom_header = ', '.$zb_site['header_custom'];}
 if ($zb_site['nav_custom'] != '') { 	$custom_nav = ', '.$zb_site['nav_custom'];}
@@ -319,6 +320,15 @@ if ($zb_site['nav_custom'] != '') { 	$custom_nav = ', '.$zb_site['nav_custom'];}
     	}
     } else {
     	$hide_nav = '';
+    }
+    if ($zb_site_alter['blognav'] != '') {
+    	$blog_nav = '
+    		.blognav {
+    			display: none !important;
+    		}
+    	';
+    } else {
+    	$blog_nav = '';
     }
 if ($zb_site['page_custom'] != '') {
 	$custom_page[0] = '
@@ -712,6 +722,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_page[0].'
     		'.$hide_header.'
     		'.$hide_nav.'
+    		'.$blog_nav.'
     		'.$always_hide.'
     		.zappbar { 
     			display: block; 
@@ -750,6 +761,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_page[0].'
     		'.$hide_header.'
     		'.$hide_nav.'
+    		'.$blog_nav.'
     		'.$always_hide.'
     		.zappbar { 
     			display: block; 
@@ -760,6 +772,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_page[0].'
     		'.$hide_header.'
     		'.$hide_nav.'
+    		'.$blog_nav.'
     		'.$always_hide.'
     		.zappbar { 
     			display: block; 
@@ -793,7 +806,7 @@ if (class_exists( 'woocommerce' ) ) {
     	.zappbar, .zb-panel, .sbtab { 
     		display: none;
     	}
-    	@media screen and (min-width: '.$screen1.'px) {
+    	@media screen and (min-width: '.($screen1+1).'px) {
     		/* desktops/tablets/idevices/tablets_hd */
  			#page.push, #page-wide.push { left: 0px; }
  			'.$custom_page[1].'
@@ -834,6 +847,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_page[0].'
     		'.$hide_header.'
     		'.$hide_nav.'
+    		'.$blog_nav.'
     		'.$always_hide.'
     		.zappbar { 
     			display: block; 
@@ -873,11 +887,13 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_page[0].'
     		'.$hide_header.'
     		'.$hide_nav.'
+    		'.$blog_nav.'
     		'.$always_hide.'
     		.zappbar { 
     			display: block; 
     		}
     		'.$commentform.'
+    		'.$sidebars.'
     		'.$panel_tabs.'
     		'.$custom_colors.'
     		'.$comic_nav.'
@@ -888,6 +904,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_page[1].'
     		'.$hide_header.'
     		'.$hide_nav.'
+    		'.$blog_nav.'
     		'.$always_hide.'
     		.zappbar { 
     			display: block; 
@@ -915,7 +932,7 @@ if (class_exists( 'woocommerce' ) ) {
     	.zappbar, .zb-panel, .sbtab { 
     		display: none;
     	}
-    	@media screen and (min-width: '.$screen3.'px) {
+    	@media screen and (min-width: '.($screen3+1).'px) {
     		/* phones */
  			#page.push, #page-wide.push { left: 0px; }
  			'.$custom_page[1].'
@@ -955,6 +972,7 @@ if (class_exists( 'woocommerce' ) ) {
     		'.$custom_page[1].'
     		'.$hide_header.'
     		'.$hide_nav.'
+    		'.$blog_nav.'
     		'.$always_hide.'
     		.zappbar { 
     			display: block; 

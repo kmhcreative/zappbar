@@ -8,6 +8,7 @@
  *
  * Heavily modified and expanded by K.M. Hansen (software@kmhcreative.com)
  */
+
 if ( !class_exists( 'WeDevs_Settings_API' ) ):
 class ZB_Settings_API {
 
@@ -292,6 +293,8 @@ class ZB_Settings_API {
  				'?feed=rss' => 'RSS Feed',
  				'mailto:'.get_bloginfo('admin_email') => 'E-mail Admin',
  				'custom_email' => 'E-mail Contact',
+ 				'previous_post' => 'Previous Blog Post',
+ 				'next_post' => 'Next Blog Post',
  				'first_page' => 'First Page of Archive',
  				'prev_page' => 'Previous Page in Archive',
  				'next_page' => 'Next Page in Archive',
@@ -749,7 +752,7 @@ class ZB_Settings_API {
 
         echo $html;
     }
-
+    
     /**
      * Sanitize callback for Settings API
      */
@@ -835,19 +838,21 @@ class ZB_Settings_API {
      *
      * This function displays every sections in a different form
      */
-    function show_forms() {
-        ?>
+     
+
+
+     
+    function show_forms() { ?>
         <div class="metabox-holder">
             <div class="postbox">
-                <?php foreach ( $this->settings_sections as $form ) { ?>
+                <?php foreach ( $this->settings_sections as $form ) { 
+                ?>
                     <div id="<?php echo $form['id']; ?>" class="group">
                         <form method="post" action="options.php">
-
                             <?php do_action( 'wsa_form_top_' . $form['id'], $form ); ?>
                             <?php settings_fields( $form['id'] ); ?>
                             <?php do_settings_sections( $form['id'] ); ?>
                             <?php do_action( 'wsa_form_bottom_' . $form['id'], $form ); ?>
-
                             <div style="padding-left: 10px">
                                 <?php submit_button(); ?>
                             </div>
@@ -859,6 +864,9 @@ class ZB_Settings_API {
         <?php
         $this->script();
     }
+
+
+
 
     /**
      * Tabbable JavaScript codes & Initiate Color Picker
