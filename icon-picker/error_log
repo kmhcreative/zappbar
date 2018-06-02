@@ -1,2 +1,0 @@
-[26-Apr-2014 22:10:06] PHP Fatal error:  Call to undefined function  add_action() in /home4/ryu1maru/public_html/sa-bomjimcomic/wp-content/plugins/zappbar/icon-picker/icon-picker-example-plugin.php on line 14
-[27-Oct-2015 09:01:51 America/Chicago] PHP Fatal error:  Call to undefined function add_action() in /home4/ryu1maru/public_html/sa-bomjimcomic/wp-content/plugins/zappbar/icon-picker/icon-picker-example-plugin.php on line 14

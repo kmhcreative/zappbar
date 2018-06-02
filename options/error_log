@@ -1,2 +1,0 @@
-[29-Apr-2014 23:47:32] PHP Fatal error:  Call to undefined function  get_option() in /home4/ryu1maru/public_html/sa-bomjimcomic/wp-content/plugins/zappbar/options/zappbar_options.php on line 36
-[30-Apr-2014 07:50:39] PHP Fatal error:  Call to undefined function  get_option() in /home4/ryu1maru/public_html/sa-bomjimcomic/wp-content/plugins/zappbar/options/zappbar_options.php on line 36

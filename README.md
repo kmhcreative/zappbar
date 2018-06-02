@@ -2,11 +2,11 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.2
+**Version:** 0.2.3
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
-**Compatible up to:** 4.8
+**Compatible up to:** 4.9.6
 
 **Alpha Version Disclaimer**
 
@@ -123,8 +123,6 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 * Twitter
 * Google Plus
 * Reddit
-* StumbleUpon
-* Digg
 * LinkedIn
 * Pinterest
 * RSS Feed
@@ -224,6 +222,12 @@ simply be an icon with no dynamic elements.
 * Zappbar buttons are not functional when shown in Theme "Customize" interface.
 
 ## Changelog
+
+Version 0.2.3
+* Removed Digg from Social Media options
+* Removed StumbleUpon from Social Media options
+* Fixed issue where inactive ZappBar buttons caused 404 Not Found errors for bots indexing site.  The button href placeholders were mistaken for links to non-existent pages.  They are now masked as in-page anchor links.
+* Updated zappbar.js to find and activate buttons via the fake anchor links. 
 
 Version 0.2.2
 * Fixed error where ComicPress sidebars would be displayed on iPad in portrait even when set to be hidden.

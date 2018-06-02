@@ -29,25 +29,13 @@ a.zb-share {
 	a.zb-share.linkedin {
 		background-color:#0e76a8;
 	}
-	/*StumbleUpon*/
-	a.zb-share.stumbleupon {
-		background-color:#EF4916;
-	}
 	/*Reddit*/
 	a.zb-share.reddit {
 		background-color:#CEE3F8;
 	}
-	/*Digg*/
-	a.zb-share.digg {
-		background-color:#1B5790;
-	}
 	/*Pinterest*/
 	a.zb-share.pinterest {
 		background-color:#C92228;
-	}
-	/*Delicious*/
-	a.zb-share.delicious {
-		background-color:#0b79e5;
 	}
 	/*RSS*/
 	a.zb-share.rss-feed {
@@ -83,25 +71,13 @@ a.zb-share {
 	.zb-sharethis.small a.zb-share.linkedin {
 		background-image: url('../includes/images/social_icons/icons_small/linkedin.png');
 	}
-	/*StumbleUpon*/
-	.zb-sharethis.small a.zb-share.stumbleupon {
-		background-image: url('../includes/images/social_icons/icons_small/stumbleupon.png');
-	}
 	/*Reddit*/
 	.zb-sharethis.small a.zb-share.reddit {
 		background-image: url('../includes/images/social_icons/icons_small/reddit.png');
 	}
-	/*Digg*/
-	.zb-sharethis.small a.zb-share.digg {
-		background-image: url('../includes/images/social_icons/icons_small/digg.png');
-	}
 	/*Pinterest*/
 	.zb-sharethis.small a.zb-share.pinterest {
 		background-image: url('../includes/images/social_icons/icons_small/pinterest.png');
-	}
-	/*Delicious*/
-	.zb-sharethis.small a.zb-share.delicious {
-		background-image: url('../includes/images/social_icons/icons_small/delicious.png');
 	}
 	/*RSS*/
 	.zb-sharethis.small a.zb-share.rss-feed {
@@ -136,25 +112,13 @@ a.zb-share {
 	.zb-sharethis.medium a.zb-share.linkedin {
 		background-image: url('../includes/images/social_icons/icons_medium/linkedin.png');
 	}
-	/*StumbleUpon*/
-	.zb-sharethis.medium a.zb-share.stumbleupon {
-		background-image: url('../includes/images/social_icons/icons_medium/stumbleupon.png');
-	}
 	/*Reddit*/
 	.zb-sharethis.medium a.zb-share.reddit {
 		background-image: url('../includes/images/social_icons/icons_medium/reddit.png');
 	}
-	/*Digg*/
-	.zb-sharethis.medium a.zb-share.digg {
-		background-image: url('../includes/images/social_icons/icons_medium/digg.png');
-	}
 	/*Pinterest*/
 	.zb-sharethis.medium a.zb-share.pinterest {
 		background-image: url('../includes/images/social_icons/icons_medium/pinterest.png');
-	}
-	/*Delicious*/
-	.zb-sharethis.medium a.zb-share.delicious {
-		background-image: url('../includes/images/social_icons/icons_medium/delicious.png');
 	}
 	/*RSS*/
 	.zb-sharethis.medium a.zb-share.rss-feed {
@@ -188,25 +152,13 @@ a.zb-share {
 	.zb-sharethis.large a.zb-share.linkedin {
 		background-image: url('../includes/images/social_icons/icons_large/linkedin.png');
 	}
-	/*StumbleUpon*/
-	.zb-sharethis.large a.zb-share.stumbleupon {
-		background-image: url('../includes/images/social_icons/icons_large/stumbleupon.png');
-	}
 	/*Reddit*/
 	.zb-sharethis.large a.zb-share.reddit {
 		background-image: url('../includes/images/social_icons/icons_large/reddit.png');
 	}
-	/*Digg*/
-	.zb-sharethis.large a.zb-share.digg {
-		background-image: url('../includes/images/social_icons/icons_large/digg.png');
-	}
 	/*Pinterest*/
 	.zb-sharethis.large a.zb-share.pinterest {
 		background-image: url('../includes/images/social_icons/icons_large/pinterest.png');
-	}
-	/*Delicious*/
-	.zb-sharethis.large a.zb-share.delicious {
-		background-image: url('../includes/images/social_icons/icons_large/delicious.png');
 	}
 	/*RSS*/
 	.zb-sharethis.large a.zb-share.rss-feed {
@@ -239,25 +191,13 @@ a.zb-share {
 	.zb-sharethis.label a.zb-share.linkedin {
 		background-image: url('../includes/images/social_icons/icons_small/linkedin.png');
 	}
-	/*StumbleUpon*/
-	.zb-sharethis.label a.zb-share.stumbleupon {
-		background-image: url('../includes/images/social_icons/icons_small/stumbleupon.png');
-	}
 	/*Reddit*/
 	.zb-sharethis.label a.zb-share.reddit {
 		background-image: url('../includes/images/social_icons/icons_small/reddit.png');
 	}
-	/*Digg*/
-	.zb-sharethis.label a.zb-share.digg {
-		background-image: url('../includes/images/social_icons/icons_small/digg.png');
-	}
 	/*Pinterest*/
 	.zb-sharethis.label a.zb-share.pinterest {
 		background-image: url('../includes/images/social_icons/icons_small/pinterest.png');
-	}
-	/*Delicious*/
-	.zb-sharethis.label a.zb-share.delicious {
-		background-image: url('../includes/images/social_icons/icons_small/delicious.png');
 	}
 	/*RSS*/
 	.zb-sharethis.label a.zb-share.rss-feed {

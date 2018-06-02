@@ -310,13 +310,7 @@ function zappbar_inject() {
 				$xtra = ' zb-social';			
 			} else if ($val[2] == 'share_reddit') {
 				$val[2] = 'http://www.reddit.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'';
-				$xtra = ' zb-social';			
-			} else if ($val[2] == 'share_stumble') {
-				$val[2] = 'http://www.stumbleupon.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'';
-				$xtra = ' zb-social';						
-			} else if ($val[2] == 'share_digg') {
-				$val[2] = 'http://digg.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'';
-				$xtra = ' zb-social';			
+				$xtra = ' zb-social';											
 			} else if ($val[2] == 'share_linkedin') {
 				$val[2] = 'http://www.linkedin.com/shareArticle?mini=true&amp;title='.urlencode(get_the_title($post->ID)).'&amp;url='.urlencode(wp_get_shortlink($post->ID)).'';
 				$xtra = ' zb-social';			
@@ -325,7 +319,19 @@ function zappbar_inject() {
 				$xtra = ' zb-social';			
 			} else {};
 			$icon = explode('|',$val[0]);
-			$html .= '<a href="'.$val[2].'" class="button'.$xtra.'" target="_self"><div class="icon '.$icon[0].' '.$icon[1].'"></div><br/><span class="zb-label">'.$val[1].'</span></a>';
+			// check if it is a JS action button rather than a URL
+			if (in_array( $val[2], array('appmenu_left','appmenu_right','share_this','search_box',
+										 'search_left','search_right','woo_search','woo_search_left',
+										 'woo_search_right','callme','sidebar_left','sidebar_right',
+										 'first_page','prev_page','next_page','last_page','commentform',
+										 'woo_review','woo_desc','woo_addl'
+										)
+				) 
+			) {
+				// make it look like an anchor link for stupid bots that do not obey nofollow
+				$val[2] = '#'.$val[2]; 
+			}
+			$html .= '<a href="'.$val[2].'" class="button'.$xtra.'" target="_self" rel="nofollow"><div class="icon '.$icon[0].' '.$icon[1].'"></div><br/><span class="zb-label">'.$val[1].'</span></a>';
 
 			$html .= '</div>';
 			$x++;
@@ -436,12 +442,6 @@ function zappbar_inject() {
 			<?php	};
 				if ( $zb_social_panel['reddit'] != '') { ?>
 			<a href="http://www.reddit.com/submit?url=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;title=<?php echo urlencode(get_the_title($post->ID)); ?>" title="Share on Reddit" rel="nofollow" target="_blank" class="zb-social reddit">Reddit</a>
-			<?php	};
-				if ( $zb_social_panel['stumble'] != '') { ?>
-			<a href="http://www.stumbleupon.com/submit?url=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;title=<?php echo urlencode(get_the_title($post->ID)); ?>" title="Stumble It" rel="nofollow" target="_blank" class="zb-social stumbleupon">Stumble It</a>
-			<?php 	};
-				if ( $zb_social_panel['digg'] != '') { ?>
-			<a href="http://digg.com/submit?url=<?php urlencode(get_permalink($post->ID)); ?>&amp;title=<?php urlencode(get_the_title($post->ID)); ?>" title="Digg this!" rel="nofollow" target="_blank" class="zb-social digg">Digg this!</a>
 			<?php	};
 				if ( $zb_social_panel['linkedin'] != '') { ?>
 			<a href="http://www.linkedin.com/shareArticle?mini=true&amp;title=<?php echo urlencode(get_the_title($post->ID)); ?>&amp;url=<?php echo urlencode(wp_get_shortlink($post->ID)); ?>" title="Share on LinkedIn" rel="nofollow" target="_blank" class="zb-social linkedin">LinkedIn</a>

@@ -78,7 +78,7 @@ function zb_share_shortcode( $atts, $content = null ) {
 			$include = strtolower($include);
 			$include = explode(",",$include);
 		} else {
-			$include = array('facebook','twitter','googleplus','reddit','stumbleupon','digg','linkedin','pinterest','rss','email');	
+			$include = array('facebook','twitter','googleplus','reddit','linkedin','pinterest','rss','email');	
 		}
 		if ($exclude != null && $exclude != '') {
 			$exclude = strtolower($exclude);
@@ -98,12 +98,6 @@ function zb_share_shortcode( $atts, $content = null ) {
 	}
 	if ( in_array('reddit',$include) && !in_array('reddit',$exclude) ) {	
 	$social .=  '<a href="http://www.reddit.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'" title="Share on Reddit" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share reddit"><span>Reddit</span></a>';
-	}
-	if ( in_array('stumbleupon',$include) && !in_array('stumbleupon',$exclude) ) {	
-	$social .=  '<a href="http://www.stumbleupon.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'" title="Stumble It" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share stumbleupon"><span>Stumble It</span></a>';
-	}
-	if ( in_array('digg',$include) && !in_array('digg',$exclude) ) {	
-	$social .=  '<a href="http://digg.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'" title="Digg this!" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share digg"><span>Digg this!</span></a>';
 	}
 	if ( in_array('linkedin',$include) && !in_array('linkedin',$exclude) ) {
 	$social .=  '<a href="http://www.linkedin.com/shareArticle?mini=true&amp;title='.urlencode(get_the_title($post->ID)).'&amp;url='.urlencode(wp_get_shortlink($post->ID)).'" title="Share on LinkedIn" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share linkedin"><span>LinkedIn</span></a>';

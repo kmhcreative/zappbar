@@ -1,2 +1,0 @@
-[26-Apr-2014 21:39:07] PHP Fatal error:  Call to undefined function  add_action() in /home4/ryu1maru/public_html/sa-bomjimcomic/wp-content/plugins/zappbar/functions/admin_functions.php on line 6
-[26-Apr-2014 21:47:50] PHP Fatal error:  Call to undefined function  add_shortcode() in /home4/ryu1maru/public_html/sa-bomjimcomic/wp-content/plugins/zappbar/functions/utility_functions.php on line 120
