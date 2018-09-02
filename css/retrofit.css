@@ -1,0 +1,234 @@
+/*	RETROFIT THEME TO RESPONSIVE
+	
+	This file is used when you select the option to
+	"Make Theme Responsive even when ZappBars are not displayed"
+	and, in combination with any custom settings in a style block,
+	this will attempt to retrofit a non-responsive WP theme so that
+	it will react responsively based on browser window width.
+	
+	This stylesheet, the style block, and the jQuery script expect the
+	theme author to have used fairly standard IDs and classnames for
+	the various elements of the theme, and if not tries to use any
+	custom element names and classes outlined in ZappBar Site Layout.
+	
+	So no guarantees this will work with any given WP theme.
+*/
+	
+body {
+	padding: 0 0 50px 0;
+}
+#branding {
+	z-index: 1 !important;
+}
+	#page-wide #header, #page-wide #menubar-wrapper,
+	#page-wide #subcontent-wrapper, #page-wide #footer,
+	#page-wide #comic-header, #page-wide #comic-foot {
+		max-width: 100%;
+	}
+		#page-wide #header h1 {
+			max-width: 100%;
+			-webkit-background-size: contain;
+			-moz-background-size: contain;
+			-ms-background-size: contain;
+			background-size: contain;
+		}
+#page, #page-wide, #wrapper {
+	width: 100% !important;
+/*	max-width: 980px;	/* <-- or whatever the "normal" non-responsive width is */
+}
+	#menubar-wrapper, .menu-container, #comic-wrap, #subcontent-wrapper, #footer, #footer-sidebar-wrapper {
+		max-width: 100%;
+		height: auto;
+		margin-left: auto; margin-right: auto;
+		/* borders and padding included in width */
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		box-sizing: border-box;
+		/* box shadows introduce horizontal scrolling */
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		-ms-box-shadow: none !important;
+		-o-box-shadow: none !important;
+		box-shadow: none !important;
+	}
+	/* ComicPress 4.2.x "High Society" needs gradient bg for responsive menu */
+	body.scheme-high #menubar-wrapper {
+		position: relative;
+		top: -6px;
+		line-height: 37px;
+		background: rgb(250,236,127);
+		background: -moz-linear-gradient(top,  rgb(250,236,127) 0%, rgb(252,206,58) 3%, rgb(254,208,50) 6%, rgb(255,207,52) 8%, rgb(255,206,49) 11%, rgb(250,207,51) 14%, rgb(254,204,45) 17%, rgb(253,200,46) 25%, rgb(242,167,24) 75%, rgb(238,157,16) 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(250,236,127)), color-stop(3%,rgb(252,206,58)), color-stop(6%,rgb(254,208,50)), color-stop(8%,rgb(255,207,52)), color-stop(11%,rgb(255,206,49)), color-stop(14%,rgb(250,207,51)), color-stop(17%,rgb(254,204,45)), color-stop(25%,rgb(253,200,46)), color-stop(75%,rgb(242,167,24)), color-stop(100%,rgb(238,157,16)));
+		background: -webkit-linear-gradient(top,  rgb(250,236,127) 0%,rgb(252,206,58) 3%,rgb(254,208,50) 6%,rgb(255,207,52) 8%,rgb(255,206,49) 11%,rgb(250,207,51) 14%,rgb(254,204,45) 17%,rgb(253,200,46) 25%,rgb(242,167,24) 75%,rgb(238,157,16) 100%);
+		background: -o-linear-gradient(top,  rgb(250,236,127) 0%,rgb(252,206,58) 3%,rgb(254,208,50) 6%,rgb(255,207,52) 8%,rgb(255,206,49) 11%,rgb(250,207,51) 14%,rgb(254,204,45) 17%,rgb(253,200,46) 25%,rgb(242,167,24) 75%,rgb(238,157,16) 100%);
+		background: -ms-linear-gradient(top,  rgb(250,236,127) 0%,rgb(252,206,58) 3%,rgb(254,208,50) 6%,rgb(255,207,52) 8%,rgb(255,206,49) 11%,rgb(250,207,51) 14%,rgb(254,204,45) 17%,rgb(253,200,46) 25%,rgb(242,167,24) 75%,rgb(238,157,16) 100%);
+		background: linear-gradient(to bottom,  rgb(250,236,127) 0%,rgb(252,206,58) 3%,rgb(254,208,50) 6%,rgb(255,207,52) 8%,rgb(255,206,49) 11%,rgb(250,207,51) 14%,rgb(254,204,45) 17%,rgb(253,200,46) 25%,rgb(242,167,24) 75%,rgb(238,157,16) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#faec7f', endColorstr='#ee9d10',GradientType=0 );
+	}
+	.layout-3c .comic-table {
+		display: block;
+	}
+	.layout-3c #comic, .layout-3c2r #comic {
+		width: auto;
+		max-width: 100%;
+		display: block !important;
+		margin: 0 auto;	/* center it */
+	}
+	img {
+		max-width: 100%;
+	}
+	/* Un-clutter Comic Easel Archives */
+	.customsidebar { max-width: 100%; }
+	.archive div.comic.uentry h2.post-title,
+	.archive div.comic.uentry div.post-calendar-date,
+	.archive div.comic.uentry span.post-author,
+	.archive div.comic.uentry span.posted-on,
+	.archive div.comic.uentry div.comic-post-info,
+	.archive div.comic.uentry div.entry p {
+		display: none;
+	}
+	.archive article.comic.uentry h2.post-title,
+	.archive article.comic.uentry div.post-calendar-date,
+	.archive article.comic.uentry span.post-author,
+	.archive article.comic.uentry span.posted-on,
+	.archive article.comic.uentry span.posted-at,
+	.archive article.comic.uentry span.post-time,
+	.archive article.comic.uentry div.comic-post-info,
+	.archive article.comic.uentry div.entry p {
+		display: none;
+	}
+	.archive div.comic.uentry div.entry,
+	.archive article.comic.uentry div.entry {
+		padding: 0 10px;
+	}
+	.archive div.comic.uentry div.entry p.comic-thumbnail-in-archive,
+	.archive article.comic.uentry div.entry p.comic-thumbnail-in-archive {
+		display: block;
+	}
+	.archive div.comic.uentry div.post-info,
+	.archive div.comic.uentry div.post-extras div.comment-link,
+	.archive div.comic.uentry a.post-edit-link,
+	.archive article.comic.uentry div.post-info,
+	.archive article.comic.uentry div.post-extras div.comment-link,
+	.archive article.comic.uentry a.post-edit-link {
+		display: block;
+		text-align: center;
+	}
+			
+    	span.zb-label span.contents {
+			height:15px;
+			min-width:15px;
+			background: red;
+			color:white;
+			position:absolute;
+			top:-28px;
+			border-radius:100%;
+			line-height:15px;
+			font-size:8px;
+			text-shadow:none;
+			right: -3px;
+			text-align:center;
+			border:1px solid white;
+			}
+ 		
+    		#footer {
+    			display: block;
+    		}
+    		
+    		.zappbar { 
+    			display: none; 
+    		}
+    		
+    		div.sbtab { display: none; }
+	
+/* 4-up in comic archive */
+@media screen and (min-width: 1441px) {
+	.archive div.comic.uentry, .archive article.comic.uentry {
+		float: left;
+		width: 24%;
+	}
+}
+/* 4-up in comic archive */
+@media screen and (min-width: 1025px) and (max-width:1440px) {
+	.archive div.comic.uentry, .archive article.comic.uentry {
+		float: left;
+		width: 24%;
+	}
+		#footer {
+    			display: block;
+    		}
+    		
+    		.zappbar { 
+    			display: none; 
+    		}
+}
+/* 3-up in comic archive */
+@media screen and (min-width: 737px) and (max-width:1024px) {
+	.archive div.comicthumbwrap {
+		width: 33%;
+	}
+	.archive div.comic.uentry, .archive article.comic.uentry {
+		float: left;
+		width: 33%;
+	}
+  		#footer {
+    			display: block;
+    		}
+    		
+    		.zappbar { 
+    			display: none; 
+    		}
+}
+@media screen and (max-width: 979px) {	/* <-- should be -1px of non-responsive max-width */
+    		#subcontent-wrapper { display: block !important; }
+    		#sidebar-left, #sidebar-right, #sidebar-left-of-comic,
+    		#content, #content-column {
+				float: none;
+    			width: auto !important;
+    			max-width: 100% !important;
+    			min-width: 0px !important;
+    			min-height: 0px;
+    			clear: both;
+    			display: block !important;
+    		}
+    		.site-content { width: auto; }
+}
+/* 2-up in comic archive */
+@media screen and (max-width: 736px) {
+	.archive div.comic.uentry, .archive article.comic.uentry {
+		float: left;
+		width: 45% !important;
+	}
+    		#footer {
+    			display: block;
+    		}
+    		.zappbar { 
+    			display: none; 
+    		}
+    		#subcontent-wrapper { display: block !important; }
+    		#sidebar-left, #sidebar-right, #sidebar-left-of-comic,
+    		#content, #content-column {
+				float: none;
+    			width: auto !important;
+    			max-width: 100% !important;
+    			min-width: 0px !important;
+    			min-height: 0px;
+    			clear: both;
+    			display: block !important;
+    		}
+
+}
+/* 1-up in comic archive */
+@media screen and (max-width: 480px) {
+	.archive div.comicthumbwrap {
+		float: none;
+		width: auto;
+	}
+	.archive div.comic.uentry, .archive article.comic.uentry {
+		float: none !important;
+		width: auto !important;
+	}
+}
+

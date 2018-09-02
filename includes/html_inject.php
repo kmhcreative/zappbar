@@ -28,6 +28,7 @@ function zappbar_inject() {
 		foreach ($value as $val) {
 			$html .= '<div class="zb '.$zb_name[$x].' integrated-webcomic">';
 			$xtra = ''; // reset extra styling for each loop through
+			$linkdata = ''; // reset link data for each loop through
 			// Comic and Specific Archive Pages
 			if ( array_filter($paged) ) {
 				if ( function_exists('comicpress_display_comic') && comicpress_themeinfo('archive_display_order') == "asc" ) {
@@ -328,10 +329,10 @@ function zappbar_inject() {
 										)
 				) 
 			) {
-				// make it look like an anchor link for stupid bots that do not obey nofollow
-				$val[2] = '#'.$val[2]; 
-			}
-			$html .= '<a href="'.$val[2].'" class="button'.$xtra.'" target="_self" rel="nofollow"><div class="icon '.$icon[0].' '.$icon[1].'"></div><br/><span class="zb-label">'.$val[1].'</span></a>';
+				$linkdata = $val[2];
+				$val[2] = '#'; 
+			} 
+			$html .= '<a href="'.$val[2].'" data-link="'.$linkdata.'" class="button'.$xtra.'" target="_self" rel="nofollow"><div class="icon '.$icon[0].' '.$icon[1].'"></div><br/><span class="zb-label">'.$val[1].'</span></a>';
 
 			$html .= '</div>';
 			$x++;

@@ -2,11 +2,11 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.3
+**Version:** 0.2.4
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
-**Compatible up to:** 4.9.6
+**Compatible up to:** 4.9.8
 
 **Alpha Version Disclaimer**
 
@@ -222,6 +222,9 @@ simply be an icon with no dynamic elements.
 * Zappbar buttons are not functional when shown in Theme "Customize" interface.
 
 ## Changelog
+
+Version 0.2.4
+* This update includes files mistakenly omitted from the previous release.  If a crawl of your website has tons of 404 Not Found errors you should update to this version.
 
 Version 0.2.3
 * Removed Digg from Social Media options

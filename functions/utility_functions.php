@@ -130,7 +130,7 @@ add_shortcode('zb-share', 'zb_share_shortcode');
 	for All Devices because there wouldn't be a "desktop" mode.
 */
 function zb_switch_modes( $atts, $content = null ) {
-	$switch = '<a href="switch_mode" class="zb-switch" style="display:none;"><span class="sw_desktop">Switch to Desktop View</span></a>';
+	$switch = '<a href="#" data-link="switch_mode" class="zb-switch" style="display:none;"><span class="sw_desktop">Switch to Desktop View</span></a>';
 	return $switch;
 }
 add_shortcode('zb-switch', 'zb_switch_modes');
