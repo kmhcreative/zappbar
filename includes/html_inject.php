@@ -28,7 +28,6 @@ function zappbar_inject() {
 		foreach ($value as $val) {
 			$html .= '<div class="zb '.$zb_name[$x].' integrated-webcomic">';
 			$xtra = ''; // reset extra styling for each loop through
-			$linkdata = ''; // reset link data for each loop through
 			// Comic and Specific Archive Pages
 			if ( array_filter($paged) ) {
 				if ( function_exists('comicpress_display_comic') && comicpress_themeinfo('archive_display_order') == "asc" ) {
@@ -305,9 +304,6 @@ function zappbar_inject() {
 				$xtra = ' zb-social';
 			} else if ($val[2] == 'share_twitter') {
 				$val[2] = 'http://twitter.com/share?text='.urlencode(get_the_title($post->ID)).'&url='.urlencode(wp_get_shortlink($post->ID)).'';
-				$xtra = ' zb-social';
-			} else if ($val[2] == 'share_gplus') {
-				$val[2] = 'https://plus.google.com/share?url='.urlencode(get_permalink($post->ID));
 				$xtra = ' zb-social';			
 			} else if ($val[2] == 'share_reddit') {
 				$val[2] = 'http://www.reddit.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'';
@@ -329,10 +325,10 @@ function zappbar_inject() {
 										)
 				) 
 			) {
-				$linkdata = $val[2];
-				$val[2] = '#'; 
-			} 
-			$html .= '<a href="'.$val[2].'" data-link="'.$linkdata.'" class="button'.$xtra.'" target="_self" rel="nofollow"><div class="icon '.$icon[0].' '.$icon[1].'"></div><br/><span class="zb-label">'.$val[1].'</span></a>';
+				// make it look like an anchor link for stupid bots that do not obey nofollow
+				$val[2] = '#'.$val[2]; 
+			}
+			$html .= '<a href="'.$val[2].'" class="button'.$xtra.'" target="_self" rel="nofollow"><div class="icon '.$icon[0].' '.$icon[1].'"></div><br/><span class="zb-label">'.$val[1].'</span></a>';
 
 			$html .= '</div>';
 			$x++;
@@ -438,9 +434,6 @@ function zappbar_inject() {
 				if ( $zb_social_panel['twitter'] != '') { ?>
 			<a href="http://twitter.com/share?text=<?php echo urlencode(get_the_title($post->ID)); ?>&url=<?php echo urlencode(wp_get_shortlink($post->ID)); ?>" title="Share on Twitter" rel="nofollow" target="_blank" class="zb-social twitter">Twitter</a>
 			<?php	};
-				if ( $zb_social_panel['google'] != '') { ?>
-			<a href="https://plus.google.com/share?url=<?php echo urlencode(get_permalink($post->ID)); ?>" title="Share on Google+" rel="nofollow" target="_blank" class="zb-social google-plus">Google+</a>
-			<?php	};
 				if ( $zb_social_panel['reddit'] != '') { ?>
 			<a href="http://www.reddit.com/submit?url=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;title=<?php echo urlencode(get_the_title($post->ID)); ?>" title="Share on Reddit" rel="nofollow" target="_blank" class="zb-social reddit">Reddit</a>
 			<?php	};
@@ -513,7 +506,7 @@ function zb_init_scripts_and_styles() {
 				$zb_js2 = $plugin_dir_url . 'js/jquery.coo.kie.js';
 				wp_enqueue_script( 'zb-cookiejar', $zb_js2, array( 'jquery' ), '1.0', true );
 			}
-			if (is_active_widget('comicpress_google_translate_widget', false, 'comicpress_google_translate_widget', true)) {
+			if (is_active_widget('zb_google_translate_widget', false, 'zb_google_translate_widget', true)) {
 				wp_enqueue_script('google-translate', 'http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit', null, null, true);
 				wp_enqueue_script('google-translate-settings', $plugin_dir_url.'/js/googletranslate.js');
 			}
@@ -641,7 +634,7 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 
 			require_once(zappbar_pluginfo('plugin_path').'includes/dynamic-css.php');
 			// fallback values
-			$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '', 'blognav' => '');
+			$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentlist' => '', 'commentform' => '', 'push' => '', 'blognav' => '');
 			if (isset($zb_site['altertheme'])) {	// one or more is set
 				foreach( $zb_site_alter as $key => $value ) {
 					if (isset($zb_site['altertheme'][$key])) {	// this one is set
@@ -671,12 +664,13 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 			var altertheme_sidebars = "<?php echo $zb_site['sidebars']; ?>";
 			var altertheme_header 	= "<?php echo $zb_site_alter['header']; ?>";
 			var altertheme_sitenav	= "<?php echo $zb_site_alter['sitenav']; ?>";
+			var altertheme_commentlist = "<?php echo $zb_site_alter['commentlist']; ?>";
 			var altertheme_commentform = "<?php echo $zb_site_alter['commentform']; ?>";
 			var altertheme_push = "<?php echo $zb_site_alter['push']; ?>";
 			var altertheme_blognav = "<?php echo $zb_site_alter['blognav']; ?>";
 			var page_custom = "<?php echo $zb_site['page_custom']; ?>";
 			var sidebars_custom = "<?php echo $zb_site['sidebars_custom']; ?>";
-			var comment_custom = "<?php if ($zb_site['comment_custom']!=''){echo $zb_site['comment_custom'];}else{echo 'respond';}; ?>";
+			var comment_custom = "<?php if ($zb_site['comment_custom']!=''){echo $zb_site['comment_custom'];}else{if ($zb_site_alter['commentlist']!='') { echo 'comments'; } else { echo 'respond';}}; ?>";
 		<?php
 		if (class_exists( 'woocommerce' ) ) { 
 			$zb_site_alterwoo = $zb_site['alter_woo_theme'];

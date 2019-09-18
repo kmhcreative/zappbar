@@ -208,11 +208,12 @@ class ZB_Settings_API_Test {
                     'label' => __( 'When ZappBars are Included', 'zbopts' ),
                     'desc' => __( 'If header section is hidden and site navigation is inside it, site navigation will be automatically hidden as well.<br/>If you hide blog navigation you should set ZappBar buttons for it.', 'zbopts' ),
                     'type' => 'multicheck',
-           			'default' => array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '', 'blognav' => ''),
+           			'default' => array('header' => '', 'sitenav' => '', 'commentlist' => '', 'commentform' => '', 'push' => '', 'blognav' => ''),
                     'options' => array(
                         'header' => 'Hide Entire &lt;header&gt; Section',
                         'sitenav' => 'Hide regular site navigation',
-                        'commentform' => 'Convert Comment Form to App Panel',
+                        'commentlist' => 'Convert Comment Section to App Panel (includes Comment Form)',
+                        'commentform' => 'Convert Comment Form to App Panel (overridden if Comment Section is checked)',
                         'push' => 'Push #page element over when App Panel is open',
                         'blognav' => 'Hide Blog Navigation links'
                     )
@@ -385,7 +386,6 @@ class ZB_Settings_API_Test {
                     'default' => array(
                     		'facebook'	=>	'facebook',
                     		'twitter'	=>	'twitter',
-                    		'google'	=>	'google',
                     		'reddit'	=>	'reddit',
                     		'linkedin'	=>	'linkedin',
                     		'pinterest'	=>	'pinterest',
@@ -395,7 +395,6 @@ class ZB_Settings_API_Test {
                     'options' => array(
 						'facebook'	=>	'Facebook (facebook)',
 						'twitter'	=> 	'Twitter (twitter)',
-						'google'	=> 	'Google+ (googleplus)',
 						'reddit'	=> 	'Reddit (reddit)',
 						'linkedin'	=>	'LinkedIn (linkedin)',
 						'pinterest'	=>	'Pinterest (pinterest)',

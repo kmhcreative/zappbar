@@ -253,14 +253,41 @@ var retrofitTheme = function() {
 	Pared down sniffer based on "Web-O-Detecto"
 	full script @ https://gist.github.com/kmhcreative/cc73f6a5da2e0919432f
 */
-var device = {};
-if (navigator.userAgent.match(/Edge/i)) {
+var device = {};	// everything is a sub-object of this object
+if (navigator.userAgent.match(/Edge/i)) {	// original Edge Spartan
 	// Edge UA lies about what it is so check it first
+	var ver = navigator.userAgent.match(/Edge\/../i);
+	ver = ver[0].split("/");
+	ver = parseFloat(ver[1]);
+	device.v = ver;
 	if (navigator.userAgent.match(/Android/i)){
-		device.OS = "Windows 10 Mobile";	// Windows 10 Mobile (aka Windows Phone 10)
+		device.OS = "Android";	// is now actual Android instead of Windows 10 Mobile
+		device.appName = "Edge Mobile";
 	} else {
-		device.OS = "Windows 10";	// because only Win10 can run Edge
+		device.OS = "Windows 10";	// because only Win10 can run Edge Spartan
 	}
+	device.Platform = "Edge";
+} else if (navigator.userAgent.match(/Edg/i)) {	// Edge built on Chromium
+	/* Edge-Chromium lies even worse about what it is, in fact
+	   it can dynamically, automatically change its UA string!
+	   So there are no guarantees it ever gets sniffed right.
+	*/
+	var ver = navigator.userAgent.match(/Edg\/../i);
+	ver = ver[0].split("/");
+	ver = parseFloat(ver[1]);
+	device.v = ver;
+	if (navigator.userAgent.match(/Android/i)) {
+		device.OS = "Android";
+		device.appName = "Edge Mobile";
+	} else if (navigator.userAgent.match(/EdgiOS/i)) {
+		// Note: MS bugtrack #21307338 says it may send incorrect UA string
+		device.OS = "iOS";
+		device.appName = "Edge Mobile";
+	} else {
+		// could be Windows or Mac, grab it below
+	}
+	device.Platform = "Chrome";
+	device.appName  = "Edge";	
 } else if (navigator.userAgent.match(/MSIE/i) || navigator.userAgent.match(/Trident/i)){
 	// IE Mobile also lies about what it is
 	if (navigator.userAgent.match(/IEMobile/i)) {
@@ -268,26 +295,123 @@ if (navigator.userAgent.match(/Edge/i)) {
 			device.OS = "Windows Phone 8";
 		} else {
 			device.OS = "Windows Phone 7";
+			iScroll = undefined; // iScroll does not work with Windows Phone 7
 		}
+		device.appName = "IE Mobile";
 	} else {device.OS = "Windows"; }	// some version of it anyway
+	device.Platform = "IE";
+	// now get the browser version
+	if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){ //test for MSIE x.x;
+		device.v = new Number(RegExp.$1); // capture x.x portion and store as a number
+	} else if (/IEMobile\/(\d+\.\d+)/.test(navigator.userAgent)) {
+		device.v = new Number(RegExp.$1);
+	} else if (/rv:(\d+\.\d+)\)/.test(navigator.userAgent)) {
+		device.v = new Number(RegExp.$1);
+	} else {};
+	if (device.v < 9 || device.v == 10) { 
+		iScroll = undefined; // Legacy IE cannot use this anyway
+		if (device.v >= 10) { // Try to figure out if it is IE in Win 8.x "Metro" mode
+			device.metro = function() {
+				var metro = 0;
+				try { metro = !!new ActiveXObject("htmlfile"); // Might be desktop mode with plugins disabled
+				} catch (e) {
+					metro = 0;
+				}
+				if (metro != 0) {
+					if(window.innerWidth == screen.width && window.innerHeight == screen.height) {
+						metro = 1; // It is probably in Metro mode, but may still be desktop in fullscreen mode
+					} else {
+						metro = 0;
+					}
+				}
+				return metro;
+			}
+		}
+	}
 } else if (navigator.userAgent.match(/Android/i)) {
 	device.OS = "Android";
 	if (navigator.userAgent.match(/Firefox/) || navigator.userAgent.match(/Fennec/)) {
+		device.Platform = "Firefox";
+		device.appName  = "Firefox Mobile";
 		device.v = 4; 	// assume it's at least 4, FFM UA string doesn't include Android version!
 	} else {
-		var ver = navigator.userAgent.match(/Android (\d+\.\d+)/i);
+		if (navigator.userAgent.match(/Silk/)) {
+			// check for Silk first because it will say it is Chrome too
+			// device.OS = "FireOS";	// uncomment only if you need to sniff FireOS
+			device.Platform = "Chrome";
+			device.appName  = "Silk";
+			var bv = navigator.userAgent.match(/Silk\/(\d+\.\d+)/i);
+				bv = parseFloat(bv[0].split("/")[1]);
+				device.bv = bv; // actual browser version	
+		} else if ( navigator.userAgent.match(/OPR/i) || navigator.userAgent.match(/Opera/i)) {
+			// check for Opera first because new Opera will say it is Chrome
+				if (navigator.userAgent.match(/Opera/i)) { // old Opera version
+					var bv = navigator.userAgent.match(/Opera\/(\d+\.\d+)/i);
+					device.Platform = "Opera";	
+					device.appName = "Opera Mini";
+				} else {
+					// this needs to be before Chrome because new Blink-based Opera lies and says it is Chrome.
+					var bv = navigator.userAgent.match(/OPR\/(\d+\.\d+)/i);
+					device.Platform = "Chrome";
+					device.appName = "Opera Mobile";
+				}
+				bv = parseFloat(bv[0].split("/")[1]);
+				device.bv = bv;			
+		} else if (navigator.userAgent.match(/Chrome/)) {
+			device.Platform = "Chrome";
+			device.appName  = "Chrome Mobile";
+			var bv = navigator.userAgent.match(/Chrome\/(\d+\.\d+)/i);
+				bv = parseFloat(bv[0].split("/")[1]);
+				device.bv = bv;	// actual browser version
+		} else {
+			device.Platform = "Android"; // Android 2.x UA string does not say Chrome
+			device.appName  = "Browser";
+			var bv = navigator.userAgent.match(/AppleWebKit\/(\d+\.\d+)/i);
+				bv = parseFloat(bv[0].split("/")[1]);
+				device.bv = bv;	// actual WebKit Build
+		}
+		// Android version may or may not have a point sub-version
+		var ver = (navigator.userAgent.match(/Android (\d+\.\d+)/i)) ? navigator.userAgent.match(/Android (\d+\.\d+)/i) : navigator.userAgent.match(/Android (\d+)/i);
 		ver = ver[0].split(" ");
 		ver = parseFloat(ver[1]);
 		device.v = ver;	// Android Version from UA String
+		if (window.matchMedia('(display-mode: standalone)').matches) {	// bookmarked to homescreen
+			device.app = 1;
+		}
 	}
+} else if ( navigator.userAgent.match(/OPR/i) || navigator.userAgent.match(/Opera/i) || window.opera ) {
+		device.Platform = "Opera";
+			if (navigator.userAgent.match(/Opera/i)) { // old Opera version
+        	var fullVersion = window.opera.version();
+			device.v = parseInt(''+fullVersion,10);
+			var subVersion = fullVersion.split('.');
+			device.bv = subVersion[1];
+		} else {
+			// this needs to be before Chrome because new Blink-based Opera lies and says it is Chrome.
+			var ver = navigator.userAgent.match(/OPR\/(\d+\.\d+)/i);
+				ver = parseFloat(ver[0].split("/")[1]);
+			device.v = ver;
+		}
+} else if ( navigator.userAgent.match(/Chrome/i) ) {
+		device.Platform = "Chrome"; // Check first since UA string contains Safari
+		var fullVersion  = ''+parseFloat(navigator.appVersion); 
+		var majorVersion = parseFloat(navigator.appVersion,7);
+		var verOffset = navigator.userAgent.indexOf("Chrome");
+		fullVersion = navigator.userAgent.substring(verOffset+7);
+		device.v = parseFloat(''+fullVersion,10);
 } else if (navigator.userAgent.match(/wOSBrowser/i) || navigator.userAgent.match(/webOS/i)) {
 	device.OS = "webOS"; // check first since UA string contains Safari
+	device.Platform = "WebKit";
+	device.appName  = "Browser";
 } else if (navigator.userAgent.match(/RIM/i) || navigator.userAgent.match(/PlayBook/i) || navigator.userAgent.match(/BlackBerry/i)) {
 	device.OS = "BlackBerryOS";	// check first since UA string contains Safari
+	device.Platform = "WebKit";
+	device.appName  = "Browser";
 } else if (navigator.userAgent.match(/Safari/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i) ) {
 	device.Platform = "Safari";
 	if (navigator.userAgent.match(/iOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i) ) {
 		device.OS = "iOS";
+		device.appName  = "Mobile Safari";
 		var fullVersion = navigator.appVersion;
 		fullVersion = fullVersion.split("OS ");
 		var majorVersion = parseInt(fullVersion[1]);
@@ -300,12 +424,31 @@ if (navigator.userAgent.match(/Edge/i)) {
 			}
 		}
 		device.v = majorVersion; // This is OS major version, not browser version
+		if (window.navigator.standalone || !navigator.userAgent.match(/Safari/)) { // bookmarked to home screen
+			device.app = 1;
+		} else { // Browser View, get actual browser version
+			var fullVersion = navigator.appVersion;
+			fullVersion = fullVersion.split("/");
+			var majorVersion = parseFloat(fullVersion[2]);
+			device.bv = majorVersion;
+		}
+	} else {
+		var fullVersion  = ''+parseFloat(navigator.appVersion); 
+		var majorVersion = parseInt(navigator.appVersion,7);
+		var verOffset = navigator.userAgent.indexOf("Safari");
+		fullVersion = navigator.userAgent.substring(verOffset-6);
+		device.v = parseFloat(''+fullVersion,10);
 	}
 } else if (navigator.userAgent.match(/Firefox/i)) {
 	if (navigator.userAgent.match(/\(Mobile/i) || navigator.userAgent.match(/\(Tablet/i)) {
 		// only FF UA string with "Mobile"/"Tablet" right after parenthesis is Firefox OS	
 		device.OS = "Firefox OS";
 	}
+	device.Platform = "Firefox" // Desktop Firefox
+	var ver = navigator.userAgent.match(/Firefox\/../i);
+	ver = ver[0].split("/");
+	ver = parseFloat(ver[1]);
+	device.v = ver;
 } else {
 	device.Platform = "Unknown";
 	device.appName  = "Unknown";
@@ -454,9 +597,12 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 	// Convert to Panel functions //
 	function comment2panel() {
 			if (comment_button==true && comments_open=="1" && is_home!="1" && is_archive!="1") {
-				if (altertheme_commentform != "") {
+				if (altertheme_commentlist != "" || altertheme_commentform != "") {
 					$("#"+comment_custom+"").addClass("zb-panel left hide");
 				};
+				// else if commenting is closed, discussion thread remains below article
+				// because if it were in a panel readers would have no way to see them
+				// since the ZappBar comment button would be disabled.
 			};
 	}
 	function addl2panel() {		
@@ -648,7 +794,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 					});
 			// Mode Switch
 			$(".zb-switch").each( function() {
-       			if ( $(this).attr("data-link") == "switch_mode") {
+       			if ( $(this).attr("href") == "switch_mode") {
         			 $(this).on("click", function(e) {
         			 	if ($("#zb-response-css").attr("href") == "") {
         			 		zb_appify()
@@ -667,30 +813,30 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
         	});
 			// Attach button actions
         	$(".button").each( function() {
-				if ( $(this).attr("data-link") == "appmenu_left" ) {
+				if ( $(this).attr("href") == "#appmenu_left" ) {
 					$(this).on("click", function(e) {
 						zappPanel("zappbar_menu_left",0);
 					});
 					$(this).attr("href","javascript:void(0);");	
 				};
-				if ( $(this).attr("data-link") == "appmenu_right") {
+				if ( $(this).attr("href") == "#appmenu_right") {
 					$(this).on("click", function(e) {
 						zappPanel("zappbar_menu_right",1);
 					});
 					$(this).attr("href","javascript:void(0);");
 				};
-				if ( $(this).attr("data-link") == "share_this") {
+				if ( $(this).attr("href") == "#share_this") {
 					$(this).on("click", function(e) {
 						zappPanel("zappbar_share_this",1);
 					});
 					$(this).attr("href","javascript:void(0);");
 				};
-				if ( $(this).attr("data-link") == "search_box" || 
-					 $(this).attr("data-link") == "search_left" ||
-					 $(this).attr("data-link") == "search_right" ||
-					 $(this).attr("data-link") == "woo_search" ||
-					 $(this).attr("data-link") == "woo_search_left" ||
-					 $(this).attr("data-link") == "woo_search_right"
+				if ( $(this).attr("href") == "#search_box" || 
+					 $(this).attr("href") == "#search_left" ||
+					 $(this).attr("href") == "#search_right" ||
+					 $(this).attr("href") == "#woo_search" ||
+					 $(this).attr("href") == "#woo_search_left" ||
+					 $(this).attr("href") == "#woo_search_right"
 					 ) {
 					$(this).on("click mouseover", function(e) {
 						$(this).find(".search").removeClass("out").addClass("in");
@@ -698,7 +844,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 					});
 					$(this).attr("href","javascript:void(0);");
 				};
-				if ( $(this).attr("data-link") == "callme") {
+				if ( $(this).attr("href") == "#callme") {
 					 $(this).on("click", function(e) {
 					 	telnum_text = unescape(telnum);
 					 	// if you need some other calling pattern either change the regex below or change it to telnum_data = telnum_text to pass through //
@@ -710,31 +856,31 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 					 });
 					 $(this).attr("href","javascript:void(0);");
 				}
-				if ( $(this).attr("data-link") == "sidebar_left") {
+				if ( $(this).attr("href") == "#sidebar_left") {
 					$(this).on("click", function(e) {
 						zappPanel("zappbar_sidebar_left",0,"zappbar_sbtab_left");
 					});
 					$(this).attr("href","javascript:void(0);");
 				};
-				if ( $(this).attr("data-link") == "sidebar_right" ) {
+				if ( $(this).attr("href") == "#sidebar_right" ) {
 					$(this).on("click", function(e) {
 						zappPanel("zappbar_sidebar_right",1,"zappbar_sbtab_right");
 					});
 					$(this).attr("href","javascript:void(0);");
 				};
 				// non-paginated archive with archive buttons
-				if ( $(this).attr("data-link") == "first_page" ||
-					 $(this).attr("data-link") == "prev_page" ||
-					 $(this).attr("data-link") == "next_page" ||
-					 $(this).attr("data-link") == "last_page") {
+				if ( $(this).attr("href") == "#first_page" ||
+					 $(this).attr("href") == "#prev_page" ||
+					 $(this).attr("href") == "#next_page" ||
+					 $(this).attr("href") == "#last_page") {
 					 $(this).attr("href","javascript:void(0);");
 					 $(this).addClass("zb-disabled");
 					 $(this).attr("title","There are no other pages");	 
 				};
-				if ( $(this).attr("data-link") == "commentform") {
+				if ( $(this).attr("href") == "#commentform") {
 					comment_button = true;
 					if (comments_open=="1" && is_home!="1" && is_archive!="1" && $("#"+comment_custom+"").length ) {
-						if (altertheme_commentform != "") {
+						if (altertheme_commentlist != "" || altertheme_commentform != "") {
 							$(this).on("click", function(e) {
 								zappPanel(""+comment_custom+"",0);
 							});
@@ -749,7 +895,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 					};
 				};
 				if (woocommerce==true) {
-					if ($(this).attr("data-link") == "woo_review") {
+					if ($(this).attr("href") == "#woo_review") {
 						woo_review_button = true;
 						if (comments_open=="1" && is_product=="1" && $("#tab-reviews").length ) {
 							if (alter_woo_theme_woo_reviews != "") {
@@ -766,7 +912,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 						$(this).attr("href","javascript:void(0);");
 					};
 				};
-				if ($(this).attr("data-link") == "woo_desc") {
+				if ($(this).attr("href") == "#woo_desc") {
 					woo_desc_button = true;
 					if ( is_product=="1" && $("#tab-description").length ) {
 						if ( alter_woo_theme_woo_desc != "") {
@@ -783,7 +929,7 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 						$(this).attr("href","javascript:void(0);");
 					};
 				};
-				if ($(this).attr("data-link") == "woo_addl") {
+				if ($(this).attr("href") == "#woo_addl") {
 					woo_addl_button = true;
 					if ( is_product=="1" && $("#tab-additional_information").length ) {
 						if ( alter_woo_theme_woo_addl != "" ) {
@@ -804,7 +950,8 @@ if (device.OS == 'Android' || device.OS == 'iOS' || device.OS == 'Windows 10 Mob
 		});
 		// Allow Reply-To links to also open the Comment Panel
 		if (comments_open=="1" && is_home!="1" && is_archive!="1" && $("#"+comment_custom+"").length ) {
-			if (altertheme_commentform != "") {
+			// if it's not the whole comments section but is the form alter links...
+			if (altertheme_commentlist == "" && altertheme_commentform != "") {
 				$('a.comment-reply-link').each( function() {
 					$(this).on("click", function(e) {
 						zappPanel(""+comment_custom+"",0);

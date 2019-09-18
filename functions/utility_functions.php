@@ -78,7 +78,7 @@ function zb_share_shortcode( $atts, $content = null ) {
 			$include = strtolower($include);
 			$include = explode(",",$include);
 		} else {
-			$include = array('facebook','twitter','googleplus','reddit','linkedin','pinterest','rss','email');	
+			$include = array('facebook','twitter','reddit','linkedin','pinterest','rss','email');	
 		}
 		if ($exclude != null && $exclude != '') {
 			$exclude = strtolower($exclude);
@@ -92,9 +92,6 @@ function zb_share_shortcode( $atts, $content = null ) {
 	}
 	if ( in_array('twitter',$include) && !in_array('twitter',$exclude) ) {
 	$social .=  '<a href="http://twitter.com/share?text='.urlencode(get_the_title($post->ID)).'&url='.urlencode(wp_get_shortlink($post->ID)).'" title="Share on Twitter" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share twitter"><span>Twitter</span></a>';
-	}
-	if ( in_array('googleplus',$include) && !in_array('googleplus',$exclude) ) {	
-	$social .=  '<a href="https://plus.google.com/share?url='.urlencode(get_permalink($post->ID)).'" title="Share on Google+" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share google-plus"><span>Google+</span></a>';
 	}
 	if ( in_array('reddit',$include) && !in_array('reddit',$exclude) ) {	
 	$social .=  '<a href="http://www.reddit.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'" title="Share on Reddit" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share reddit"><span>Reddit</span></a>';
@@ -130,7 +127,7 @@ add_shortcode('zb-share', 'zb_share_shortcode');
 	for All Devices because there wouldn't be a "desktop" mode.
 */
 function zb_switch_modes( $atts, $content = null ) {
-	$switch = '<a href="#" data-link="switch_mode" class="zb-switch" style="display:none;"><span class="sw_desktop">Switch to Desktop View</span></a>';
+	$switch = '<a href="switch_mode" class="zb-switch" style="display:none;"><span class="sw_desktop">Switch to Desktop View</span></a>';
 	return $switch;
 }
 add_shortcode('zb-switch', 'zb_switch_modes');

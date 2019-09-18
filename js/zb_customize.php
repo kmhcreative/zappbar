@@ -13,10 +13,11 @@ if (isset($zb_site['altertheme'])) {
 	$zb_site_alter = $zb_site['altertheme'];
 	if (!isset($zb_site_alter['header'])) { $zb_site_alter['header'] = ''; };
 	if (!isset($zb_site_alter['sitenav'])){ $zb_site_alter['sitenav']= ''; };
+	if (!isset($zb_site_alter['commentlist'])){$zb_site_alter['commentlist']='';};
 	if (!isset($zb_site_alter['commentform'])){$zb_site_alter['commentform']='';};
 	if (!isset($zb_site_alter['push'])){$zb_site_alter['push']='';};
 } else {
-	$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentform' => '', 'push' => '');
+	$zb_site_alter = array('header' => '', 'sitenav' => '', 'commentlist' => '', 'commentform' => '', 'push' => '');
 }
 if ($zb_site['header_custom'] != '') { 	$custom_header = ', '.$zb_site['header_custom'];}
 if ($zb_site['nav_custom'] != '') { 	$custom_nav = ', '.$zb_site['nav_custom'];}
@@ -165,10 +166,11 @@ if ($zb_site['responsive']!='0') {	// site is not responsive
 } else {
 	$sidebars = '';
 }
-if ($zb_site['comment_custom'] != '') {
-	$custom_comment = $zb_site['comment_custom'];
-};
-    if ($zb_site_alter['commentform'] != '') {
+
+$commentform = '';	// default is nothing
+	if ($zb_site['comment_custom'] != '') {
+		$custom_comment = $zb_site['comment_custom'];
+	};
     	if ($custom_comment != '') {
    		$commentform = '
    			'.$custom_comment.'.zb-panel {
@@ -186,29 +188,57 @@ if ($zb_site['comment_custom'] != '') {
    					max-width: 100%;
    					resize: vertical;
    				}
+   				.zb-admin-bar '.$custom_comment.'.zb-panel {
+   					padding: 90px 0 !important;
+   				}
     	';   	
     	} else {
-   		$commentform = '
-   			#respond.zb-panel {
-   				margin-top: 0;
-   				padding: 60px 0 0 0 !important;
-   				overflow: auto;
-   				overflow-x: scroll;
-   				-webkit-overflow-scrolling: touch;
-   			}
-   				#respond.zb-panel form {
-   					margin-bottom: 100px;
-   				}
-   				#respond.zb-panel textarea,
-   				#respond.zb-panel input[type="text"] {
-   					max-width: 100%;
-   					resize: vertical;
-   				}
-    	';
+    		// convert entire Comments Section + Comment Form
+    		if ($zb_site_alter['commentlist'] != '') {
+				$commentform = '
+					#comments.zb-panel {
+						margin-top: 0;
+						padding: 60px 0 0 0 !important;
+						overflow: auto;
+						overflow-x: scroll;
+						-webkit-overflow-scrolling: touch;
+					}
+						#comments.zb-panel form {
+							margin-bottom: 100px;
+						}
+						#comments.zb-panel textarea,
+						#comments.zb-panel input[type="text"] {
+							max-width: 100%;
+							resize: vertical;
+						}
+						.zb-admin-bar #comments.zp-panel {
+							padding: 90px 0 !important;
+						}
+				';    		
+    		} else {
+    		// convert only the Comment Form, leave thread in post or page
+				$commentform = '
+					#respond.zb-panel {
+						margin-top: 0;
+						padding: 60px 0 0 0 !important;
+						overflow: auto;
+						overflow-x: scroll;
+						-webkit-overflow-scrolling: touch;
+					}
+						#respond.zb-panel form {
+							margin-bottom: 100px;
+						}
+						#respond.zb-panel textarea,
+						#respond.zb-panel input[type="text"] {
+							max-width: 100%;
+							resize: vertical;
+						}
+						.zb-admin-bar #respond.zb-panel {
+							padding: 90px 0 !important;
+						}
+				';
+			}
     	}
-    } else {
-    	$commentform = '';
-    }
 if (class_exists( 'woocommerce' ) ) {
 	$zb_site_alterwoo = $zb_site['alter_woo_theme'];
     if ($zb_site_alterwoo['woo_reviews'] != '') {

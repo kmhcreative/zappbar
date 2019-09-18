@@ -3,26 +3,23 @@
 Plugin Name: ZappBar
 Plugin URI:  https://github.com/kmhcreative/zappbar
 Description: Adds mobile-friendly web app navigation and toolbars to any WordPress theme.
-Version: 	 0.2.4
+Version: 	 0.2.5
 Author: 	 K.M. Hansen
 Author URI:  http://www.kmhcreative.com
 License: 	 GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-GitHub Plugin URI: https://github.com/kmhcreative/zappbar
-GitHub Branch: master
 
-Copyright 2012-2018  K.M. Hansen  (email : software@kmhcreative.com)
+Copyright 2012-2019  K.M. Hansen  (email : software@kmhcreative.com)
 
 ==== Beta Version Disclaimer =====
 
-This plugin is still being tested is incomplete!  
-Do not use it in production unless you can live 
-without the things it is missing and are willing 
+This plugin is still being tested.  
+Do not use it in production unless you are willing 
 to accept the possibility that it could screw up 
-your website.  Things left on To-Do list:
-
-* auto-update from repository
-* make it more awesome!
+your website while activated.  The alterations are
+non-destructive, so if it causes problems for you
+deactivating this plugin should restore your site 
+to the way it was.
 
 ===================================
 */
@@ -65,6 +62,7 @@ function zb_activate($reset = false) {
 			'altertheme'	=> 	array(
 								'header'	 =>	'header',
 								'sitenav'	 =>	'sitenav',
+								'commentlist'=> '',
 								'commentform'=>	'commentform',
 								'push'		 => 'push',
 								'blognav'    => 'blognav'),
@@ -230,7 +228,7 @@ function zappbar_pluginfo($whichinfo = null) {
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
 				'plugin_basename' => plugin_basename(__FILE__),
-				'version' => '0.2.2'
+				'version' => '0.2.5'
 		);
 		// Combine em.
 		$zappbar_pluginfo = array_merge($zappbar_pluginfo, $zappbar_addinfo);
@@ -250,6 +248,12 @@ if ( is_admin() ) {
 	@require('functions/class.settings-api.php');
 	@require('functions/aq_resizer.php');
 	@require('options/zappbar_options.php');
+	@require('plugin-update-checker/plugin-update-checker.php');
+		$ZappBarUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+		'https://github.com/kmhcreative/zappbar',
+			__FILE__,'zappbar'
+		);
+		$ZappBarUpdateChecker->getVcsApi()->enableReleaseAssets();
 } else {
 	// We are on the front end
 	@require('functions/utility_functions.php');

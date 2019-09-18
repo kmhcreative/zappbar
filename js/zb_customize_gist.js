@@ -1,7 +1,11 @@
 if (comment_custom != '') {
 	var my_comment = comment_custom;
 } else {
-	var my_comment = '#respond';
+	if (altertheme_commentlist != '') {
+		var my_comment = '#comments';
+	} else {
+		var my_comment = '#respond';
+	}
 }
 
 // Hide Header?
@@ -97,7 +101,7 @@ if (is_responsive != "0") {	// site is not responsive already
 	var fix_sidebars = '';
 }
 // Move Comment Form?
-if (altertheme_commentform == '1') {
+if (altertheme_commentlist == '1' || altertheme_commentform == '1') {
 	var commentform = ''+
 	my_comment+'.zb-panel {\n'+
 	'	margin-top: 0;\n'+
@@ -113,7 +117,21 @@ if (altertheme_commentform == '1') {
 	'	'+my_comment+'.zb-panel input[type="text"] {\n'+
 	'		max-width: 100%;\n'+
 	'		resize: vertical;\n'+
+	'	}\n
+	'	.zb-admin-bar '+my_comment+'.zb-panel {\n'+
+	'		padding: 90px 0 !important;\n'+
 	'	}\n';
+	if (altertheme_commentlist == '1') {
+		commentform += ''+
+	'	'+my_comment+'.zb-panel .comments-title {\n'+
+	'		padding-top: 50px !important;\n'+
+	'	}\n';
+	} else {
+		commentform += ''+
+	'	'+my_comment+'.zb-panel .comment-reply-title {\n'+
+	'		padding-top: 50px !important;\n'+
+	'	}\n';
+	}
 } else {
 	var commentform = '';
 }

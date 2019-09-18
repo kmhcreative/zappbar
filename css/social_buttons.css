@@ -21,10 +21,6 @@ a.zb-share {
 	a.zb-share.facebook {
 		background-color:#3B5998;
 	}
-	/*Google Plus*/
-	a.zb-share.google-plus {
-		background-color:#D34836;
-	}
 	/*LinkedIn*/
 	a.zb-share.linkedin {
 		background-color:#0e76a8;
@@ -63,10 +59,6 @@ a.zb-share {
 	.zb-sharethis.small a.zb-share.facebook {
 		background-image: url('../includes/images/social_icons/icons_small/facebook.png');
 	}
-	/*Google Plus*/
-	.zb-sharethis.small a.zb-share.google-plus {
-		background-image: url('../includes/images/social_icons/icons_small/googleplus.png');
-	}
 	/*LinkedIn*/
 	.zb-sharethis.small a.zb-share.linkedin {
 		background-image: url('../includes/images/social_icons/icons_small/linkedin.png');
@@ -104,10 +96,6 @@ a.zb-share {
 	.zb-sharethis.medium a.zb-share.facebook {
 		background-image: url('../includes/images/social_icons/icons_medium/facebook.png');
 	}
-	/*Google Plus*/
-	.zb-sharethis.medium a.zb-share.google-plus {
-		background-image: url('../includes/images/social_icons/icons_medium/googleplus.png');
-	}
 	/*LinkedIn*/
 	.zb-sharethis.medium a.zb-share.linkedin {
 		background-image: url('../includes/images/social_icons/icons_medium/linkedin.png');
@@ -144,10 +132,6 @@ a.zb-share {
 	.zb-sharethis.large a.zb-share.facebook {
 		background-image: url('../includes/images/social_icons/icons_large/facebook.png');
 	}
-	/*Google Plus*/
-	.zb-sharethis.large a.zb-share.google-plus {
-		background-image: url('../includes/images/social_icons/icons_large/googleplus.png');
-	}
 	/*LinkedIn*/
 	.zb-sharethis.large a.zb-share.linkedin {
 		background-image: url('../includes/images/social_icons/icons_large/linkedin.png');
@@ -182,10 +166,6 @@ a.zb-share {
 	/*Facebook*/
 	.zb-sharethis.label a.zb-share.facebook {
 		background-image: url('../includes/images/social_icons/icons_small/facebook.png');
-	}
-	/*Google Plus*/
-	.zb-sharethis.label a.zb-share.google-plus {
-		background-image: url('../includes/images/social_icons/icons_small/googleplus.png');
 	}
 	/*LinkedIn*/
 	.zb-sharethis.label a.zb-share.linkedin {

@@ -2,18 +2,15 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.4
+**Version:** 0.2.5
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
-**Compatible up to:** 4.9.8
+**Compatible up to:** 5.2.3
 
-**Alpha Version Disclaimer**
+**Beta Version Disclaimer**
 
-This plugin is still being tested is incomplete!  Do not use it in production unless you can live without the things it is missing and are willing to accept the possibility that it could screw up your website.  Things left on To-Do list:
-
-* auto-update from repository
-* make it more awesome!
+This plugin is still being tested.  Do not use it in production unless you are willing to accept the possibility that it could screw up your website while activated.  The alterations are non-destructive, so if it causes problems for you deactivating this plugin should restore your site to the way it was.
 
 ## Description
 
@@ -76,7 +73,8 @@ _“Mobile Only” uses device detection, which can be spoofed.  “Force” ign
 
 * Hide Entire `<header>` Section - this is typically where the site masthead is and may also contain desktop navigation or custom widgets.
 * Hide regular site navigation - if the desktop navigation can’t be hidden by hiding the `<header>` section, or if there is a mobile nav menu that is part of the theme but is redundant when ZappBars are in use.
-* Convert Comment Form to App Panel - normally there is just a simple form below blog posts for people to comment.  This turns it into a slide-in panel (you’ll probably also want to link a button to opening this panel or people won’t be able to comment when ZappBars are in use).
+* Convert Comment Section to App Panel - turns the entire comment thread, including the  comment form, below blog posts and page articles into a slide-in panel (requires linking a button to opening this panel or visitors won't be able to comment or read comments when ZappBars are in use).
+* Convert Comment Form to App Panel - turns just the comment FORM into a slide-in panel, leaving the comment thread under the blog post or page article.  This is over-ridden if you check "Convert Comment Section" because the form will be included in the app panel automatically (you’ll probably also want to link a button to opening this panel or people won’t be able to comment when ZappBars are in use).
 * Push _#page_ element over when App Panel is open - normally the panels slide in from the sides and overlay the page content.  Check this box to, instead, push the page content over when the panel slides into view.
 
 **App Icon Image:** An optional icon or logo image that would be used as the favicon and/or the icon when bookmarked to the home screen of a mobile device (on devices that support it).
@@ -121,7 +119,6 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 
 * Facebook
 * Twitter
-* Google Plus
 * Reddit
 * LinkedIn
 * Pinterest
@@ -223,8 +220,16 @@ simply be an icon with no dynamic elements.
 
 ## Changelog
 
+Version 0.2.5
+* Updated browser sniffer for Edge Chromium
+* Added option to turn full Comments Section into App Panel
+* Added Auto-Updating directly from GitHub (no longer requires GitHub Updater plugin)
+* Tested compatible up to PHP 7.1.31
+* Google Plus removed from Social Media options.
+* If ONLY the Comment Form is turned into an App Panel the Reply-To links no longer move the form but it still posts to correct place in comment thread.
+
 Version 0.2.4
-* This update includes files mistakenly omitted from the previous release.  If a crawl of your website has tons of 404 Not Found errors you should update to this version.
+* Fixed Google Translate widget which didn't work unless using old ComicPress theme.
 
 Version 0.2.3
 * Removed Digg from Social Media options

@@ -94,6 +94,10 @@ html {
 	overflow-x: scroll;
 	-webkit-overflow-scrolling: touch;
 	z-index: 9990;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
 }
 	.zb-panel {
 		margin: 0;
