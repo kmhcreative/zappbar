@@ -5,8 +5,8 @@ Contributors: OffWorld, Frumph
 Tags: Responsive, Mobile, Theme, Modifications
 Requires at least: 3.5
 Requires PHP: 5.3
-Tested up to: 5.2.3
-Stable Tag: 0.2.5
+Tested up to: 5.5.1
+Stable Tag: 0.2.6
 License: GPLv3
 Licence URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -22,8 +22,18 @@ This plugin is still being tested.  Do not use it in production unless you are w
 
 == Installation ==
 
-1. Download the GitHub archive as a ZIP file.  
-2. Unzip it, knock the “-master” off the folder’s filename
+= Using Admin Upload =
+
+1. Download the GitHub archive as a ZIP file.
+2. Go to your _Dashboard > Plugins > Add New_ and press the "Upload Plugin" at the top of the page.
+3. Browse to where you downloaded the ZIP file and select it.
+4. Press the "Install Now" button.
+5. On your _Dashboard > Plugins_ page activate "ZappBar"
+6. Go to _Dashboard > Settings > Zappbar_ and configure it.
+
+= Using FTP =
+  
+2. Unzip it so you have a "zappbar-master" folder
 3. FTP upload it into your WordPress blog’s _~/wp-content/plugins/_ folder.
 4. Go to your _Dashboard > Plugins_ and activate “ZappBar”
 5. Go to _Dashboard > Settings > ZappBar_ to configure it.
@@ -50,6 +60,30 @@ Depending on what other plugins you have activated that ZappBar interacts with, 
 Zappbar buttons are not functional when shown in Theme "Customize" interface because they are only activated on the front-end of your website.  Configure ZappBar under Settings > ZappBar.
 
 == Changelog ==
+
+= Version 0.2.6 =
+* Share Panel now works on Archives and Search pages
+* zb_share shortcode now works on Archives and Search pages
+* added heading to settings page
+* automatically updates database with new options on activation
+* fixed unexpected character output on activation caused by version check
+* Version check now also sees if minimum PHP requirement is met
+* fixed javascript error in browser detection for Nexus 5X
+* fixed Icon Picker box width
+* fixed PHP Notice about social media index being undefined
+* fixed compatibility with Webcomic plugin version 5
+* fixed compatibility with MangaPress plugin version 3 and 4
+* fixed compatibility with WooCommerce plugin version 4.3
+* ZappBar WooCommerce bar now shows on "Shop" page too
+* ZappBar Options Layout now shows bars 375 pixels wide because almost nobody is still using a device with a 320 pixel wide portrait screen.
+* ZappBars are now 50px high, which is as close to a standard navbar/toolbar height as there is.
+* ZappBar buttons are now 50px high and 64px wide, which will hopefully stop Google's Smartphone crawler from complaining about touch-targets being too small.  64px wide buttons will still all fit on 320px wide screens.
+* ZappBar button label text is now 12px because that's the minimum acceptable size for Google's Mobile-First indexing, and will hopefully get rid of the "text too small" warnings.
+* ZappBar button labels can now be turned off for a cleaner no-text look (but if you suppress button labels make sure you use an icon that makes it really obvious what the button does).
+* ZappBar Panels can now inherit styling from the theme stylesheet
+* Fixed ZappBar Panel links from having ZappBar button styles applied to them.
+* Tweak Admin styles relevant to ZappBar's settings now part of regular admin styles.  Tweak Admin Styles now only fixes Admin Bar and slide-in menu.  Description updated to reflect it is to make backend more PHONE friendly.
+
 
 = Version 0.2.5 =
 * Updated browser sniffer for Edge Chromium
@@ -125,9 +159,11 @@ This uses my [Icon Picker](https://github.com/kmhcreative/icon-picker) (which is
 
 [Webcomic Plugin](https://wordpress.org/plugins/webcomic/)
 
+[Manga+Press Plugin](https://wordpress.org/plugins/mangapress/)
+
 [WooCommerce Plugin](https://wordpress.org/plugins/woocommerce/)
 
 == Upgrade Notice ==
-= 0.2.5 =
-More options for converting Comments to App Panel.  Auto-updating of plugin from GitHub.  Note that you may need to Save settings after updating.
+= 0.2.6 =
+Non-critical update. Social Media sharing functions now work on Archive and Search pages.  Note that you may need to Save settings after updating.
 

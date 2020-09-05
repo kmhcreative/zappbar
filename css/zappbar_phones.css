@@ -353,7 +353,7 @@
 .zappbar {
 	position: fixed;
  	width: 100%;
- 	height: 45px;
+ 	height: 50px;
  	background: #eee;
  	display: block;
  	z-index: 9999;
@@ -366,8 +366,8 @@
 	}
 	.zappbar a.button {
 		position: relative;
-		height: 45px;
-		width: 50px;
+		height: 50px;
+		width: 64px;
 		margin: 0 auto;
 		padding: 0;
 		background: none;
@@ -393,7 +393,7 @@
 		}
 	.zappbar div.icon {
 		width: 100%;
-		height: 45px;
+		height: 50px;
 		font-size: 24px;
 		margin: 0;
 		padding: 0;
@@ -404,13 +404,13 @@
 	.zappbar span.zb-label {
 	  position: relative;
 	  top: -16px;
-	  width:50px !important;
+	  width:64px !important;
 	  padding:0 !important;
 	  margin: 0;
 	  border:none;
 	  text-align: center;
-	  font-size: 10px !important;
-	  line-height:10px;
+	  font-size: 12px !important;
+	  line-height:12px;
 	  background: none;
 	  display: block !important;
 	  color: inherit;
@@ -422,12 +422,20 @@
 	  -moz-user-select: none;
 	  -ms-user-select: none;
 	  user-select: none;
+	  white-space: nowrap;
 	}
+	.zappbar.notext div.icon {
+		line-height: 50px;
+	}
+		.zappbar.notext span.zb-label span.contents {
+			top: -32px;
+			right: 12px;
+		}
 		.zappbar a.searchbox span.search {
 			position: fixed;
 			width: 100%;
-			height: 45px;
-			line-height: 45px;
+			height: 50px;
+			line-height: 50px;
 			background-color: #eee;
 			-webkit-transition-duration: .5s;
 			-moz-transition-duration: .5s;
@@ -523,29 +531,29 @@
 			float: right;
 		}
 	.zb-clusterleft div.zb {
-		width: 50px;
+		width: 64px;
 		float: left;
 	}
 	.zb-clusterleft1r div.zb {
-		width: 50px;
+		width: 64px;
 		float: left;
 	}
 		.zb-clusterleft1r div.zb.button_e {
 			float: right;
 		}
 	.zb-clusterright div.zb {
-		width: 50px;
+		width: 64px;
 		float: right;
 	}
 	.zb-clusterright1l div.zb {
-		width: 50px;
+		width: 64px;
 		float: right;
 	}
 		.zb-clusterright1l div.zb.button_a {
 			float: left;
 		}
 	.zb-pushout div.zb {
-		width: 50px;
+		width: 64px;
 	}
 		.zb-pushout div.zb.button_a {
 			float:left;
@@ -556,7 +564,7 @@
 		.zb-pushout div.zb.button_c {
 			position: absolute;
 			left: 50%;
-			margin-left: -25px;
+			margin-left: -32px;
 		}
 		.zb-pushout div.zb.button_d {
 			float:right;
@@ -572,12 +580,12 @@
 			background: red;
 			color:white;
 			position:absolute;
-			top:-28px;
+			top:-34px;
 			border-radius:100%;
 			line-height:15px;
 			font-size:8px;
 			text-shadow:none;
-			right: -3px;
+			right: 9px;
 			text-align:center;
 			border:1px solid white;
 			}
@@ -588,7 +596,9 @@
 		/* 	Because the woocommerce rating stars look awful and
 			are too small to select easily on mobile devices:
 		*/
-
+		p.stars {
+			text-align: center;
+		}
 		p.stars a {
 			width: auto;
 			display: inline-block;
@@ -611,9 +621,14 @@
 			.woocommerce-page p.stars a {
 				display: inline-block;
 				font-weight: normal;
-				margin-right: 0;
-				text-indent: -1px; font-size: 0px; /* hides number */
+				margin-right: 32px;
+				text-indent: -1px; 
+				font-size: 0px; /* hides number */
 				position: relative;
+			}
+			.woocommerce p.stars a::before {
+				position: relative;
+				font-size: 32px;
 			}
 				.woocommerce p.stars a.star-1,
 				.woocommerce p.stars a.star-2,
@@ -622,82 +637,6 @@
 				.woocommerce p.stars a.star-5 {
 					border: none;
 				}
-					.woocommerce p.stars a.star-1,
-					.woocommerce-page p.stars a.star-1 {
-						width: 30px;
-						z-index: 5;
-					}
-					.woocommerce p.stars a.star-2,
-					.woocommerce-page p.stars a.star-2 {
-						width: 60px;
-						margin-left: -30px;
-						z-index: 4;
-					}
-					.woocommerce p.stars a.star-3,
-					.woocommerce-page p.stars a.star-3 {
-						width: 90px;
-						margin-left: -60px;
-						z-index: 3;
-					}
-					.woocommerce p.stars a.star-4,
-					.woocommerce-page p.stars a.star-4 {
-						width: 120px;
-						margin-left: -90px;
-						z-index: 2;
-					}
-					.woocommerce p.stars a.star-5,
-					.woocommerce-page p.stars a.star-5 {
-						width: 142px;
-						margin-left: -120px;
-						z-index: 1;
-					}
-						p.stars a.star-1::after,
-						p.stars a.star-2::after,
-						p.stars a.star-3::after,
-						p.stars a.star-4::after,
-						p.stars a.star-5::after {
-							position: relative;
-							width: auto;
-							top: auto;
-							right: auto;
-							-webkit-border-radius: 0;
-							-moz-border-radius: 0;
-							-webkit-background-clip: none;
-							-moz-background-clip: none;
-							background-clip: none;
-							text-align: left;
-							font-size: 28px;
-							line-height: 28px;
-							color: inherit;
-						}
-				
-						.woocommerce p.stars a.star-1::after, 
-						.woocommerce p.stars a.star-2::after, 
-						.woocommerce p.stars a.star-3::after, 
-						.woocommerce p.stars a.star-4::after, 
-						.woocommerce p.stars a.star-5::after, 
-						.woocommerce-page p.stars a.star-1::after, 
-						.woocommerce-page p.stars a.star-2::after, 
-						.woocommerce-page p.stars a.star-3::after, 
-						.woocommerce-page p.stars a.star-4::after, 
-						.woocommerce-page p.stars a.star-5::after {
-							text-indent: 0;
-							position: relative;
-							top: 2px;
-							left: 2px;
-						}			
-						p.stars a.star-1:hover::after, 
-						p.stars a.star-2:hover::after, 
-						p.stars a.star-3:hover::after, 
-						p.stars a.star-4:hover::after, 
-						p.stars a.star-5:hover::after, 
-						p.stars a.star-1.active::after, 
-						p.stars a.star-2.active::after, 
-						p.stars a.star-3.active::after, 
-						p.stars a.star-4.active::after, 
-						p.stars a.star-5.active::after {
-							color: inherit;
-						}
 
 		/* woocommerce select for variables is crazy wide */
 		.woocommerce #content div.product form.cart .variations select, 
@@ -774,6 +713,13 @@
 			-ms-border-radius: 0;
 			border-radius: 0;
 		}
+			.woocommerce p.stars a,
+			.woocommerce-page p.stars a {
+				margin-right: 50px;
+			}
+			.woocommerce p.stars a::before {
+				font-size: 48px;
+			}
 	.zb-panel {
 		width: 100% !important;
 	}
@@ -903,6 +849,13 @@
 				margin: 0 auto;
 			}
 		.woocommerce div.cart_totals th { width: 50% !important; }
+			.woocommerce p.stars a,
+			.woocommerce-page p.stars a {
+				margin-right: 50px;
+			}
+			.woocommerce p.stars a::before {
+				font-size: 48px;
+			}
 	.zb-panel {
 		width: 100% !important;
 	}

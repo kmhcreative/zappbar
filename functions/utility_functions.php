@@ -18,6 +18,45 @@
 	   return implode(",", $rgb); // returns the rgb values separated by commas
 	//   return $rgb; // returns an array with the rgb values
 	}
+// Flattens hierachical taxonomy terms while preserving term parameters
+function zb_get_flat_terms( $taxonomy = 'category', $parent = 0, $hide_empty = 0 ){
+	$args = array(
+		'hierarchical' => 1,
+		'show_option_none' => '',
+		'hide_empty' => $hide_empty,
+		'parent' => $parent,
+		'taxonomy' => $taxonomy
+	);
+	$terms = get_terms($args);
+	$list = [];
+	foreach($terms as $term) {
+		$list[] = $term;
+//		$subargs = array(
+//			'hierarchical' => 1,
+//			'show_option_none' => '',
+//			'hide_empty' => 0,
+//			'parent' => $term->term_id,
+//			'taxonomy' => $taxonomy
+//		);
+//		$subcats = get_categories($subargs);
+		$subcats = zb_get_flat_terms($taxonomy,$term->term_id);
+//		$subcats = get_terms($subargs);
+		foreach($subcats as $sub){
+			$list[] = $sub;
+		}
+	};
+	return $list;
+};
+// To get Previous/Next Category Term Links
+function zb_get_term_links( $taxonomy ){
+	$links = [];
+	$terms = zb_get_flat_terms($taxonomy);
+	foreach( $terms as $term ){
+		$links[] = get_term_link( $term->slug, $term->taxonomy );
+	}
+	return $links;
+}
+
 // Pagination Links //
 function zb_paginate() {
 	global $wp_query, $wp_rewrite;
@@ -64,10 +103,40 @@ function zb_paginate() {
 };
 
 function zb_share_shortcode( $atts, $content = null ) {
-	global $post;
-	if (!$post) {	// on search results not found $post doesn't exist and who would share empty search results?
-		$social = '';
+	$zb_layout = get_option('zappbar_layout');
+	if ($zb_layout['logo'] != '') {
+		$logo = $zb_layout['logo'];
 	} else {
+		$logo = '';
+	}
+	global $post, $wp;
+	if (is_archive()) {
+		$title = get_the_archive_title();
+		$permalink = home_url( add_query_arg( array(), $wp->request ) );
+		$shortlink = home_url( add_query_arg( array(), $wp->request ) );
+		$thumbnail = $logo;
+	} else if (is_search()) {
+		$title = 'Search results for: '.get_search_query();
+		$permalink = get_search_link();
+		$shortlink = get_search_link();
+		$thumbnail = $logo;
+	} else if (is_single() || is_page() ) {
+		$title = get_the_title($post->ID);
+		$permalink = get_permalink($post->ID);
+		$shortlink = wp_get_shortlink($post->ID);
+		$thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+	} else if (is_home()){
+		$title = get_bloginfo( 'name' );
+		$permalink = get_site_url();
+		$shortlink = get_site_url();
+		if ($post) {
+		$thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+		} else {
+		$thumbnail = $logo;
+		}
+	} else {
+		return;
+	}
 	extract(shortcode_atts(array(
 		'type' => 'label',	// text, label (default), small, medium, large
 		'include' => '',
@@ -88,34 +157,32 @@ function zb_share_shortcode( $atts, $content = null ) {
 		}
 	$social = '<div class="zb-sharethis '.$type.'">';
 	if ( in_array('facebook',$include) && !in_array('facebook',$exclude) ) {
-	$social .=  '<a href="http://www.facebook.com/sharer.php?u='.urlencode(get_permalink($post->ID)).'&amp;t='.urlencode(get_the_title($post->ID)).'" title="Share on Facebook" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share facebook"><span>Facebook</span></a>';
+	$social .=  '<a href="http://www.facebook.com/sharer.php?u='.urlencode($permalink).'&amp;t='.urlencode($title).'" title="Share on Facebook" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share facebook"><span>Facebook</span></a>';
 	}
 	if ( in_array('twitter',$include) && !in_array('twitter',$exclude) ) {
-	$social .=  '<a href="http://twitter.com/share?text='.urlencode(get_the_title($post->ID)).'&url='.urlencode(wp_get_shortlink($post->ID)).'" title="Share on Twitter" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share twitter"><span>Twitter</span></a>';
+	$social .=  '<a href="http://twitter.com/share?text='.urlencode($title).'&url='.urlencode($shortlink).'" title="Share on Twitter" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share twitter"><span>Twitter</span></a>';
 	}
 	if ( in_array('reddit',$include) && !in_array('reddit',$exclude) ) {	
-	$social .=  '<a href="http://www.reddit.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'" title="Share on Reddit" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share reddit"><span>Reddit</span></a>';
+	$social .=  '<a href="http://www.reddit.com/submit?url='.urlencode($permalink).'&amp;title='.urlencode($title).'" title="Share on Reddit" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share reddit"><span>Reddit</span></a>';
 	}
 	if ( in_array('linkedin',$include) && !in_array('linkedin',$exclude) ) {
-	$social .=  '<a href="http://www.linkedin.com/shareArticle?mini=true&amp;title='.urlencode(get_the_title($post->ID)).'&amp;url='.urlencode(wp_get_shortlink($post->ID)).'" title="Share on LinkedIn" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share linkedin"><span>LinkedIn</span></a>';
+	$social .=  '<a href="http://www.linkedin.com/shareArticle?mini=true&amp;title='.urlencode($title).'&amp;url='.urlencode($shortlink).'" title="Share on LinkedIn" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share linkedin"><span>LinkedIn</span></a>';
 	}
 	if ( in_array('pinterest',$include) && !in_array('pinterest',$exclude) ) {
-	$social .=  '<a href="http://pinterest.com/pin/create/button/?url='.urlencode(get_permalink($post->ID)).'&media='.urlencode(wp_get_attachment_url( get_post_thumbnail_id($post->ID) )).'" title="Pin this!" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share pinterest"><span>Pinterest</span></a>';
+	$social .=  '<a href="http://pinterest.com/pin/create/button/?url='.urlencode($permalink).'&media='.urlencode($thumbnail).'" title="Pin this!" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share pinterest"><span>Pinterest</span></a>';
 	}
 	if ( in_array('rss',$include) && !in_array('rss',$exclude) ) {
 	$social .=  '<a href="'.get_site_url().'/?feed=rss" title="RSS Feed" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share rss-feed"><span>RSS Feed</span></a>';
 	}
 	if ( in_array('email',$include) && !in_array('email',$exclude) ) {
-	$social .=  '<a href="mailto:?subject=Sharing: '.get_the_title($post->ID).'&amp;body=%0AThought you might be interested in this:%0A%0A'.get_the_title($post->ID).'%0A%0A'.urlencode(get_permalink($post->ID)).'%0A%0A" title="Share by E-mail" rel="nofollow" target="_blank" class="zb-share zb-mail"><span>E-mail Link!</span></a>';
+	$social .=  '<a href="mailto:?subject=Sharing: '.$title.'&amp;body=%0AThought you might be interested in this:%0A%0A'.$title.'%0A%0A'.urlencode($permalink).'%0A%0A'.urlencode($thumbnail).'" title="Share by E-mail" rel="nofollow" target="_blank" class="zb-share zb-mail"><span>E-mail Link!</span></a>';
 
 	}
 	$social .= '</div>';
-	}
 
 	return $social;
 }
 add_shortcode('zb-share', 'zb_share_shortcode');
-
 /*	
 	MODE SWITCH (experimental)
 	TO-DO: Make this persistent.  

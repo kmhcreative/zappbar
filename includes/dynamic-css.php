@@ -43,17 +43,30 @@ if ($bar_colors['color_src'] == 'custom' && $bar_colors['custom_styles'] != '') 
  	$font_hover_color= $bar_colors['font_hover_color'];
 	$border			 = border_check($bar_colors['bar_border_width'],$bar_colors['bar_border_style'],$bar_colors['bar_border_color']);
 	
-	if ($panels['panel_styles']=='on') {
+	if ($panels['panel_styles']=='on') { // use Bar settings
 	$panel_bg = $bar_bg;
 	$panel_button_bg = $button_bg;
 	$panel_button_hover_bg = $button_hover_bg;
+	$panel_button_font_color = $font_color;
+	$panel_button_font_hover_color = $font_hover_color;
 	$panel_font_color = $font_color;
 	$panel_font_hover_color = $font_hover_color;
 	$panel_border = $border;
-	} else {
+	} elseif ($panels['panel_styles']=='off') {	// inherit from theme styles
+	$panel_bg = '';
+	$panel_button_bg = '';
+	$panel_button_hover_bg = '';
+	$panel_button_font_color = '';
+	$panel_button_font_hover_color = '';
+	$panel_font_color = '';
+	$panel_font_hover_color = '';
+	$panel_border = '';
+	} else {	// use custom panel settings
 	$panel_bg	=	color_check($panels['panel_bg'],$panels['panel_bg_opacity']);
 	$panel_button_bg = color_check($panels['panel_button_bg'],$panels['panel_button_bg_opacity']);
 	$panel_button_hover_bg = color_check($panels['panel_button_hover_bg'],$panels['panel_button_bg_hover_opacity']);
+	$panel_button_font_color = $panels['panel_button_font_color'];
+	$panel_button_font_hover_color = $panels['panel_button_font_hover_color'];
 	$panel_font_color = $panels['panel_font_color'];
 	$panel_font_hover_color = $panels['panel_font_hover_color'];
 	$panel_border =	border_check($panels['panel_border_width'],$panels['panel_border_style'],$panels['panel_border_color']);
@@ -160,7 +173,7 @@ if ($bar_colors['color_src'] == 'custom' && $bar_colors['custom_styles'] != '') 
 			';
 	}
 	if ($panel_button_bg != '') {
-		$custom_colors .= 'div.zb-panel .button, div.zb-panel a {
+		$custom_colors .= 'div.zb-panel .button {
 			background-color: '.$panel_button_bg.';
 			}
 			';
@@ -173,41 +186,65 @@ if ($bar_colors['color_src'] == 'custom' && $bar_colors['custom_styles'] != '') 
 		';
 
 	}
-	if ($panel_font_color != '') {
-		$custom_colors .= 'div.zb-panel, div.zb-panel a, div.zb-panel .button,
-		div.zb-panel h1, div.zb-panel h2, div.zb-panel h3 {
-			color: '.$panel_font_color.' !important;
+		if ($panel_button_hover_bg != '') {
+			$zb_style .= '
+			div.zb-panel .button:hover, 
+			div.zb-panel .button:active, 
+			div.zb-panel .button:focus  {
+				background-color: '.$panel_button_hover_bg.';
+				color: '.$panel_font_hover_color.' !important;
+			}
+			#zappbar_notice a:hover, #zappbar_notice a:active, #zappbar_notice a:focus,
+			#zappbar_notice .button:hover, #zappbar_notice .button:active, #zappbar_notice .button:focus {
+				background-color: '.$panel_button_hover_bg.';
+				color: '.$panel_font_hover_color.' !important;
+			}
+			';
+			$zb_style .= 'div.sbtab span:hover, div.sbtab span:active, div.sbtab span:focus {
+				background-color: '.$panel_button_hover_bg.';
+				color: '.$panel_font_hover_color.' !important;
+			}
+			';
+		}
+	if ($panel_button_font_color != '') {
+		$custom_colors .= 'div.zb-panel .button, div.zb-panel button, 
+		div.zb-panel input[type="submit"], div.zb-panel input[type="button"] {
+			color: '.$panel_button_font_color.' !important;
 		}
 		#zappbar_notice, #zappbar_notice a, #zappbar_notice .button {
-			color: '.$panel_font_color.' !important;
+			color: '.$panel_button_font_color.' !important;
 		}
 		';
 		$custom_colors .= 'div.sbtab {
-			color: '.$panel_font_color.';
+			color: '.$panel_button_font_color.';
 		}
 		';
 	}
-	if ($panel_button_hover_bg != '') {
-		$zb_style .= '
-		div.zb-panel a:hover, div.zb-panel a:active, div.zb-panel:focus,
-		div.zb-panel .button:hover, 
-		div.zb-panel .button:active, 
-		div.zb-panel .button:focus  {
-			background-color: '.$panel_button_hover_bg.';
-			color: '.$panel_font_hover_color.' !important;
-		}
-		#zappbar_notice a:hover, #zappbar_notice a:active, #zappbar_notice a:focus,
-		#zappbar_notice .button:hover, #zappbar_notice .button:active, #zappbar_notice .button:focus {
-			background-color: '.$panel_button_hover_bg.';
-			color: '.$panel_font_hover_color.' !important;
-		}
-		';
-		$zb_style .= 'div.sbtab span:hover, div.sbtab span:active, div.sbtab span:focus {
-			background-color: '.$panel_button_hover_bg.';
-			color: '.$panel_font_hover_color.' !important;
+		if ($panel_button_font_hover_color != '') {
+			$custom_colors .= '
+				div.zb-panel .button:hover, div.zb-panel .button:focus,
+				div.zb-panel button:hover,  div.zb-panel button:focus,
+				div.zb-panel input[type="submit"]:hover, div.zb-panel input[type="submit"]:focus,
+				div.zb-panel input[type="button"]:hover, div.zb-panel input[type="button"]:focus {
+					color: '.$panel_button_font_hover_color.';
+				}
+				';
+		}	
+	if ($panel_font_color != '') {
+		$custom_colors .= 'div.zb-panel, div.zb-panel a, div.zb-panel p,
+		div.zb-panel h1, div.zb-panel h2, div.zb-panel h3 {
+			color: '.$panel_font_color.' !important;
 		}
 		';
 	}
+		if ($panel_font_hover_color != '') {
+			$custom_colors .= '
+				div.zb-panel a:hover, div.zb-panel a:active, div.zb-panel:focus {
+					color: '.$panel_font_hover_color.';
+				}
+				';
+		}		
+
 	if ($panel_border != '') {
 		$custom_colors .= 'div.zb-panel.left {
 			border-right: '.$panel_border.';
@@ -249,12 +286,12 @@ if ($bar_colors['color_src'] == 'custom' && $bar_colors['custom_styles'] != '') 
 			background: red;
 			color:white;
 			position:absolute;
-			top:-28px;
+			top:-34px;
 			border-radius:100%;
 			line-height:15px;
 			font-size:8px;
 			text-shadow:none;
-			right: -3px;
+			right: 9px;
 			text-align:center;
 			border:1px solid white;
 			}
@@ -274,6 +311,7 @@ $woo_adjust = '';
 $woo_adjust_phone = '';
 $custom_sidebars = '';
 $always_hide = '';
+$embiggen_woo = '';
 if (isset($zb_site['altertheme'])) {
 	$zb_site_alter = $zb_site['altertheme'];
 	if (!isset($zb_site_alter['header'])) { $zb_site_alter['header'] = ''; };
@@ -511,9 +549,9 @@ if ($zb_site['comment_custom'] != '') {
 				';
     		}
     	}
-if (class_exists( 'woocommerce' ) ) {
+if (class_exists( 'woocommerce' ) && isset($zb_site['alter_woo_theme']) ) {
 	$zb_site_alterwoo = $zb_site['alter_woo_theme'];
-    if ($zb_site_alterwoo['woo_reviews'] != '') {
+    if (isset($zb_site_alterwoo['woo_reviews'])) {
    		$commentform .= '
    			#tab-reviews.zb-panel {
    				margin-top: 0;
@@ -527,7 +565,7 @@ if (class_exists( 'woocommerce' ) ) {
    				}
     	';
     };
-    if ($zb_site_alterwoo['woo_desc'] != '') {
+    if (isset($zb_site_alterwoo['woo_desc'])) {
    		$commentform .= '
    			#tab-description.zb-panel {
    				margin-top: 0;
@@ -541,7 +579,7 @@ if (class_exists( 'woocommerce' ) ) {
    				}
     	';
     };
-    if ($zb_site_alterwoo['woo_addl'] != '') {
+    if (isset($zb_site_alterwoo['woo_addl'])) {
    		$commentform .= '
    			#tab-additional_information.zb-panel {
    				margin-top: 0;
@@ -553,6 +591,13 @@ if (class_exists( 'woocommerce' ) ) {
    				#tab-additional_information.zb-panel form {
    					margin-bottom: 100px;
    				}
+    	';
+    };
+    if (isset($zb_site_alterwoo['woo_big'])) {
+    	$embiggen_woo = '
+    	    .woocommerce .shop_table_responsive {
+    			font-size: 150%;
+    		}
     	';
     };
 };        
@@ -668,7 +713,24 @@ if (class_exists( 'woocommerce' ) ) {
     	';
     }
 	if ( isset($zb_site['comic_nav']) && $zb_site['comic_nav']=='on' ) {
-    	$comic_nav = 'div#comic-foot { display: none; }';
+		$hideit = true;
+		// if MangaPress Plugin is in use don't hide comic nav on latestcomic_page
+		if (defined('MP_VERSION') ){
+			if (MP_VERSION >= 4) {
+				if (is_latest_comic_page()){ $hideit = false; };
+			} else {
+				$mp_options = get_option('mangapress_options');
+				$mp_page = $mp_options['basic']['latestcomic_page'];
+				$mp_page = get_page_by_path($mp_page);
+				$mp_page = get_permalink($mp_page->ID);				
+				if (get_page_link() == $mp_page) { $hideit = false; };
+			}
+		};
+		if ($hideit) {
+    		$comic_nav = 'div#comic-foot, #comic-navigation, body[class*="webcomic"] nav.post-navigation { display: none; }';
+    	} else {
+    		$comic_nav = '';
+    	}
     } else {
     	$comic_nav = '';
     }
@@ -826,7 +888,7 @@ if (class_exists( 'woocommerce' ) ) {
     		.zappbar a.searchbox.right span.search form {
     			float: none;
     			margin: 0 auto;
-    		}
+    		}'.$embiggen_woo.'
     	}';
     } elseif ( $zb_site['showon'] == 'desktops' || $zb_site['showon'] == 'tablets' || $zb_site['showon'] == 'idevices' || $zb_site['showon'] == 'tablets_hd' ) {
     	$zb_style .= '
@@ -949,7 +1011,7 @@ if (class_exists( 'woocommerce' ) ) {
     		.zappbar a.searchbox.right span.search form {
     			float: none;
     			margin: 0 auto;
-    		}
+    		}'.$embiggen_woo.'
     	}';
 		if (function_exists('ceo_pluginfo')) {
 			$zb_style .= 'div.comic-table, #subcontent-wrapper { display: block; }';
@@ -1017,7 +1079,7 @@ if (class_exists( 'woocommerce' ) ) {
     		.zappbar a.searchbox.right span.search form {
     			float: none;
     			margin: 0 auto;
-    		}
+    		}'.$embiggen_woo.'
     	}';
     } else { 
 		$zb_style = '';    	// inject nothing

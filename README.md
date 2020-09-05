@@ -2,11 +2,11 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.5
+**Version:** 0.2.6
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
-**Compatible up to:** 5.2.3
+**Compatible up to:** 5.5.1
 
 **Beta Version Disclaimer**
 
@@ -18,8 +18,18 @@ I got tired of making the _same_ responsive layout modifications to different Wo
 
 ## Installation
 
-1. Download the GitHub archive as a ZIP file.  
-2. Unzip it, knock the “-master” off the folder’s filename
+### Using Admin Upload
+
+1. Download the GitHub archive as a ZIP file.
+2. Go to your _Dashboard > Plugins > Add New_ and press the "Upload Plugin" at the top of the page.
+3. Browse to where you downloaded the ZIP file and select it.
+4. Press the "Install Now" button.
+5. On your _Dashboard > Plugins_ page activate "ZappBar"
+6. Go to _Dashboard > Settings > Zappbar_ and configure it.
+
+### Using FTP
+  
+2. Unzip it so you have a "zappbar-master" folder
 3. FTP upload it into your WordPress blog’s _~/wp-content/plugins/_ folder.
 4. Go to your _Dashboard > Plugins_ and activate “ZappBar”
 5. Go to _Dashboard > Settings > ZappBar_ to configure it.
@@ -38,13 +48,17 @@ The latter two options will _try_ to adjust a non-responsive theme so that it be
 
 Applying "Tweaks" to a theme that is already responsive may or may not have any discernible effect, depending on the theme.  "Retrofit" is intended ONLY for themes that are not already responsive, and applying it to a theme that is already responsive will most likely really mess up the layout.
 
+**Auto-detect Theme Width** If you are retrofitting a theme to be responsive this can _try_ to detect what the set width of the theme is so ZappBar will know where the breakpoint should be to make it responsive.
+
+**Manual Theme Width** If you know the set width of a non-responsive theme or the automatic option didn't work you can manually tell ZappBar at what pixel width to set the breakpoint for responsiveness.
+
 **Theme Sidebars:** Themes often have sidebars in them.  On narrow screen devices these can be a problem if the theme isn’t responsive.  If you told ZappBar to “Make theme responsive” now tell it what it should do with any sidebar containers it finds:
 
 * Try to MOVE sidebar(s) below the main content on mobile devices
 * Try to HIDE sidebar(s) but only from narrow mobile screens
 * Try to HIDE sidebar(s) whenever ZappBars are being displayed
 
-**Admin Mobile Layout:** In my opinion the default, back-end Admin area layout on mobile devices like tablets and phones looks awful.  ZappBar can also try to tweak the back-end layout so it looks and works better (WordPress 3.8.1 or later only).
+**Admin Mobile Layout:** All this does now is make the Admin Bar fixed in position and turns the sidebar menu into a slide-in panel.  It makes it a little nicer to use the WordPress backend on a phone.  All the previous layout fixes have been rolled into the regular ZappBar Admin Styles CSS file.
 
 **WP Admin Bar:** check this box to disable the Admin Toolbar on the FRONT end of the website (this would be the bar across the top of a website when you are logged into it).
 
@@ -91,9 +105,7 @@ _“Mobile Only” uses device detection, which can be spoofed.  “Force” ign
 
 **Splash Link:** If you are using the Splash screen to show an advertisement you can enter a URL target for the ad here.
 
-**CUSTOM SETTINGS**
-
-If you are using a theme that doesn’t use the typical class names or IDs for the parts of the layout you’ll need to tell ZappBar what they are:
+**Custom Settings:** If you are using a theme that doesn’t use the typical class names or IDs for the parts of the layout you’ll need to tell ZappBar what they are:
 
 * Header Target - typically whatever holds the site’s name/masthead.
 * Navigation Target - the main navigation menu container
@@ -101,7 +113,13 @@ If you are using a theme that doesn’t use the typical class names or IDs for t
 * Page Target - the main page content container
 * Sidebar Targets - a comma-separated list of classes and/or IDs for sidebar elements (some may be part of the theme, others may have been added by plugins).
 * Always Hide - comma-separated list of classes/IDs for anything _else_ you want hidden whenever the ZappBars are displayed.
+
+Note that your custom targets will be ignored unless you've set "Theme Layout" to one of the retrofit settings.
+
+**Theme &amp; Plugin Settings:** Allows you to customize settings or appearance of certain supported themes or other plugins while ZappBars are being displayed.
+
 * Comic Navigation - (only shown if using a supported comics theme/plugin) you can choose to HIDE the default comic navigation when ZappBars are displayed.
+* WooCommerce Site - (only shown if using the WooCommerce Plugin) allows you to convert some product page sections into mobile-friendly panels.
 
 ### Social Media
 
@@ -153,7 +171,11 @@ If you set a Custom Stylesheet on the *ZappBar Colors* tab everything on this ta
 
 **Sidebar Panels:** If you do not plan to link buttons to open/close the sidebar panels users will need some way to open/close them.  If this setting is enabled it will overlay your site, left and right, with two tabs which can be used to open/close the left/right panels.
 
-**Use Bar Styles for Panels:** Automatically uses the *ZappBar Colors* settings for the Panels too (which saves you having to repeat it all if you want them to look the same).  If checked all the visual settings below this in the tab section are ignored.
+**Panel Style Source:** Determines which styles are applied to ZappBar Panels:
+
+* Use Bar Styles - Automatically uses the *ZappBar Colors* settings for the Panels too (which saves you having to repeat it all if you want them to look the same).  If selected all the visual settings below this in the tab section are ignored.
+* Inherit from Theme - applies any relevant styles from the theme to your panels.  Can potentially save you time making panels look more integrated with your WordPress theme and will automatically apply new styles when you change themes.  If selected all the visual settings below this in the tab section are ignored.
+* Use Styles Below for Panels - this is the only option that actually uses any custom styles you set on this tab.
 
 _(the color and style options for the panels are also fairly self-explanatory so they won’t be covered in this README)_
 
@@ -173,6 +195,12 @@ This tab section shows you editable previews of what the ZappBars will look like
 **ZappBar Search Box:** Normally the ZappBar “Search” field has a “Submit” button after it.  If you want a cleaner look you can hide the “Submit” button and have it automatically submit on hitting Enter/Return.
 
 **Logo Icon:** (optional) Select an image to be your logo icon and then set one of the buttons to “logo” to display it (the image will be scaled to fit on the button).
+
+**Button Label Text:** 
+
+* Text on Button, No Tooltip - this is the default setting for how it has previously looked.
+* Text on Button is also Tooltip - whatever text you enter as the button label will also be used for the tooltip text when you hover over the button.
+* NO Text on button, Tooltip ONLY - for a cleaner, more modern look you can disable the text labels on the buttons.  You should still enter text, though, to be used as the Tooltip when the mouse hovers over the button AND you should select an icon that makes it clear what the button's function is or where it goes.
 
 **Default Top/Bottom ZappBar:** Shows a preview of the default top bar.  Click on a button to change the icon and text.  Click on the “Show Button Actions” below it to “wire” a button to an action in the drop-down lists.
 
@@ -219,6 +247,29 @@ simply be an icon with no dynamic elements.
 * Zappbar buttons are not functional when shown in Theme "Customize" interface.
 
 ## Changelog
+
+Version 0.2.6
+* Share Panel now works on Archives and Search pages
+* zb_share shortcode now works on Archives and Search pages
+* added heading to settings page
+* automatically updates database with new options on activation
+* fixed unexpected character output on activation caused by version check
+* Version check now also sees if minimum PHP requirement is met
+* fixed javascript error in browser detection for Nexus 5X
+* fixed Icon Picker box width
+* fixed PHP Notice about social media index being undefined
+* fixed compatibility with Webcomic plugin version 5
+* fixed compatibility with MangaPress plugin version 3 and 4
+* fixed compatibility with WooCommerce plugin version 4.3
+* ZappBar WooCommerce bar now shows on "Shop" page too
+* ZappBar Options Layout now shows bars 375 pixels wide because almost nobody is still using a device with a 320 pixel wide portrait screen.
+* ZappBars are now 50px high, which is as close to a standard navbar/toolbar height as there is.
+* ZappBar buttons are now 50px high and 64px wide, which will hopefully stop Google's Smartphone crawler from complaining about touch-targets being too small.  64px wide buttons will still all fit on 320px wide screens.
+* ZappBar button label text is now 12px because that's the minimum acceptable size for Google's Mobile-First indexing, and will hopefully get rid of the "text too small" warnings.
+* ZappBar button labels can now be turned off for a cleaner no-text look (but if you suppress button labels make sure you use an icon that makes it really obvious what the button does).
+* ZappBar Panels can now inherit styling from the theme stylesheet
+* Fixed ZappBar Panel links from having ZappBar button styles applied to them.
+* Tweak Admin styles relevant to ZappBar's settings now part of regular admin styles.  Tweak Admin Styles now only fixes Admin Bar and slide-in menu.  Description updated to reflect it is to make backend more PHONE friendly.
 
 Version 0.2.5
 * Updated browser sniffer for Edge Chromium
@@ -274,7 +325,7 @@ Version 0.2
 * Responsive layout fixes for ComicPress 4.3
 * Auto-detect theme width for retrofit added
 * Fixed misaligned comic post receiving comic archive styling
-* Fixed undefined index social_panel and settings
+* Fixed undefined index social panel and settings
 * Fixed missing default button bg opacity variable on activation
 * Cleaned up sprintf in `class.settings-api.php`
 * Added type for HTML5 input type="number" to `class.settings-api.php`
@@ -303,6 +354,8 @@ This uses my [Icon Picker](https://github.com/kmhcreative/icon-picker) (which is
 [ComicPress 4.x Theme](https://github.com/Frumph/comicpress)
 
 [Webcomic Plugin](https://wordpress.org/plugins/webcomic/)
+
+[Manga+Press Plugin](https://wordpress.org/plugins/mangapress/)
 
 [WooCommerce Plugin](https://wordpress.org/plugins/woocommerce/)
 

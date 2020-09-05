@@ -3,31 +3,129 @@
 function zappbar_inject() {
 	wp_reset_query();	// need this or it may apply archive bars on non-archive pages!
 	$zb_layout = get_option('zappbar_layout');
-	global $post;
+	global $post, $wp;
 	$zb_pages = zb_paginate();
 	$share_panel = 0;	// assume no button is assigned
 	$left_sidebar = 0;	// to activate any of these
 	$right_sidebar= 0;	// panels.
 	$left_appmenu = 0;
 	$right_appmenu= 0;
-	global $share_panel, $left_sidebar, $right_sidebar, $left_appmenu, $right_appmenu;
+	global $share_panel, $left_sidebar, $right_sidebar, $left_appmenu, $right_appmenu, $mp_nav;
+		// If MangaPress Plugin is in use we need to get the nav variables IF this is an mp comic page
+		if (get_post_type() == 'mangapress_comic' || get_post_type() == 'mangapress_comicpage') {	
+			$mp_options = get_option('mangapress_options');
+			$group = boolval($mp_options['basic']['group_comics']);
+			$by_parent = boolval($mp_options['basic']['group_by_parent']);
+			// use mangapress function to get nav
+			if (MP_VERSION >= 4) {
+				$next_post = \MangaPress\Theme\Functions\get_adjacent_comic(false,$group,$by_parent,'mangapress_series');
+				$prev_post = \MangaPress\Theme\Functions\get_adjacent_comic(true,$group,$by_parent,'mangapress_series');
+				$last_post = \MangaPress\Theme\Functions\get_boundary_comic(false,$group,$by_parent,'mangapress_series');
+				$first_post= \MangaPress\Theme\Functions\get_boundary_comic(true,$group,$by_parent,'mangapress_series');
+				$current_page = $post->ID;
+				$next_page = !isset($next_post->ID) ? $current_page : $next_post->ID;
+				$prev_page = !isset($prev_post->ID) ? $current_page : $prev_post->ID;
+					 $last = !isset($last_post->ID) ? $current_page : $last_post->ID;
+					 $first= !isset($first_post->ID) ? $current_page : $first_post->ID;
+				// get permalinks for buttons
+				$first_url = get_permalink($first);
+				$last_url  = get_permalink($last);
+				$next_url  = get_permalink($next_page);
+				$prev_url  = get_permalink($prev_page);
+				// disable buttons with current url
+				if ($next_url == get_permalink($current_page)) { $next_url = '';}
+				if ($prev_url == get_permalink($current_page)) { $prev_url = '';}
+				// get whatever page is used by MangaPress for the Archive
+				$mp_archive = get_permalink($mp_options['basic']['comicarchive_page']);
+			} else {
+				$next_post  = mangapress_get_adjacent_comic($group, $by_parent, 'mangapress_series', false, false);
+				$prev_post  = mangapress_get_adjacent_comic($group, $by_parent, 'mangapress_series', false, true);
+				add_filter('pre_get_posts', '_mangapress_set_post_type_for_boundary');
+				$last_post  = mangapress_get_boundary_comic($group, $by_parent, 'mangapress_series', false, false);
+				$first_post = mangapress_get_boundary_comic($group, $by_parent, 'mangapress_series', false, true);
+				remove_filter('pre_get_posts', '_mangapress_set_post_type_for_boundary');
+				$current_page = $post->ID; // use post ID this time.
 
+				$next_page = !isset($next_post->ID) ? $current_page : $next_post->ID;
+				$prev_page = !isset($prev_post->ID) ? $current_page : $prev_post->ID;
+				$last      = !isset($last_post[0]->ID) ? $current_page : $last_post[0]->ID;
+				$first     = !isset($first_post[0]->ID) ? $current_page : $first_post[0]->ID;
+
+				$first_url = get_permalink($first);
+				$last_url  = get_permalink($last);
+				$next_url  = get_permalink($next_page);
+				$prev_url  = get_permalink($prev_page);
+				// get whatever page is used by MangaPress for the Archive
+				// Note: version 3 uses slug, we need to get ID for permalink
+				$mp_archive = $mp_options['basic']['comicarchive_page'];
+				$mp_archive = get_page_by_path($mp_archive);
+				$mp_archive = get_permalink($mp_archive->ID);
+			
+			}
+				if (!is_comic_archive_page()){
+					//	MangaPress uses "Series" which are kind of like "Chapters" I guess
+					$chapters = zb_get_term_links('mangapress_series');
+					$post_terms = get_the_terms( $post->ID, 'mangapress_series');
+					$post_links = [];
+					if (!empty($post_terms)){
+						foreach($post_terms as $post_term){
+							$post_links[] = get_term_link( $post_term->slug, 'mangapress_series');
+						}
+					}
+					$post_link = $post_links[count($post_links)-1]; // we're only interested in the lowest level term
+					// now, see what index $post_link is in $chapters
+					$link_index = array_search($post_link,$chapters,true);
+					if ($link_index+1 < count($chapters)){
+						$next_chapter = $chapters[$link_index+1];
+					} else {
+						$next_chapter = '';
+					}
+					if ($link_index-1 > -1){
+						$prev_chapter = $chapters[$link_index-1];
+					} else {
+						$prev_chpater = '';
+					}
+				} else {
+					$prev_chapter = '';
+					$next_chapter = '';
+				}				
+			$mp_nav = Array(
+				'first_url' => $first_url,
+				'prev_url'  => $prev_url,
+				'next_url'  => $next_url,
+				'last_url'  => $last_url,
+				'prev_chapter' => $prev_chapter,
+				'next_chapter' => $next_chapter,
+				'comic_archive'=> $mp_archive,
+			);
+		};
+	
 	function build_zappbars($value,$layout,$position,$paged) {
-	global $post;
-	$xtra = '';
-		if ($position == null) { $position = 'top'; };
-	$zb_name = array(
-		'button_a',
-		'button_b',
-		'button_c',
-		'button_d',
-		'button_e'
-	);	
-		$html = '<div class="zappbar zb-'.$layout.' '.$position.'">';
+		global $post, $wp, $mp_nav;
+		$xtra = '';
+			if ($position == null) { $position = 'top'; };
+		$zb_name = array(
+			'button_a',
+			'button_b',
+			'button_c',
+			'button_d',
+			'button_e'
+		);
+		$zb_layout = get_option('zappbar_layout');
+		if ($zb_layout['button_labels'] == '2') { 
+			$notext = ' notext';
+		} else { 
+			$notext = ''; 
+		}
+		$html = '<div class="zappbar zb-'.$layout.' '.$position.$notext.'">';
 		$x = 0;
 		foreach ($value as $val) {
 			$html .= '<div class="zb '.$zb_name[$x].' integrated-webcomic">';
 			$xtra = ''; // reset extra styling for each loop through
+		//	$val[1] = button label text string
+		//  $val[2] = button link or action	
+			$val[3] = ''; // extra text
+			$val[4] = $val[1]; // tooltip string
 			// Comic and Specific Archive Pages
 			if ( array_filter($paged) ) {
 				if ( function_exists('comicpress_display_comic') && comicpress_themeinfo('archive_display_order') == "asc" ) {
@@ -128,6 +226,34 @@ function zappbar_inject() {
 				} else {
 				};
 			} 
+			/* 	MangaPress Post
+				Note that logic for $vars is in the block on line 15 above
+			*/
+			if ( get_post_type() == 'mangapress_comic' || get_post_type() == 'mangapress_comicpage'  ) {					
+				if ($val[2] == 'prev_chapter') {
+					$val[2] = $mp_nav['prev_chapter'];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
+				} else if ($val[2] == 'first_comic') {
+					$val[2] = $mp_nav['first_url'];
+					if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
+				} else if ($val[2] == 'prev_comic') {
+					$val[2] = $mp_nav['prev_url'];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
+				} else if ($val[2] == 'next_comic') {
+					$val[2] = $mp_nav['next_url'];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
+				} else if ($val[2] == 'last_comic') {
+					$val[2] = $mp_nav['last_url'];
+					if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
+				} else if ($val[2] == 'next_chapter') {
+					$val[2] = $mp_nav['next_chapter'];
+					if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
+				} else if ($val[2] == 'comic_archive') {
+					$val[2] = $mp_nav['comic_archive'];
+					if ($val[2] == ''){ $xtra = ' zb-disabled';} else { $xtra = '';}
+				} else {
+				};
+			} 
 			// Webcomic Post
 			if ( preg_match('/webcomic/',get_post_type()) ) {
 				// Yes, this is a very convoluted way of getting the URLs
@@ -163,25 +289,24 @@ function zappbar_inject() {
 				};
 			} 
 			// WooCommerce Product Post
-			if ( class_exists( 'woocommerce' ) && ( is_product() || is_cart() || is_checkout() || is_account_page() )  ) {
+			if ( class_exists( 'woocommerce' ) && ( is_shop() || is_product() || is_cart() || is_checkout() || is_account_page() )  ) {
 				global $woo_options, $woocommerce;
 				if ($val[2] == 'woo_store') {
 					$val[2] = get_permalink( woocommerce_get_page_id( 'shop' ) );
 				}
-				if ($val[2] == 'woo_cart' && ( is_product() || is_cart() || is_checkout() || is_account_page() ) ) {
+				if ($val[2] == 'woo_cart' && ( is_shop() || is_product() || is_cart() || is_checkout() || is_account_page() ) ) {
 					$val[2] = $woocommerce->cart->get_cart_url();
 					$cartcount = sprintf(_n('%d', '%d', $woocommerce->cart->cart_contents_count, 'woothemes'), $woocommerce->cart->cart_contents_count);
-					$label = '<span class="amount">'.$woocommerce->cart->get_cart_total().'</span>';
+					$val[1] = '<span class="amount">'.$woocommerce->cart->get_cart_total().'</span>';
 					if ($cartcount != '0') {
-						$label .= '<span class="contents">'.$cartcount.'</span>';
+						$val[3] = '<span class="contents">'.$cartcount.'</span>';
 					};
-					$val[1] = $label;
 				} else if ($val[2] == 'woo_review' && is_product() ) {
 					global $product;
 					if ( get_option( 'woocommerce_enable_review_rating' ) === 'yes' && ( $count = $product->get_rating_count() ) ) {
-						$val[1] = $val[1].'<span class="contents">'.$count.'</span>';
+						$val[3] = '<span class="contents">'.$count.'</span>';
 					}
-				} else if ($val[2] == 'woo_account' && ( is_product() || is_cart() || is_checkout() || is_account_page() ) ) {
+				} else if ($val[2] == 'woo_account' && ( is_shop() || is_product() || is_cart() || is_checkout() || is_account_page() ) ) {
 					$val[2] = get_permalink( get_option('woocommerce_myaccount_page_id') );
 					if ( is_user_logged_in() ) {
 						$who = wp_get_current_user();
@@ -198,7 +323,7 @@ function zappbar_inject() {
 				} else if ($val[2] == 'woo_search_right') { $shift = ' right';
 				} else { $shift = ' center';}
 				$xtra = " searchbox".$shift;
-				$val[1] = $val[1].'</span><span class="search out">
+				$val[3] = '</span><span class="search out">
 					<form role="search" method="get" action="'.esc_url(home_url( '/' )).'">
 						<label class="screen-reader-text" for="s">'.__( 'Search Products:' , 'woothemes' ).'</label>
 						<input type="search" results=5 autosave="'.esc_url(home_url( '/' )).'" class="input-text" placeholder="'.esc_attr__( 'Search Products', 'woothemes' ).'" value="'.get_search_query().'" name="s" />
@@ -279,7 +404,7 @@ function zappbar_inject() {
 				} else if ($val[2] == 'search_right') { $shift = ' right"';
 				} else { $shift = ' center';}
 				$xtra = " searchbox".$shift;
-				$val[1] = $val[1].'</span><span class="search out">
+				$val[3] = '</span><span class="search out">
 					<form role="search" method="get" class="search-form" action="'.home_url( '/' ).'">
 						<label>
 							<span class="screen-reader-text">Search for:</span>
@@ -291,28 +416,62 @@ function zappbar_inject() {
 			
 			}
 			// Specific Social Media Buttons
+				if ($zb_layout['logo'] != '') {
+					$logo = $zb_layout['logo'];
+				} else {
+					$logo = '';
+				}
+				if (is_archive()) {
+					$title = get_the_archive_title();
+					$permalink = home_url( add_query_arg( array(), $wp->request ) );
+					$shortlink = home_url( add_query_arg( array(), $wp->request ) );
+					$thumbnail = $logo;
+				} else if (is_search()) {
+					$title = 'Search results for: '.get_search_query();
+					$permalink = get_search_link();
+					$shortlink = get_search_link();
+					$thumbnail = $logo;
+				} else if (is_single() || is_page() ) {
+					$title = get_the_title($post->ID);
+					$permalink = get_permalink($post->ID);
+					$shortlink = wp_get_shortlink($post->ID);
+					$thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+				} else if (is_home()){
+					$title = get_bloginfo( 'name' );
+					$permalink = get_site_url();
+					$shortlink = get_site_url();
+					if ($post) {
+					$thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+					} else {
+					$thumbnail = $logo;
+					}
+				} else {
+					$title = get_bloginfo( 'name' );
+					$permalink = get_site_url();
+					$shortlink = get_site_url();
+					$thumbanail = $logo;
+				}
 			if ($val[2] == 'commentform') {
 				if (get_comments_number() > 0) {
-						 $count = '<span class="contents">'.get_comments_number().'</span>';
-				} else { $count = '';};
-				$val[1] = $val[1].$count;
+					$val[3] = '<span class="contents">'.get_comments_number().'</span>';
+				}
 			} else if ($val[2] == 'share_this') {
 				global $share_panel;
 				$share_panel = 1;
 			} else if ($val[2] == 'share_fb') {
-				$val[2] = 'http://www.facebook.com/sharer.php?u='.urlencode(get_permalink($post->ID)).'&amp;t='.urlencode(get_the_title($post->ID)).'';
+				$val[2] = 'http://www.facebook.com/sharer.php?u='.urlencode($permalink).'&amp;t='.urlencode($title).'';
 				$xtra = ' zb-social';
 			} else if ($val[2] == 'share_twitter') {
-				$val[2] = 'http://twitter.com/share?text='.urlencode(get_the_title($post->ID)).'&url='.urlencode(wp_get_shortlink($post->ID)).'';
+				$val[2] = 'http://twitter.com/share?text='.urlencode($title).'&url='.urlencode($shortlink).'';
 				$xtra = ' zb-social';			
 			} else if ($val[2] == 'share_reddit') {
-				$val[2] = 'http://www.reddit.com/submit?url='.urlencode(get_permalink($post->ID)).'&amp;title='.urlencode(get_the_title($post->ID)).'';
+				$val[2] = 'http://www.reddit.com/submit?url='.urlencode($permalink).'&amp;title='.urlencode($title).'';
 				$xtra = ' zb-social';											
 			} else if ($val[2] == 'share_linkedin') {
-				$val[2] = 'http://www.linkedin.com/shareArticle?mini=true&amp;title='.urlencode(get_the_title($post->ID)).'&amp;url='.urlencode(wp_get_shortlink($post->ID)).'';
+				$val[2] = 'http://www.linkedin.com/shareArticle?mini=true&amp;title='.urlencode($title).'&amp;url='.urlencode($shortlink).'';
 				$xtra = ' zb-social';			
 			} else if ($val[2] == 'share_pinterest') {
-				$val[2] = 'http://pinterest.com/pin/create/button/?url='.urlencode(get_permalink($post->ID)).'&media='.urlencode(wp_get_attachment_url( get_post_thumbnail_id($post->ID) )).'';
+				$val[2] = 'http://pinterest.com/pin/create/button/?url='.urlencode($permalink).'&media='.urlencode($thumbnail).'';
 				$xtra = ' zb-social';			
 			} else {};
 			$icon = explode('|',$val[0]);
@@ -328,7 +487,21 @@ function zappbar_inject() {
 				// make it look like an anchor link for stupid bots that do not obey nofollow
 				$val[2] = '#'.$val[2]; 
 			}
-			$html .= '<a href="'.$val[2].'" class="button'.$xtra.'" target="_self" rel="nofollow"><div class="icon '.$icon[0].' '.$icon[1].'"></div><br/><span class="zb-label">'.$val[1].'</span></a>';
+			if ($zb_layout['button_labels'] == '2') {
+				if (!$val[3]) {
+					$button_label = '';
+				} else {
+					$button_label = '<br/><span class="zb-label">'.$val[3].'<span>';
+				}
+				$tooltip = ' title="'.$val[4].'" ';
+			} elseif ($zb_layout['button_labels'] == '1') {
+				$button_label = '<br/><span class="zb-label">'.$val[1].$val[3].'</span>';
+				$tooltip = ' title="'.$val[4].'" ';			
+			} else {
+				$tooltip = '';
+				$button_label = '<br/><span class="zb-label">'.$val[1].$val[3].'</span>';		
+			}
+			$html .= '<a href="'.$val[2].'" class="button'.$xtra.'" target="_self" rel="nofollow"'.$tooltip.'><div class="icon '.$icon[0].' '.$icon[1].'"></div>'.$button_label.'</a>';
 
 			$html .= '</div>';
 			$x++;
@@ -338,13 +511,13 @@ function zappbar_inject() {
 	}
 	$zb_site = get_option('zappbar_site');
 	if ($zb_site['showon'] != 'none') {
-		if ( class_exists('woocommerce') && $zb_layout['use_woo_top_bar']!='no' && (is_product() || is_cart() || is_checkout() || is_account_page()) ) {
+		if ( class_exists('woocommerce') && $zb_layout['use_woo_top_bar']!='no' && (is_shop() || is_product() || is_cart() || is_checkout() || is_account_page()) ) {
 			if ($zb_layout['use_woo_top_bar']=='yes'){
 				build_zappbars($zb_layout['woo_top_bar'],$zb_layout['button_layout'],'top',$zb_pages);
 			}
 		} else if (
 			( 
-				(isset($post->post_type) && ($post->post_type == 'comic' || $post->post_type == 'mangapress')) ||
+				(isset($post->post_type) && ($post->post_type == 'comic' || $post->post_type == 'mangapress_comic' || $post->post_type == 'webcomic')) ||
 				(function_exists('comicpress_display_comic') && comicpress_in_comic_category() && !is_home() ) ||
 				preg_match('/webcomic/',get_post_type())
 			)
@@ -372,7 +545,7 @@ function zappbar_inject() {
 			}
 		} else if (
 			( 
-				(isset($post->post_type) && ($post->post_type == 'comic' || $post->post_type == 'mangapress')) ||
+				(isset($post->post_type) && ($post->post_type == 'comic' || $post->post_type == 'mangapress_comic')) ||
 				(function_exists('comicpress_display_comic') && comicpress_in_comic_category() && !is_home() ) ||
 				preg_match('/webcomic/',get_post_type())
 			)
@@ -425,30 +598,65 @@ function zappbar_inject() {
 		<div id="zappbar_share_this" class="zb-panel right hide"><div class="marginbox">
 			<h2>Share this On:</h2>
 			<?php
-				global $post;
+				if ($zb_layout['logo'] != '') {
+					$logo = $zb_layout['logo'];
+				} else {
+					$logo = '';
+				}
+				if (is_archive()) {
+					$title = get_the_archive_title();
+					$permalink = home_url( add_query_arg( array(), $wp->request ) );
+					$shortlink = home_url( add_query_arg( array(), $wp->request ) );
+					$thumbnail = $logo;
+				} else if (is_search()) {
+					$title = 'Search results for: '.get_search_query();
+					$permalink = get_search_link();
+					$shortlink = get_search_link();
+					$thumbnail = $logo;
+				} else if (is_single() || is_page() ) {
+					$title = get_the_title($post->ID);
+					$permalink = get_permalink($post->ID);
+					$shortlink = wp_get_shortlink($post->ID);
+					$thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+				} else if (is_home()){
+					$title = get_bloginfo( 'name' );
+					$permalink = get_site_url();
+					$shortlink = get_site_url();
+					if ($post) {
+					$thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+					} else {
+					$thumbnail = $logo;
+					}
+				} else {
+					$title = get_bloginfo( 'name' );
+					$permalink = get_site_url();
+					$shortlink = get_site_url();
+					$thumbanail = $logo;
+				}
 				$zb_social = get_option('zappbar_social');
 				$zb_social_panel = isset($zb_social['social_panel']) ? $zb_social['social_panel'] : [];
-				if ( $zb_social_panel['facebook'] != '') {	?>
-			<a href="http://www.facebook.com/sharer.php?u=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;t=<?php echo urlencode(get_the_title($post->ID)); ?>" title="Share on Facebook" rel="nofollow" target="_blank" class="zb-social facebook">Facebook</a>
+				if ( isset($zb_social_panel['facebook']) && $zb_social_panel['facebook'] != '') {	?>
+			<a href="http://www.facebook.com/sharer.php?u=<?php echo urlencode($permalink); ?>&amp;t=<?php echo urlencode($title); ?>" title="Share on Facebook" rel="nofollow" target="_blank" class="zb-social facebook">Facebook</a>
 			<?php	};
-				if ( $zb_social_panel['twitter'] != '') { ?>
-			<a href="http://twitter.com/share?text=<?php echo urlencode(get_the_title($post->ID)); ?>&url=<?php echo urlencode(wp_get_shortlink($post->ID)); ?>" title="Share on Twitter" rel="nofollow" target="_blank" class="zb-social twitter">Twitter</a>
+				if ( isset($zb_social_panel['twitter']) && $zb_social_panel['twitter'] != '') { ?>
+			<a href="http://twitter.com/share?text=<?php echo urlencode($title); ?>&url=<?php echo urlencode($shortlink); ?>" title="Share on Twitter" rel="nofollow" target="_blank" class="zb-social twitter">Twitter</a>
 			<?php	};
-				if ( $zb_social_panel['reddit'] != '') { ?>
-			<a href="http://www.reddit.com/submit?url=<?php echo urlencode(get_permalink($post->ID)); ?>&amp;title=<?php echo urlencode(get_the_title($post->ID)); ?>" title="Share on Reddit" rel="nofollow" target="_blank" class="zb-social reddit">Reddit</a>
+				if ( isset($zb_social_panel['reddit']) && $zb_social_panel['reddit'] != '') { ?>
+			<a href="http://www.reddit.com/submit?url=<?php echo urlencode($permalink); ?>&amp;title=<?php echo urlencode($title); ?>" title="Share on Reddit" rel="nofollow" target="_blank" class="zb-social reddit">Reddit</a>
 			<?php	};
-				if ( $zb_social_panel['linkedin'] != '') { ?>
-			<a href="http://www.linkedin.com/shareArticle?mini=true&amp;title=<?php echo urlencode(get_the_title($post->ID)); ?>&amp;url=<?php echo urlencode(wp_get_shortlink($post->ID)); ?>" title="Share on LinkedIn" rel="nofollow" target="_blank" class="zb-social linkedin">LinkedIn</a>
+				if ( isset($zb_social_panel['linkedin']) && $zb_social_panel['linkedin'] != '') { ?>
+			<a href="http://www.linkedin.com/shareArticle?mini=true&amp;title=<?php echo urlencode($title); ?>&amp;url=<?php echo urlencode($shortlink); ?>" title="Share on LinkedIn" rel="nofollow" target="_blank" class="zb-social linkedin">LinkedIn</a>
 			<?php 	};
-				if ( $zb_social_panel['pinterest'] != '') { ?>
-			<a href="http://pinterest.com/pin/create/button/?url=<?php echo urlencode(get_permalink($post->ID)); ?>&media=<?php echo urlencode(wp_get_attachment_url( get_post_thumbnail_id($post->ID) )); ?>" title="Pin this!" rel="nofollow" target="_blank" class="zb-social pinterest">Pinterest</a>
+				if ( isset($zb_social_panel['pinterest']) && $zb_social_panel['pinterest'] != '') { ?>
+			<a href="http://pinterest.com/pin/create/button/?url=<?php echo urlencode($permalink); ?>&media=<?php echo urlencode($thumbnail); ?>" title="Pin this!" rel="nofollow" target="_blank" class="zb-social pinterest">Pinterest</a>
 			<?php 	};
-				if ( $zb_social_panel['rss'] != '') { ?>
+				if ( isset($zb_social_panel['rss']) && $zb_social_panel['rss'] != '') { ?>
 			<a href="<?php echo get_site_url(); ?>/?feed=rss" title="RSS Feed" rel="nofollow" target="_blank" class="zb-social rss-feed">RSS Feed</a>
 			<?php	};
-				if ( $zb_social_panel['email'] != '') { ?>
-			<a href="mailto:?subject=Sharing: <?php echo get_the_title($post->ID); ?>&amp;body=%0AThought you might be interested in this:%0A%0A<?php echo get_the_title($post->ID); ?>%0A%0A<?php echo urlencode(get_permalink($post->ID)); ?>%0A%0A" title="Share by E-mail" rel="nofollow" target="_blank" class="zb-mail">E-mail Link!</a>
-			<?php 	};	?>
+				if ( isset($zb_social_panel['email']) && $zb_social_panel['email'] != '') { ?>
+			<a href="mailto:?subject=Sharing: <?php echo $title; ?>&amp;body=%0AThought you might be interested in this:%0A%0A<?php echo $title; ?>%0A%0A<?php echo urlencode($permalink); ?>%0A%0A<?php echo urlencode($thumbnail); ?>" title="Share by E-mail" rel="nofollow" target="_blank" class="zb-mail">E-mail Link!</a>
+			<?php 	};
+?>
 		</div></div>
 	<?php }; 
 		if ( $panels['panel_tabs'] == 'yes' ) {

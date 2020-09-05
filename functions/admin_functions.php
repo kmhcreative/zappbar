@@ -7,9 +7,9 @@ add_action( 'init','register_zb_menu');
 
 
 function reset_zappbar_options(){
-if (isset($_POST['reset'])) {
+if (isset($_POST['zappbar_reset'])) {
 if ( ! wp_verify_nonce( $_POST['zb_reset_nonce'], basename(__FILE__) ) ) {
-		zb_add_defaults( $reset = true );				
+		zb_activate( $reset = true );				
 	} else {
 		return false;
 	}

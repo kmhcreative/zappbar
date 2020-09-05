@@ -25,12 +25,14 @@ function zappbar_icon_picker_scripts() {
 	} else {
 		// Media Uploader for WP 3.5+ //
         wp_enqueue_media();	
-    }    
+    }
+    // MangaPress 3 messes up ZappBar Layout 
+       wp_dequeue_style('mangapress-icons');   
 }
 // Make sure we only enqueue on our options page //
 global $pagenow;
 if ($pagenow=="options-general.php" && isset( $_GET['page'] ) && $_GET['page'] == "zappbar_settings"  ) {
-	add_action( 'admin_enqueue_scripts', 'zappbar_icon_picker_scripts' );
+	add_action( 'admin_enqueue_scripts', 'zappbar_icon_picker_scripts', 100 ); // high priority is to remove MangaPress 3 styles
 }
 
 $sitelayout = get_option('zappbar_site');
@@ -165,7 +167,7 @@ class ZB_Settings_API_Test {
                         'yes' => 'Tweak Admin Layout',
                         'no' => 'Use Admin Default'
                     ),
-                    'desc' => __('Attempts to improve the responsive layout of the Admin back-end (WordPress 3.8.1+ only)','zbopts'),
+                    'desc' => __('Tries to make back-end Admin layout more phone-friendly (WordPress 3.8.1+ only)','zbopts'),
                 ),
                 array(
                     'name' => 'adminbar',
@@ -289,7 +291,7 @@ class ZB_Settings_API_Test {
                 		However a theme designer might assign any ID or class name to a given element, in 
                 		which case - if a selected layout option above is not working - you will need to look 
                 		at the source code for the theme you are using and in the boxes below provide the correct IDs/class names 
-                		so ZappBar can target them.<hr/>','zbotps')
+                		so ZappBar can target them. <strong>NOTE: If "Theme Layout" above is set to "Theme is already repsonsive" the entries below are ignored!</strong><hr/>','zbotps')
                 ),
                 array(
                 	'name' => 'header_custom',
@@ -332,6 +334,13 @@ class ZB_Settings_API_Test {
                 	'desc' => __( '<br/>(optional) Comma-separated list of element IDs/Classes to hide when ZappBars are displayed, <em>even if the theme is already responsive</em> (include "." if class or "#" if ID)','zbopts'),
                 	'type' => 'text',
                 	'default' => ''
+                ),
+                 array(
+                	'name' => 'plugins_explain',
+                	'label' => 'Theme & Plugin Settings',
+                	'type' => 'paragraph',
+                	'desc' => __( '
+                		Any additional settings that appear below will allow you to customize settings or appearance of certain supported themes and other plugins while ZappBars are being displayed.<hr/>','zbotps')
                 )
             ),
             'zappbar_social' => array(
@@ -439,7 +448,7 @@ class ZB_Settings_API_Test {
                 array(
                 	'name' => 'custom_styles',
                 	'label' => __( 'Custom Stylesheet', 'zbopts'),
-                	'desc' => __( '<br/>URL should include http:// and domain name.' , 'zbopts'),
+                	'desc' => __( '<br/>full URL path to stylesheet.' , 'zbopts'),
                 	'type' => 'text',
                 	'defalt' => ''
                 ),
@@ -510,14 +519,14 @@ class ZB_Settings_API_Test {
 					),               
                  array(
                     'name' => 'font_color',
-                    'label' => __( 'Font Color', 'zbopts' ),
+                    'label' => __( 'Button Font Color', 'zbopts' ),
                     'desc' => __( '', 'zbopts' ),
                     'type' => 'color',
                     'default' => '#333333'
                 ),               
                 array(
                     'name' => 'font_hover_color',
-                    'label' => __( 'Font Hover color', 'zbopts' ),
+                    'label' => __( 'Button Font Hover color', 'zbopts' ),
                     'desc' => __( 'When pointer hovers or touch device focuses on button.', 'zbopts' ),
                     'type' => 'color',
                     'default' => '#000000'
@@ -572,9 +581,9 @@ class ZB_Settings_API_Test {
                 	'type' => 'paragraph',
                 	'desc' => __( '
                 		If you have set a custom stylesheet on the "ZappBar Colors" tab everything on this tab will 
-                		be ignored in favor of your custom stylesheet.  If you tick the "Use Bar Styles for Panels" 
-                		checkbox below all the color and styles settings after it will be ignored in favor of the 
-                		settings on the "ZappBar Colors" tab.','zbotps')
+                		be ignored in favor of your custom stylesheet.  If you select either the "Use Bar styles for Panels" or
+                		"Inherit Panel Styles from Theme" option below all the color and styles settings after it will be ignored in favor of the 
+                		settings on the "ZappBar Colors" tab or Theme stylesheet, respectively.','zbotps')
                 ),
             	array(
             		'name' => 'panel_menu',
@@ -601,10 +610,14 @@ class ZB_Settings_API_Test {
                 ),
                 array(
                 	'name' => 'panel_styles',
-                	'label' => __( 'Use Bar styles for Panels'),
-                	'desc' => __( 'Automatically applies the Bar styles to Panels <strong>(Ignores the settings below!)</strong>'),
-                	'type' => 'checkbox',
-                	'default' => 'on'
+                	'label' => __('Panel Style Source'),
+                	'type' => 'radio',
+                	'default' => 'on',
+                	'options' => array(
+                		'on'  => __('Use Bar styles for Panels <strong>(Ignores settings below!)</strong>'),
+                		'off' => __('Inherit Panel styles from theme <strong>(Ignores settings below!)</strong>'),
+                		'yes' => __('Use styles below for Panels')
+                		)
                 ),
                 array(
                     'name' => 'panel_bg',
@@ -670,7 +683,21 @@ class ZB_Settings_API_Test {
 							'step'=> '0.1'
 						),
 						'sanitize_callback' => 'floatval'
-					),               
+					),   
+                array(
+                    'name' => 'panel_button_font_color',
+                    'label' => __( 'Panel Button Font Color', 'zbopts' ),
+                    'desc' => __( '', 'zbopts' ),
+                    'type' => 'color',
+                    'default' => '#333333'
+                ),               
+                array(
+                    'name' => 'panel_button_font_hover_color',
+                    'label' => __( 'Panel Button Font Hover color', 'zbopts' ),
+                    'desc' => __( 'When pointer hovers or touch device focuses on button.', 'zbopts' ),
+                    'type' => 'color',
+                    'default' => '#000000'
+                ),             
                  array(
                     'name' => 'panel_font_color',
                     'label' => __( 'Panel Font Color', 'zbopts' ),
@@ -763,11 +790,23 @@ class ZB_Settings_API_Test {
                 array(
                     'name' => 'logo',
                     'label' => __( 'Logo Icon', 'zbopts' ),
-                    'desc' => __( '(optional) Select an image to be your logo icon, then set one of the buttons below to "logo" to display it.', 'zbopts' ),
+                    'desc' => __( '(optional) Select an image to be your logo icon, then set one of the buttons below to "logo" to display it.  Also used by zb-share shortcode if there is no featured image for thumbnail.', 'zbopts' ),
                     'type' => 'media',
                     'button' => __('Choose Logo'),
                     'default' => ''
                 ),
+                array(
+						'name' => 'button_labels',
+						'label' => __( 'Button Label Text', 'zbopts' ),
+						'desc' => __( 'Labels will still be shown below so you can set the text.', 'zbopts' ),
+						'type' => 'radio',
+						'default' => '0',
+						'options' => array(
+							'0' => 'Text on button, no Tooltip',
+							'1' => 'Text on button is also Tooltip',
+							'2' => 'NO Text on button, Tooltip ONLY'
+						)
+					),
                 array(
                 	'name' => 'default_top',
                 	'label' => __( 'Default Top ZappBar', 'zbopts'),
@@ -898,7 +937,7 @@ class ZB_Settings_API_Test {
 
         );
         
-        if (function_exists('ceo_pluginfo') || function_exists('comicpress_themeinfo') || class_exists('Webcomic') ) {
+        if (function_exists('ceo_pluginfo') || function_exists('comicpress_themeinfo') || class_exists('Webcomic') || function_exists('webcomic') || post_type_exists('mangapress_comic') ) {
 			// Detect if any web comics plugins/themes are in use, if so add this bar option
 			$settings_fields['zappbar_site'][] = array(
 					'name' => 'comic_nav',
@@ -912,7 +951,7 @@ class ZB_Settings_API_Test {
                 	'label' => 'Web comics',
                 	'type' => 'paragraph',
                 	'desc' => __( '
-                		If you are using the ComicPress theme, Comic Easel plugin, or Webcomic plugin the bars 
+                		If you are using the ComicPress theme, Comic Easel plugin, Webcomic plugin, or MangaPress plugin the bars 
                 		below can be shown on pages displaying single comic posts.','zbotps')
                 );
         	$settings_fields['zappbar_layout'][] = array(
@@ -1022,7 +1061,7 @@ class ZB_Settings_API_Test {
 						array('dashicons|dashicons-products','Store','woo_store'),
 						array('dashicons|dashicons-tag','Info','woo_desc'),
 						array('dashicons|dashicons-star-filled','Reviews','woo_review'),
-						array('fa|fa-tags','More Info', 'woo_addl'),
+						array('fa|fa-tags','Options', 'woo_addl'),
 						array('dashicons|dashicons-share','Share','share_this')
                 	)
                 );
@@ -1031,11 +1070,12 @@ class ZB_Settings_API_Test {
                     'label' => __( 'WooCommerce Site', 'zbopts' ),
                     'desc' => __( 'Select which WooCommerce features to alter.', 'zbopts' ),
                     'type' => 'multicheck',
-                    'default' => array('woo_reviews' => '', 'woo_desc' => '', 'woo_addl' => ''),
+                    'default' => array('woo_reviews' => '', 'woo_desc' => '', 'woo_addl' => '', 'woo_big' => ''),
                     'options' => array(
                         'woo_reviews' => 'Convert Woo Reviews to App Panel',
                         'woo_desc' => 'Convert Woo Product Description to App Panel',
-                        'woo_addl' => 'Convert Woo Additional Product Info to App Panel'
+                        'woo_addl' => 'Convert Woo Additional Product Info to App Panel',
+                        'woo_big'  => 'Increase text size of tables in Checkout on Phones'
                     )
                 );
         }
@@ -1046,11 +1086,12 @@ class ZB_Settings_API_Test {
     function plugin_page() {
     ?>
         <div class="wrap zb_settings_page">
+        <h1>ZappBar Settings</h1>
         <?php $this->settings_api->show_navigation(); ?>
         <?php $this->settings_api->show_forms(); ?>
         <form id="zb_reset" method="post" action="">
         <?php wp_nonce_field('zb_reset','zb_reset_nonce'); ?>
-        <input type="hidden" name="reset" value="1" />
+        <input type="hidden" name="zappbar_reset" value="1" />
         <input type="button" type="submit" name="resetbutton" class="reset button secondary-button" value="Reset to defaults" style="float:right;" />
         <div style="clear:both;"></div>
         </form>        

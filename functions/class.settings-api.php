@@ -225,6 +225,9 @@ class ZB_Settings_API {
 			$layout = 'zb-spread';
 		} else {
 			$layout = 'zb-'.$zb_layout['button_layout'];
+		}
+		if ($zb_layout['button_labels'] == '2') {
+			$layout .= ' notext';
 		} 	
  		if (empty($value)) {
  			if (preg_match('/bottom/',$class)) {
@@ -332,15 +335,26 @@ class ZB_Settings_API {
  				);
  				$targets = array_merge($targets,$woo_targets);
  			}
-			if (function_exists('ceo_pluginfo') || function_exists('comicpress_themeinfo') || class_exists('Webcomic') ) {
+ 			
+			if (function_exists('ceo_pluginfo') || function_exists('comicpress_themeinfo') || class_exists('Webcomic') || function_exists('webcomic') || post_type_exists('mangapress_comic') ) {
+				if(function_exists('webcomic')){ 
+					$collection = get_webcomic_collections();
+					$comic_archive = get_webcomic_collection_url($collection[0]);
+					$archive_label = "Comic Collection";
+					$chapter_label = "Storyline";
+				} else {
+					$comic_archive = "comic_archive";
+					$archive_label = "Comic Archive";
+					$chapter_label = "Comic Chapter";
+				}
 				$ceo_targets = array(
-					'prev_chapter'=> 'Previous Comic Chapter',
+					'prev_chapter'=> 'Previous '.$chapter_label,
 					'first_comic' => 'First Comic',
 					'prev_comic'  => 'Previous Comic',
 					'next_comic'  => 'Next Comic',
 					'last_comic'  => 'Last Comic',
-					'next_chapter'=> 'Next Comic Chapter',
-					'comic_archive' => 'Comic Archive'
+					'next_chapter'=> 'Next '.$chapter_label,
+				   $comic_archive => $archive_label
 				);
 				$targets = array_merge($targets,$ceo_targets);
 			}
@@ -375,6 +389,10 @@ class ZB_Settings_API {
         	});
         });	
 		</script>';
+		
+
+
+
     	echo $html;
     }
 

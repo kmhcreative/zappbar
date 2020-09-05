@@ -343,8 +343,9 @@ if (navigator.userAgent.match(/Edge/i)) {	// original Edge Spartan
 			var bv = navigator.userAgent.match(/Silk\/(\d+\.\d+)/i);
 				bv = parseFloat(bv[0].split("/")[1]);
 				device.bv = bv; // actual browser version	
-		} else if ( navigator.userAgent.match(/OPR/i) || navigator.userAgent.match(/Opera/i)) {
+		} else if ( navigator.userAgent.match(/OPR\//i) || navigator.userAgent.match(/Opera/i)) {
 			// check for Opera first because new Opera will say it is Chrome
+			// needs to check for OPR/ because Google Nexus 5X uses OPR too
 				if (navigator.userAgent.match(/Opera/i)) { // old Opera version
 					var bv = navigator.userAgent.match(/Opera\/(\d+\.\d+)/i);
 					device.Platform = "Opera";	
@@ -379,7 +380,8 @@ if (navigator.userAgent.match(/Edge/i)) {	// original Edge Spartan
 			device.app = 1;
 		}
 	}
-} else if ( navigator.userAgent.match(/OPR/i) || navigator.userAgent.match(/Opera/i) || window.opera ) {
+} else if ( navigator.userAgent.match(/OPR\//i) || navigator.userAgent.match(/Opera/i) || window.opera ) {
+		// Google Nexus 5X desktop view would have OPR so need to check for OPR/ (with trailing slash)
 		device.Platform = "Opera";
 			if (navigator.userAgent.match(/Opera/i)) { // old Opera version
         	var fullVersion = window.opera.version();
