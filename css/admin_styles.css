@@ -277,6 +277,8 @@ label img {
 		.zappbar.notext input.zb-label {
 			top: 15px;
 			border: 1px solid #ccc;
+			background-color: #eee;
+			color: #000 !important;
 			-webkit-border-radius: 0px;
 			-moz-border-radius: 0px;
 			-ms-border-radius: 0px;
