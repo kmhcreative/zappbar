@@ -862,7 +862,7 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 			var theme_width = "<?php echo get_theme_mod('comicpress-customize-range-site-width') ? intval( get_theme_mod('comicpress-customize-range-site-width')) : $zb_site['theme_width']; ?>";
 			var telnum = escape("<?php if($zb_social['phone_number']!='') {echo $zb_social['phone_number']; }; ?>");
 			var splash = "<?php if($zb_site['splash_screen']!=''){echo $zb_site['splash_screen']; }; ?>";
-			var splash_timer = <?php echo $zb_site['splash_timer']; ?>;
+			var splash_timer = "<?php echo $zb_site['splash_timer']; ?>";
 			var splash_link = "<?php echo $zb_site['splash_link']; ?>";
 			var comments_open = "<?php if(is_singular()){echo comments_open();} ?>";
 			var is_home = "<?php echo is_home(); ?>";

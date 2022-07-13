@@ -2,11 +2,11 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.6
+**Version:** 0.2.7
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
-**Compatible up to:** 5.5.1
+**Compatible up to:** 6.0.1
 
 **Beta Version Disclaimer**
 
@@ -247,6 +247,10 @@ simply be an icon with no dynamic elements.
 * Zappbar buttons are not functional when shown in Theme "Customize" interface.
 
 ## Changelog
+
+Version 0.2.7
+* Fixed issue with icon picker pop-up not populating with icons to pick.
+* Fixed Splash Timer error if database had no saved timeout value.
 
 Version 0.2.6
 * Share Panel now works on Archives and Search pages

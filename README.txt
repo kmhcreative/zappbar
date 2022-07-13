@@ -5,8 +5,8 @@ Contributors: OffWorld, Frumph
 Tags: Responsive, Mobile, Theme, Modifications
 Requires at least: 3.5
 Requires PHP: 5.3
-Tested up to: 5.5.1
-Stable Tag: 0.2.6
+Tested up to: 6.0.1
+Stable Tag: 0.2.7
 License: GPLv3
 Licence URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -60,6 +60,10 @@ Depending on what other plugins you have activated that ZappBar interacts with, 
 Zappbar buttons are not functional when shown in Theme "Customize" interface because they are only activated on the front-end of your website.  Configure ZappBar under Settings > ZappBar.
 
 == Changelog ==
+
+= Version 0.2.7 =
+* Fixed issue with icon picker pop-up not populating with icons to pick.
+* Fixed Splash Timer error if database had no saved timeout value.
 
 = Version 0.2.6 =
 * Share Panel now works on Archives and Search pages

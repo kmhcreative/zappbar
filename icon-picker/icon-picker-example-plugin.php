@@ -5,7 +5,7 @@
  * Author: K.M. Hansen
  * Adapted from Dashicons Picker by Brad Vincent @ http://themergency.com
  * Author URI: http://www.kmhcreative.com/labs/
- * Version: 1.0
+ * Version: 1.1
  */
 
 function icon_picker_register_settings() {
@@ -19,15 +19,17 @@ function icon_picker_settings_menu() {
 add_action( 'admin_menu', 'icon_picker_settings_menu' );
 
 function icon_picker_scripts() {
+//	Note: Dashicons should already be loaded on the backend
+
     $css = plugin_dir_url( __FILE__ ) . '/css/icon-picker.css';
     wp_enqueue_style( 'icon-picker', $css, array( 'dashicons' ), '1.0' );
-
+/*
 	$font1 = plugin_dir_url( __FILE__ ) . 'fonts/genericons/genericons.css';
 	wp_enqueue_style( 'genericons', $font1, '', '');
     
     $font2 = plugin_dir_url( __FILE__ ) . 'fonts/font-awesome/css/font-awesome.css';
     wp_enqueue_style( 'font-awesome', $font2,'','');
-
+*/
     $js = plugin_dir_url( __FILE__ ) . '/js/icon-picker.js';
     wp_enqueue_script( 'icon-picker', $js, array( 'jquery' ), '1.0' );
 }
