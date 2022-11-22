@@ -3,7 +3,7 @@
 Plugin Name: ZappBar
 Plugin URI:  https://github.com/kmhcreative/zappbar
 Description: Adds mobile-friendly web app navigation and toolbars to any WordPress theme.
-Version: 	 0.2.7
+Version: 	 0.2.8
 Author: 	 K.M. Hansen
 Author URI:  http://www.kmhcreative.com
 License: 	 GPLv3
@@ -64,8 +64,6 @@ function zb_activate($reset = false) {
 			'icon2favicon'   => '',
 			'splash_screen'	 => '',
 			'splash_size'	 => 'contain',
-			'splash_timer'   => '5000',
-			'splash_link'	 => '',
 			'header_custom'	 =>	'',
 			'nav_custom'	 =>	'',
 			'comment_custom' =>	'',
@@ -253,7 +251,7 @@ function zappbar_pluginfo($whichinfo = null) {
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
 				'plugin_basename' => plugin_basename(__FILE__),
-				'version' => '0.2.7'
+				'version' => '0.2.8'
 		);
 		// Combine em.
 		$zappbar_pluginfo = array_merge($zappbar_pluginfo, $zappbar_addinfo);

@@ -6,7 +6,7 @@ Automagically adds responsive, customizable mobile UI to (almost) any WordPress 
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
-**Compatible up to:** 6.0.1
+**Compatible up to:** 6.1.1
 
 **Beta Version Disclaimer**
 
@@ -129,19 +129,23 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 
 **Twitter ID:** Enter the @ Twitter ID associated with your blog (if any).  If you leave this blank then no Twitter `<meta>` tags will be injected.
 
+**Mastodon ID:** Enter the @username@instance ID associated with your Mastodon account and the Mastodon verification code will be added to your website.
+
 **Phone Number:** If you intend to link a ZappBar button to the “Phone” action this is the phone number that will be inserted into the on-screen notice box.
 
 **E-Mail Address:** If you link a ZappBar button to “E-Mail Contact” this is the e-mail address to which the message will be sent.  If you want people to e-mail the site administrator set your button action to “E-mail Admin” and it will use the address on your blog’s _Settings > General_ page.
 
 **Social Media Panel:** Enable/Disable buttons for various social media websites:
 
+* E-Mail Share
 * Facebook
-* Twitter
-* Reddit
 * LinkedIn
+* Mastodon
 * Pinterest
+* Reddit
 * RSS Feed
-* Share via E-Mail
+* Tumblr
+* Twitter
 
 **Social Shortcode:** you can invoke this same list of social media links anywhere on your site, even when ZappBars are not being shown, by using the shortcode *_[zb-share]_* which accepts the following parameters:
 
@@ -247,6 +251,13 @@ simply be an icon with no dynamic elements.
 * Zappbar buttons are not functional when shown in Theme "Customize" interface.
 
 ## Changelog
+
+Version 0.2.8
+* Added Tumblr to Social Sharing options.
+* Added Mastodon to Social Sharing options.
+* Added Mastodon Verification Code insertion option.
+* Added "Share on Mastodon Easily" script.
+* Social Media options now sorted alphabetically.
 
 Version 0.2.7
 * Fixed issue with icon picker pop-up not populating with icons to pick.

@@ -17,6 +17,12 @@ a.zb-share {
 	a.zb-share.twitter {
 		background-color:#9AE4E8;
 	}
+	a.zb-share.tumblr{
+		background-color:#001935;
+	}
+	a.zb-share.mastodon{
+		background-color:#2f0c7a;
+	}
 	/*Facebook*/
 	a.zb-share.facebook {
 		background-color:#3B5998;
@@ -52,8 +58,17 @@ a.zb-share {
 		margin-left: 10px;
 	}
 	.zb-sharethis.small a.zb-share span { display: none;}
+	/* Twitter */
 	.zb-sharethis.small a.zb-share.twitter {
 		background-image: url('../includes/images/social_icons/icons_small/twitter.png');
+	}
+	/* Tumblr */
+	.zb-sharethis.small a.zb-share.tumblr {
+		background-image: url('../includes/images/social_icons/icons_small/tumblr.png');
+	}
+	/* Mastodon */
+	.zb-sharethis.small a.zb-share.mastodon {
+		background-image: url('../includes/images/social_icons/icons_small/mastodon.png');
 	}
 	/*Facebook*/
 	.zb-sharethis.small a.zb-share.facebook {
@@ -89,8 +104,17 @@ a.zb-share {
 		border-radius: 0;
 	}
 	.zb-sharethis.medium a.zb-share span { display: none;}
+	/* Twitter */
 	.zb-sharethis.medium a.zb-share.twitter {
 		background-image: url('../includes/images/social_icons/icons_medium/twitter.png');
+	}
+	/* Tumblr */
+	.zb-sharethis.medium a.zb-share.tumblr {
+		background-image: url('../includes/images/social_icons/icons_medium/tumblr.png');
+	}
+	/* Mastodon */
+	.zb-sharethis.medium a.zb-share.mastodon {
+		background-image: url('../includes/images/social_icons/icons_medium/mastodon.png');
 	}
 	/*Facebook*/
 	.zb-sharethis.medium a.zb-share.facebook {
@@ -125,8 +149,17 @@ a.zb-share {
 		border-radius: 0;
 	}
 	.zb-sharethis.large a.zb-share span { display: none;}
+	/* Twitter */
 	.zb-sharethis.large a.zb-share.twitter {
 		background-image: url('../includes/images/social_icons/icons_large/twitter.png');
+	}
+	/* Tumblr */
+	.zb-sharethis.large a.zb-share.tumblr {
+		background-image: url('../includes/images/social_icons/icons_large/tumblr.png');
+	}
+	/* Mastodon */
+	.zb-sharethis.large a.zb-share.mastodon {
+		background-image: url('../includes/images/social_icons/icons_large/mastodon.png');
 	}
 	/*Facebook*/
 	.zb-sharethis.large a.zb-share.facebook {
@@ -160,8 +193,17 @@ a.zb-share {
 		padding-left: 25px;
 		line-height: 22px;
 	}
+	/* Twitter */
 	.zb-sharethis.label a.zb-share.twitter {
 		background-image: url('../includes/images/social_icons/icons_small/twitter.png');
+	}
+	/* Tumblr */
+	.zb-sharethis.label a.zb-share.tumblr {
+		background-image: url('../includes/images/social_icons/icons_small/tumblr.png');
+	}
+	/* Mastodon */
+	.zb-sharethis.label a.zb-share.mastodon {
+		background-image: url('../includes/images/social_icons/icons_small/mastodon.png');
 	}
 	/*Facebook*/
 	.zb-sharethis.label a.zb-share.facebook {

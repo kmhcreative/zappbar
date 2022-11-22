@@ -370,6 +370,13 @@ class ZB_Settings_API_Test {
                 	'default' => ''
                 ),
                 array(
+                	'name' => 'mastodon_id',
+                	'label' => __( 'Mastodon ID', 'zbopts'),
+                	'desc' => __( '<br/>Enter the @username@instance ID associated with your Mastodon account and ZappBar will add self-verification code to your blog.  Then go to your Mastodon account profile and SAVE it.  Your Mastodon Profile should now have a green checkmark.  (Leave this blank and no verification code will be added).','zbopts'),
+                	'type' => 'text',
+                	'default' => ''
+                ),
+                array(
                 	'name' => 'phone_number',
                 	'label' => __( 'Phone Number', 'zbopts'),
                 	'desc' => __( '<br/>(optional) If you intend to link a ZappBar button to the "Phone" action this is the number that will be inserted into the on-screen notice box.','zbopts'),
@@ -393,22 +400,26 @@ class ZB_Settings_API_Test {
                     each instance can display a different list of sites.', 'zbopts' ),
                     'type' => 'multicheck',
                     'default' => array(
+                    		'email'		=>	'email',
                     		'facebook'	=>	'facebook',
-                    		'twitter'	=>	'twitter',
-                    		'reddit'	=>	'reddit',
                     		'linkedin'	=>	'linkedin',
+                    		'mastodon'	=>	'mastodon',
                     		'pinterest'	=>	'pinterest',
+                    		'reddit'	=>	'reddit',
                     		'rss'		=>	'rss',
-                    		'email'		=>	'email'
+                    		'tumblr'	=>	'tumblr',
+                    		'twitter'	=>	'twitter'
                     	),
                     'options' => array(
+                    	'email'		=>	'E-mail Share (email)',
 						'facebook'	=>	'Facebook (facebook)',
-						'twitter'	=> 	'Twitter (twitter)',
-						'reddit'	=> 	'Reddit (reddit)',
 						'linkedin'	=>	'LinkedIn (linkedin)',
+						'mastodon'	=> 	'Mastodon (mastodon)',
 						'pinterest'	=>	'Pinterest (pinterest)',
+						'reddit'	=>	'Reddit (reddit)',
 						'rss'		=>	'RSS Feed (rss)',
-						'email'		=>	'Share via E-Mail (email)'
+						'tumblr'	=>	'Tumblr (tumblr)',
+						'twitter'	=> 	'Twitter (twitter)'
                     )
                 ),
                  array(

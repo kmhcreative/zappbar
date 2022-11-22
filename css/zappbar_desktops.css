@@ -260,6 +260,14 @@
 #zappbar_share_this a.twitter{
     background:#3cf url('../includes/images/social_icons/icons_large/twitter.png') 10px center no-repeat;
 }
+/* Tumblr */
+#zappbar_share_this a.tumblr {
+	background:#001935 url('../includes/images/social_icons/icons_large/tumblr.png') 10px center no-repeat;
+}
+/* Mastodon */
+#zappbar_share_this a.mastodon {
+	background:#2f0c7a url('../includes/images/social_icons/icons_large/mastodon.png') 10px center no-repeat;
+}
 /*Facebook*/
 #zappbar_share_this a.facebook{
     background:#3B5998 url('../includes/images/social_icons/icons_large/facebook.png') 10px center no-repeat;

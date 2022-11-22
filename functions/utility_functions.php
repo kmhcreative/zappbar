@@ -147,7 +147,7 @@ function zb_share_shortcode( $atts, $content = null ) {
 			$include = strtolower($include);
 			$include = explode(",",$include);
 		} else {
-			$include = array('facebook','twitter','reddit','linkedin','pinterest','rss','email');	
+			$include = array('facebook','twitter','mastodon','tumblr','reddit','linkedin','pinterest','rss','email');	
 		}
 		if ($exclude != null && $exclude != '') {
 			$exclude = strtolower($exclude);
@@ -162,6 +162,12 @@ function zb_share_shortcode( $atts, $content = null ) {
 	if ( in_array('twitter',$include) && !in_array('twitter',$exclude) ) {
 	$social .=  '<a href="http://twitter.com/share?text='.urlencode($title).'&url='.urlencode($shortlink).'" title="Share on Twitter" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share twitter"><span>Twitter</span></a>';
 	}
+	if ( in_array('tumblr',$include) && !in_array('tumblr',$exclude) ){
+	$social .= '<a href="http://tumblr.com/widgets/share/tool?canonicalUrl='.urlencode($permalink).'" title="Share on Tumblr" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share tumblr"><span>Tumblr</span></a>';
+	}
+	if ( in_array('mastodon',$include) && !in_array('mastodon',$exclude) ){
+	$social .= '<a href="'.$permalink.'" title="Share on Mastodon" rel="nofollow" target="_blank" onclick="event.preventDefault();some.share(this.href);event.stopImmediatePropagation();" class="zb-share mastodon"><span>Mastodon</span></a>';
+	}	
 	if ( in_array('reddit',$include) && !in_array('reddit',$exclude) ) {	
 	$social .=  '<a href="http://www.reddit.com/submit?url='.urlencode($permalink).'&amp;title='.urlencode($title).'" title="Share on Reddit" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share reddit"><span>Reddit</span></a>';
 	}

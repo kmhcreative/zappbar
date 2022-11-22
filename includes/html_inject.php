@@ -463,7 +463,10 @@ function zappbar_inject() {
 				$xtra = ' zb-social';
 			} else if ($val[2] == 'share_twitter') {
 				$val[2] = 'http://twitter.com/share?text='.urlencode($title).'&url='.urlencode($shortlink).'';
-				$xtra = ' zb-social';			
+				$xtra = ' zb-social';	
+			} else if ($val[2] == 'share_tumblr') {
+				$val[2] = 'http://tumblr.com/widgets/share/tool?canonicalUrl='.urlencode($permalink).'';
+				$xtra = ' zb-social';
 			} else if ($val[2] == 'share_reddit') {
 				$val[2] = 'http://www.reddit.com/submit?url='.urlencode($permalink).'&amp;title='.urlencode($title).'';
 				$xtra = ' zb-social';											
@@ -641,6 +644,12 @@ function zappbar_inject() {
 				if ( isset($zb_social_panel['twitter']) && $zb_social_panel['twitter'] != '') { ?>
 			<a href="http://twitter.com/share?text=<?php echo urlencode($title); ?>&url=<?php echo urlencode($shortlink); ?>" title="Share on Twitter" rel="nofollow" target="_blank" class="zb-social twitter">Twitter</a>
 			<?php	};
+				if ( isset($zb_social_panel['mastodon']) && $zb_social_panel['mastodon'] != '') { ?>
+			<a href="<?php $permalink; ?>" title="Share on Mastodon" rel="nofollow" onclick="event.preventDefault();some.share(this.href);event.stopImmediatePropagation();" class="zb-social mastodon">Mastodon</a>
+			<?php	};
+				if ( isset($zb_social_panel['tumblr']) && $zb_social_panel['tumblr'] != '') { ?>
+			<a href="http://tumblr.com/widgets/share/tool?canonicalUrl=<?php echo urlencode($permalink); ?>" title="Share on Tumblr" rel="nofollow" target="_blank" class="zb-social tumblr">Tumblr</a>
+			<?php	};
 				if ( isset($zb_social_panel['reddit']) && $zb_social_panel['reddit'] != '') { ?>
 			<a href="http://www.reddit.com/submit?url=<?php echo urlencode($permalink); ?>&amp;title=<?php echo urlencode($title); ?>" title="Share on Reddit" rel="nofollow" target="_blank" class="zb-social reddit">Reddit</a>
 			<?php	};
@@ -718,6 +727,9 @@ function zb_init_scripts_and_styles() {
 				wp_enqueue_script('google-translate', 'http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit', null, null, true);
 				wp_enqueue_script('google-translate-settings', $plugin_dir_url.'/js/googletranslate.js');
 			}
+			// handle Mastodon sharing...
+			$zb_js3 = $plugin_dir_url . 'js/some.js';
+			wp_enqueue_script( 'zb-mastodon', $zb_js3, '', '1.0', true );
 		}
 			
 		function app_meta() {
@@ -732,7 +744,6 @@ function zb_init_scripts_and_styles() {
 				but understand it WILL break scrolling and fixed positioning on Android 2.x devices, it
 				will also likely confuse users who accidentally zoom in on other devices.
 			*/
-//			echo '<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=5,user-scalable=yes" id="view_meta">';
 			echo '<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" id="view_meta">';
 			echo '<meta name="apple-mobile-web-app-status-bar-style" content="black" />';
 			echo '<meta name="apple-mobile-web-app-title" content="'.get_bloginfo('name').'">';		
@@ -830,15 +841,26 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 				echo "
 				";	
 			};		
-			// Twitter stuff //
-			if ($zb_social['twitter_id'] != '') {
-				echo '<!--// Twitter Meta //-->';
-				echo '<meta name="twitter:card" content="summary"/>';
-				echo '<meta name="twitter:site" content="'.$zb_social['twitter_id'].'"/>';
-				echo '<meta name="twitter:domain" content="'.get_bloginfo('name').'"/>';
-				echo '<meta name="twitter:creator" content="'.$zb_social['twitter_id'].'"/>';
-			}
-
+// Twitter stuff //
+if ($zb_social['twitter_id'] != '') {
+echo '
+<!--// Twitter Meta //-->
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:site" content="'.$zb_social['twitter_id'].'"/>
+<meta name="twitter:domain" content="'.get_bloginfo('name').'"/>
+<meta name="twitter:creator" content="'.$zb_social['twitter_id'].'"/>
+';
+}
+/* Mastodon Verification Code
+   Note: this only works if you go save your Profile on Mastodon after it's in place
+   and only if nothing else is blocking your instance's ability to crawl your site.
+*/
+if ($zb_social['mastodon_id'] != ''){
+echo '
+<!--// Mastodon ID //-->
+<link rel="me" href="'.$zb_social['mastodon_id'].'"/>
+';
+}
 
 			require_once(zappbar_pluginfo('plugin_path').'includes/dynamic-css.php');
 			// fallback values
