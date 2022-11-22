@@ -2,7 +2,7 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.7
+**Version:** 0.2.8
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
@@ -258,6 +258,7 @@ Version 0.2.8
 * Added Mastodon Verification Code insertion option.
 * Added "Share on Mastodon Easily" script.
 * Social Media options now sorted alphabetically.
+* Social Share Shortcode now defaults to show ALL services.
 
 Version 0.2.7
 * Fixed issue with icon picker pop-up not populating with icons to pick.
