@@ -842,7 +842,7 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 				";	
 			};		
 // Twitter stuff //
-if ($zb_social['twitter_id'] != '') {
+if ($zb_social['twitter_id'] != '' && substr_count($zb_social['twitter_id'],'@') == 1) {
 echo '
 <!--// Twitter Meta //-->
 <meta name="twitter:card" content="summary"/>
@@ -856,10 +856,20 @@ echo '
    and only if nothing else is blocking your instance's ability to crawl your site.
 */
 if ($zb_social['mastodon_id'] != ''){
+	// see if it starts with "http" or "@"
+	if ($zb_social['mastodon_id'][0] == '@' && substr_count($zb_social['mastodon_id'],'@') == 2){
+		// okay, it looks like a mastodon id, let's split it
+		$parts = explode("@",$zb_social['mastodon_id']);
+		// turn it into a URL
+		$zb_social['mastodon_id'] = 'https://'.$parts[2].'/@'.$parts[1];
+	};
+	// see if we have a legit URL or not
+	if (filter_var($zb_social['mastodon_id'], FILTER_VALIDATE_URL)){
 echo '
 <!--// Mastodon ID //-->
 <link rel="me" href="'.$zb_social['mastodon_id'].'"/>
 ';
+	} // else do nothing
 }
 
 			require_once(zappbar_pluginfo('plugin_path').'includes/dynamic-css.php');

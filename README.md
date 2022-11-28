@@ -2,7 +2,7 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.8
+**Version:** 0.2.9
 
 **Requires WordPress Version:** 3.5 or higher, PHP 5+
 
@@ -251,6 +251,9 @@ simply be an icon with no dynamic elements.
 * Zappbar buttons are not functional when shown in Theme "Customize" interface.
 
 ## Changelog
+
+Version 0.2.9
+* Fixed bug with Mastodon self-verification code which asked for your ID but actually required URL.  Now you can enter either.
 
 Version 0.2.8
 * Added Tumblr to Social Sharing options.

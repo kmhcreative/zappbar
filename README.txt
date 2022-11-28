@@ -6,7 +6,7 @@ Tags: Responsive, Mobile, Theme, Modifications
 Requires at least: 3.5
 Requires PHP: 5.3
 Tested up to: 6.1.1
-Stable Tag: 0.2.8
+Stable Tag: 0.2.9
 License: GPLv3
 Licence URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -61,12 +61,16 @@ Zappbar buttons are not functional when shown in Theme "Customize" interface bec
 
 == Changelog ==
 
+= Version 0.2.9 =
+* Fixed bug with Mastodon self-verification code which asked for your ID but actually required URL.  Now you can enter either.
+
 = Version 0.2.8 =
 * Added Tumblr to Social Sharing options.
 * Added Mastodon to Social Sharing options.
 * Added Mastodon Verification Code insertion option.
 * Added "Share on Mastodon Easily" script.
 * Social Media options now sorted alphabetically.
+* Social share shortcode now defaults to show ALL services.
 
 = Version 0.2.7 =
 * Fixed issue with icon picker pop-up not populating with icons to pick.
