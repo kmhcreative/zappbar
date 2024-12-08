@@ -148,8 +148,34 @@ function zappbar_inject() {
 				} else {
 				};
 			}
+			// ComicPost Plugin 
+			if ( function_exists('comicpost_pluginfo') ) {
+					if ($val[2] == 'prev_chapter') {
+						$val[2] = comicpost_get_previous_chapter();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
+					} else if ($val[2] == 'first_comic') {
+						$val[2] = comicpost_get_first_comic_in_chapter_permalink();
+						if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
+					} else if ($val[2] == 'prev_comic') {
+						$val[2] = comicpost_get_previous_comic_in_chapter_permalink();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
+					} else if ($val[2] == 'next_comic') {
+						$val[2] = comicpost_get_next_comic_in_chapter_permalink();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
+					} else if ($val[2] == 'last_comic') {
+						$val[2] = comicpost_get_last_comic_in_chapter_permalink();
+						if($val[2]==get_permalink()){$xtra = ' zb-disabled';} else { $xtra = '';}
+					} else if ($val[2] == 'next_chapter') {
+						$val[2] = comicpost_get_next_chapter();
+						if($val[2] == ''){$xtra = ' zb-disabled';} else { $xtra = ''; }
+					} else if ($val[2] == 'comic_archive') {
+						$val[2] = get_site_url().'/comic';
+						$xtra = '';
+					} else {
+					};
+				}
 			// Comic Easel Post 
-			if ( get_post_type() == 'comic' || function_exists('ceo_pluginfo') ) {
+			if ( function_exists('ceo_pluginfo') ) {
 				if (ceo_pluginfo('navigate_only_chapters')) {
 					if ($val[2] == 'prev_chapter') {
 						$val[2] = ceo_get_previous_chapter();
@@ -461,8 +487,11 @@ function zappbar_inject() {
 			} else if ($val[2] == 'share_fb') {
 				$val[2] = 'http://www.facebook.com/sharer.php?u='.urlencode($permalink).'&amp;t='.urlencode($title).'';
 				$xtra = ' zb-social';
-			} else if ($val[2] == 'share_twitter') {
-				$val[2] = 'http://twitter.com/share?text='.urlencode($title).'&url='.urlencode($shortlink).'';
+			} else if ($val[2] == 'share_threads'){
+				$val[2] = 'https://www.threads.net/intent/post?text='.urlencode($title).'%0A%0Z'.urlencode($permalink).'';
+				$xtra = ' zb-social';
+			} else if ($val[2] == 'share_bluesky') {
+				$val[2] = 'http://bsky.app/intent/compose?text='.urlencode($title).'%20$'.urlencode($shortlink).'';
 				$xtra = ' zb-social';	
 			} else if ($val[2] == 'share_tumblr') {
 				$val[2] = 'http://tumblr.com/widgets/share/tool?canonicalUrl='.urlencode($permalink).'';
@@ -641,8 +670,11 @@ function zappbar_inject() {
 				if ( isset($zb_social_panel['facebook']) && $zb_social_panel['facebook'] != '') {	?>
 			<a href="http://www.facebook.com/sharer.php?u=<?php echo urlencode($permalink); ?>&amp;t=<?php echo urlencode($title); ?>" title="Share on Facebook" rel="nofollow" target="_blank" class="zb-social facebook">Facebook</a>
 			<?php	};
-				if ( isset($zb_social_panel['twitter']) && $zb_social_panel['twitter'] != '') { ?>
-			<a href="http://twitter.com/share?text=<?php echo urlencode($title); ?>&url=<?php echo urlencode($shortlink); ?>" title="Share on Twitter" rel="nofollow" target="_blank" class="zb-social twitter">Twitter</a>
+				if ( isset($zb_social_panel['threads']) && $zb_social_panel['threads'] != '') { ?>
+				<a href="https://www.threads.net/intent/post?text=<?php echo urlencode($title); ?>%0A%0A<?php echo urlencode($permalink); ?>" title="Share on Threads" rel="nofollow" target="_blank" class="zb-social threads"><span>Threads</span></a>
+			<?php	};
+				if ( isset($zb_social_panel['bluesky']) && $zb_social_panel['bluesky'] != '') { ?>
+			<a href="http://bsky.app/intent/compose?text=<?php echo urlencode($title); ?>%20$<?php echo urlencode($shortlink); ?>" title="Share on Bluesky" rel="nofollow" target="_blank" class="zb-social bluesky">Bluesky</a>
 			<?php	};
 				if ( isset($zb_social_panel['mastodon']) && $zb_social_panel['mastodon'] != '') { ?>
 			<a href="<?php $permalink; ?>" title="Share on Mastodon" rel="nofollow" onclick="event.preventDefault();some.share(this.href);event.stopImmediatePropagation();" class="zb-social mastodon">Mastodon</a>
@@ -734,6 +766,7 @@ function zb_init_scripts_and_styles() {
 			
 		function app_meta() {
 			global $post;
+			global $wp;
 			$zb_site = get_option('zappbar_site');
 			$zb_social = get_option('zappbar_social');
     		$bar_colors = get_option('zappbar_colors');
@@ -819,57 +852,51 @@ $blank_splash = '<!-- iPad, retina, portrait -->
 			echo '<link rel="apple-touch-icon-precomposed" sizes="72x72" href="'.$tablet.'" />';
 			echo '<link rel="apple-touch-icon-precomposed" href="'.$phones.'" />';
 			// Facebook Open Graph stuff //
-			if ($zb_social['fb_default_img'] != '') {
+			if ($zb_social['zb_seo_meta'] != 'off') {
 				echo '<!--// Facebook OpenGraph Data by ZappBar //-->';
 				echo '<meta property="og:locale" content="'.get_bloginfo('language').'" />';
 				echo '<meta property="og:type" content="website" />';
 				echo '<meta property="og:title" content="'.get_bloginfo('name').' -" />';
-				echo '<meta property="og:url" content="'.get_bloginfo('url').'" />';
+				echo '<meta property="og:url" content="'.home_url( add_query_arg( array(), $wp->request ) ).'" />';
 				echo '<meta property="og:site_name" content="'.get_bloginfo('name').'" />';
-				if ( !is_singular()) { //if it is not a post or a page
-					// we cannot get a thumbnail
+				echo '<meta property="og:description" content="'.get_bloginfo('description').'"/>';
+				if (is_singular() && has_post_thumbnail( $post->ID) ){
+					$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
+					echo '<meta property="og:image" content="'.esc_attr( $thumbnail_src[0] ).'"/>';
+					echo '<meta property="og:image:width" content="'.esc_attr( $thumbnail_src[1] ).'"/>';
+					echo '<meta property="og:image:height" content="'.esc_attr( $thumbnail_src[2] ).'"/>';
 				} else {
-					if(!has_post_thumbnail( $post->ID )) { //the post does not have featured image, use a default image
-						$default_image="http://example.com/image.jpg"; //replace this with a default image on your server or an image in your media library
-						echo '<meta property="og:image" content="' . $zb_social['fb_default_img'] . '"/>';
+					if (!empty($options['fallback_thumbnail']) ){
+						$thumbnail_src = $zb_social['fb_default_img'];
+					} else {
+						$thumbnail_src = get_site_icon_url();
 					}
-					else{
-						$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-						echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
+					if (!empty($thumbnail_src)){
+						echo '<meta property="og:image" content="'.esc_attr( $thumbnail_src ).'"/>';
 					}
-				};
+				}
 				echo "
-				";	
-			};		
-// Twitter stuff //
-if ($zb_social['twitter_id'] != '' && substr_count($zb_social['twitter_id'],'@') == 1) {
-echo '
-<!--// Twitter Meta //-->
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:site" content="'.$zb_social['twitter_id'].'"/>
-<meta name="twitter:domain" content="'.get_bloginfo('name').'"/>
-<meta name="twitter:creator" content="'.$zb_social['twitter_id'].'"/>
-';
-}
-/* Mastodon Verification Code
-   Note: this only works if you go save your Profile on Mastodon after it's in place
-   and only if nothing else is blocking your instance's ability to crawl your site.
-*/
-if ($zb_social['mastodon_id'] != ''){
-	// see if it starts with "http" or "@"
-	if ($zb_social['mastodon_id'][0] == '@' && substr_count($zb_social['mastodon_id'],'@') == 2){
-		// okay, it looks like a mastodon id, let's split it
-		$parts = explode("@",$zb_social['mastodon_id']);
-		// turn it into a URL
-		$zb_social['mastodon_id'] = 'https://'.$parts[2].'/@'.$parts[1];
-	};
-	// see if we have a legit URL or not
-	if (filter_var($zb_social['mastodon_id'], FILTER_VALIDATE_URL)){
-echo '
-<!--// Mastodon ID //-->
-<link rel="me" href="'.$zb_social['mastodon_id'].'"/>
-';
-	} // else do nothing
+				";			
+				/* 	Mastodon Verification Code
+					Note: this only works if you go save your Profile on Mastodon after it's in place
+					and only if nothing else is blocking your instance's ability to crawl your site.
+				*/
+				if ($zb_social['mastodon_id'] != ''){
+					// see if it starts with "http" or "@"
+					if ($zb_social['mastodon_id'][0] == '@' && substr_count($zb_social['mastodon_id'],'@') == 2){
+					// okay, it looks like a mastodon id, let's split it
+					$parts = explode("@",$zb_social['mastodon_id']);
+					// turn it into a URL
+					$zb_social['mastodon_id'] = 'https://'.$parts[2].'/@'.$parts[1];
+				};
+				// see if we have a legit URL or not
+				if (filter_var($zb_social['mastodon_id'], FILTER_VALIDATE_URL)){
+					echo '
+					<!--// Mastodon ID //-->
+					<link rel="me" href="'.$zb_social['mastodon_id'].'"/>
+					';
+				} // else do nothing
+			}
 }
 
 			require_once(zappbar_pluginfo('plugin_path').'includes/dynamic-css.php');

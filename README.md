@@ -2,11 +2,11 @@
 
 Automagically adds responsive, customizable mobile UI to (almost) any WordPress theme.
 
-**Version:** 0.2.9
+**Version:** 0.3.0
 
-**Requires WordPress Version:** 3.5 or higher, PHP 5+
+**Requires WordPress Version:** 4.9 or higher, PHP 7.4+
 
-**Compatible up to:** 6.1.1
+**Compatible up to:** 6.7.1
 
 **Beta Version Disclaimer**
 
@@ -127,8 +127,6 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 
 **Default Facebook Image:** If a post has no “Featured Image” this is the image that will be displayed as the thumbnail when somebody shares the link on Facebook (if left blank ZappBar will _not_ inject _any_ Facebook `<meta>` tags).
 
-**Twitter ID:** Enter the @ Twitter ID associated with your blog (if any).  If you leave this blank then no Twitter `<meta>` tags will be injected.
-
 **Mastodon ID:** Enter the @username@instance ID associated with your Mastodon account and the Mastodon verification code will be added to your website.
 
 **Phone Number:** If you intend to link a ZappBar button to the “Phone” action this is the phone number that will be inserted into the on-screen notice box.
@@ -145,7 +143,8 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 * Reddit
 * RSS Feed
 * Tumblr
-* Twitter
+* Threads
+* Bluesky
 
 **Social Shortcode:** you can invoke this same list of social media links anywhere on your site, even when ZappBars are not being shown, by using the shortcode *_[zb-share]_* which accepts the following parameters:
 
@@ -154,7 +153,7 @@ ZappBar has it’s own Social Media functions to make is easy for people to shar
 * type=“small” - 16x16 icons as button, spaced far enough apart to be clickable on mobile devices.
 * type=“medium” - 24x25 icons as buttons
 * type=“large” - 32x32 icons as buttons
-* include=“twitter,linkedin…” - comma-separated list limiting which social media sites will be included.
+* include=“threads,linkedin…” - comma-separated list limiting which social media sites will be included.
 * exclude=“facebook,pinterest…” - comma-separated list of which social media sites to exclude.
 
 ### ZappBar Colors
@@ -216,7 +215,7 @@ This tab section shows you editable previews of what the ZappBars will look like
 
 **Blog Top/Bottom ZappBar:** these bars will ONLY appear on a single blog post, and only if you enabled them under *Top Blog ZappBar* and/or *Bottom Blog ZappBar*
 
-If you are using the ComicPress theme, Comic Easel plugin, or Webcomic plugin more bar options are displayed for the custom comic post pages:
+If you are using the ComicPress theme, Comic Easel plugin, Webcomic, or ComicPost plugin more bar options are displayed for the custom comic post pages:
 
 **Top/Bottom Comic ZappBar:** Choose whether to use the custom “comic” bars on comics pages, the Default ones, or no top/bottom bar.
 
@@ -251,6 +250,16 @@ simply be an icon with no dynamic elements.
 * Zappbar buttons are not functional when shown in Theme "Customize" interface.
 
 ## Changelog
+
+Version 0.3.0
+* Added ComicPost plugin support.
+* Removed social media code for X, Twitter, Google+, StumbleUpon, Digg, and Delicious
+* Added social media code for sharing on Threads and Bluesky
+* Updated/fixed OpenGraph meta
+* Added toggle to explicitly include/exclude social meta
+* Plugin Update Checker updated to v5.4
+* Minimum WP version increased to 4.9
+* Minimum PHP version increased to 7.4
 
 Version 0.2.9
 * Fixed bug with Mastodon self-verification code which asked for your ID but actually required URL.  Now you can enter either.

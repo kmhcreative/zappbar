@@ -3,13 +3,13 @@
 Plugin Name: ZappBar
 Plugin URI:  https://github.com/kmhcreative/zappbar
 Description: Adds mobile-friendly web app navigation and toolbars to any WordPress theme.
-Version: 	 0.2.9
+Version: 	 0.3.0
 Author: 	 K.M. Hansen
 Author URI:  http://www.kmhcreative.com
 License: 	 GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Copyright 2012-2022  K.M. Hansen  (email : software@kmhcreative.com)
+Copyright 2012-2024  K.M. Hansen  (email : software@kmhcreative.com)
 
 ==== Beta Version Disclaimer =====
 
@@ -79,13 +79,16 @@ function zb_activate($reset = false) {
 		),
 
 		'zappbar_social' => array(
+			'zb_seo_meta'		=> 'off',
 			'fb_default_img'	=>	'',
 			'twitter_id'		=>	'',
+			'mastodon_id'	    =>  '',
 			'phone_number'		=>	'',
 			'email_address'		=>	'',
 			'social_panel'		=>  array(
 				'facebook'	=>	'facebook',
-				'twitter'	=>	'twitter',
+				'threads'	=>	'threads',
+				'bluesky'	=>	'bluesky',
 				'google'	=>	'google',
 				'reddit'	=>	'reddit',
 				'linkedin'	=>	'linkedin',
@@ -251,7 +254,7 @@ function zappbar_pluginfo($whichinfo = null) {
 				'plugin_url' => plugin_dir_url(__FILE__),
 				'plugin_path' => plugin_dir_path(__FILE__),
 				'plugin_basename' => plugin_basename(__FILE__),
-				'version' => '0.2.9'
+				'version' => '0.3.0'
 		);
 		// Combine em.
 		$zappbar_pluginfo = array_merge($zappbar_pluginfo, $zappbar_addinfo);
@@ -271,18 +274,21 @@ if ( is_admin() ) {
 	@require('functions/class.settings-api.php');
 	@require('functions/aq_resizer.php');
 	@require('options/zappbar_options.php');
-	@require('plugin-update-checker/plugin-update-checker.php');
-		$ZappBarUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-		'https://github.com/kmhcreative/zappbar',
-			__FILE__,'zappbar'
-		);
-		$ZappBarUpdateChecker->getVcsApi()->enableReleaseAssets();
 } else {
 	// We are on the front end
 	@require('functions/utility_functions.php');
 	@require('functions/aq_resizer.php');
 	@require('includes/html_inject.php');
 }
+
+// Plugin Update Check can no longer be inside if-else
+@require('plugin-update-checker/plugin-update-checker.php');
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+$ZappBarUpdateChecker = PucFactory::buildUpdateChecker(
+'https://github.com/kmhcreative/zappbar',
+	__FILE__,'zappbar'
+);
+$ZappBarUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 // Load all the widgets
 foreach (glob(plugin_dir_path(__FILE__)  . 'widgets/*.php') as $widgefile) {

@@ -3,10 +3,10 @@ Author URI: http://www.kmhcreative.com
 Plugin URI: https://github.com/kmhcreative/zappbar
 Contributors: OffWorld, Frumph
 Tags: Responsive, Mobile, Theme, Modifications
-Requires at least: 3.5
-Requires PHP: 5.3
-Tested up to: 6.1.1
-Stable Tag: 0.2.9
+Requires at least: 4.9
+Requires PHP: 7.4
+Tested up to: 6.7.1
+Stable Tag: 0.3.0
 License: GPLv3
 Licence URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -60,6 +60,16 @@ Depending on what other plugins you have activated that ZappBar interacts with, 
 Zappbar buttons are not functional when shown in Theme "Customize" interface because they are only activated on the front-end of your website.  Configure ZappBar under Settings > ZappBar.
 
 == Changelog ==
+
+= Version 0.3.0 =
+* Added ComicPost plugin support.
+* Removed social media code for X, Twitter, Google+, StumbleUpon, Digg, and Delicious
+* Added social media code for sharing on Threads and Bluesky
+* Updated/fixed OpenGraph meta
+* Added toggle to explicitly include/exclude social meta
+* Plugin Update Checker updated to v5.4
+* Minimum WP version increased to 4.9
+* Minimum PHP version increased to 7.4
 
 = Version 0.2.9 =
 * Fixed bug with Mastodon self-verification code which asked for your ID but actually required URL.  Now you can enter either.

@@ -16,7 +16,6 @@
 	   }
 	   $rgb = array($r, $g, $b);
 	   return implode(",", $rgb); // returns the rgb values separated by commas
-	//   return $rgb; // returns an array with the rgb values
 	}
 // Flattens hierachical taxonomy terms while preserving term parameters
 function zb_get_flat_terms( $taxonomy = 'category', $parent = 0, $hide_empty = 0 ){
@@ -31,16 +30,7 @@ function zb_get_flat_terms( $taxonomy = 'category', $parent = 0, $hide_empty = 0
 	$list = [];
 	foreach($terms as $term) {
 		$list[] = $term;
-//		$subargs = array(
-//			'hierarchical' => 1,
-//			'show_option_none' => '',
-//			'hide_empty' => 0,
-//			'parent' => $term->term_id,
-//			'taxonomy' => $taxonomy
-//		);
-//		$subcats = get_categories($subargs);
 		$subcats = zb_get_flat_terms($taxonomy,$term->term_id);
-//		$subcats = get_terms($subargs);
 		foreach($subcats as $sub){
 			$list[] = $sub;
 		}
@@ -147,7 +137,7 @@ function zb_share_shortcode( $atts, $content = null ) {
 			$include = strtolower($include);
 			$include = explode(",",$include);
 		} else {
-			$include = array('facebook','twitter','mastodon','tumblr','reddit','linkedin','pinterest','rss','email');	
+			$include = array('facebook','threads','bluesky','mastodon','tumblr','reddit','linkedin','pinterest','rss','email');	
 		}
 		if ($exclude != null && $exclude != '') {
 			$exclude = strtolower($exclude);
@@ -159,8 +149,11 @@ function zb_share_shortcode( $atts, $content = null ) {
 	if ( in_array('facebook',$include) && !in_array('facebook',$exclude) ) {
 	$social .=  '<a href="http://www.facebook.com/sharer.php?u='.urlencode($permalink).'&amp;t='.urlencode($title).'" title="Share on Facebook" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share facebook"><span>Facebook</span></a>';
 	}
-	if ( in_array('twitter',$include) && !in_array('twitter',$exclude) ) {
-	$social .=  '<a href="http://twitter.com/share?text='.urlencode($title).'&url='.urlencode($shortlink).'" title="Share on Twitter" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share twitter"><span>Twitter</span></a>';
+	if ( in_array('threads',$include) && !in_array('threads',$exclude) ){
+	$social .= '<a href="https://www.threads.net/intent/post?text='.urlencode($title).'%0A%0Z'.urlencode($permalink).'" title="Share on Threads" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share threads"><span>Threads</span></a>';
+	}
+	if ( in_array('bluesky',$include) && !in_array('bluesky',$exclude) ) {
+	$social .=  '<a href="http://bsky.app/intent/compose?text='.urlencode($title).'%20$'.urlencode($shortlink).'" title="Share on Bluesky" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share bluesky"><span>Bluesky</span></a>';
 	}
 	if ( in_array('tumblr',$include) && !in_array('tumblr',$exclude) ){
 	$social .= '<a href="http://tumblr.com/widgets/share/tool?canonicalUrl='.urlencode($permalink).'" title="Share on Tumblr" rel="nofollow" target="_blank" onclick="event.preventDefault();window.open(this.href,\'_blank\',\'height=400,width=700\');" class="zb-share tumblr"><span>Tumblr</span></a>';

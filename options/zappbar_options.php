@@ -355,19 +355,19 @@ class ZB_Settings_API_Test {
                 		&lt;meta&gt; for these earlier.','zbotps')
                 ), 
                 array(
+                	'name' => 'zb_seo_meta',
+                	'label' => __( 'Social Meta', 'zbopts' ),
+                	'desc' => __( 'Include social media &lt;meta&gt; tags in site HEAD', 'zbopts'),
+                	'default' => 'off',
+                	'type' => 'checkbox'                
+                ),
+                array(
                     'name' => 'fb_default_img',
                     'label' => __( 'Default Facebook Image', 'zbopts' ),
                     'desc' => __( 'If the post has no "Featured Image" this image will be displayed as the thumbnail when somebody shares on Facebook.<br/>(If left blank ZappBar will not inject any Facebook &lt;meta&gt; tags).', 'zbopts' ),
                     'type' => 'media',
                     'button' => __('Choose Image'),
                     'default' => ''
-                ),
-                array(
-                	'name' => 'twitter_id',
-                	'label' => __( 'Twitter ID', 'zbopts'),
-                	'desc' => __( '<br/>Enter the @ Twitter ID associated with your blog (if you leave this blank no Twitter &lt;meta&gt; tags will be injected).','zbopts'),
-                	'type' => 'text',
-                	'default' => ''
                 ),
                 array(
                 	'name' => 'mastodon_id',
@@ -408,7 +408,8 @@ class ZB_Settings_API_Test {
                     		'reddit'	=>	'reddit',
                     		'rss'		=>	'rss',
                     		'tumblr'	=>	'tumblr',
-                    		'twitter'	=>	'twitter'
+                    		'bluesky'	=>	'bluesky',
+                    		'threads'	=>	'threads'
                     	),
                     'options' => array(
                     	'email'		=>	'E-mail Share (email)',
@@ -419,7 +420,8 @@ class ZB_Settings_API_Test {
 						'reddit'	=>	'Reddit (reddit)',
 						'rss'		=>	'RSS Feed (rss)',
 						'tumblr'	=>	'Tumblr (tumblr)',
-						'twitter'	=> 	'Twitter (twitter)'
+						'bluesky'	=> 	'Bluesky (bluesky)',
+						'threads'	=>	'Threads (threads)'
                     )
                 ),
                  array(
@@ -436,7 +438,7 @@ class ZB_Settings_API_Test {
                 			<li><strong>type="small"</strong>	(16x16 icons as buttons, spaced far enough apart to be clickable on mobile devices)</li>
                 			<li><strong>type="medium"</strong> (24x24 icons as buttons)</li>
                 			<li><strong>type="large"</strong>	(32x32 icons as buttons)</li>
-                			<li><strong>include="twitter,linkedin..."</strong> a comma-separated list limiting which social media sites are included</li>
+                			<li><strong>include="threads,linkedin..."</strong> a comma-separated list limiting which social media sites are included</li>
                 			<li><strong>exclude="facebook,pinterest..."</strong> a comma-separated list of which social media sites to exclude</li>
                 		</ul>
 						The social shortcode will work even if the ZappBars are set to "Display on: None" under the Site settings.  The names to enter 
@@ -948,7 +950,7 @@ class ZB_Settings_API_Test {
 
         );
         
-        if (function_exists('ceo_pluginfo') || function_exists('comicpress_themeinfo') || class_exists('Webcomic') || function_exists('webcomic') || post_type_exists('mangapress_comic') ) {
+        if (function_exists('ceo_pluginfo') || function_exists('comicpress_themeinfo') || class_exists('Webcomic') || function_exists('webcomic') || post_type_exists('mangapress_comic') ||  function_exists('comicpost_pluginfo') ) {
 			// Detect if any web comics plugins/themes are in use, if so add this bar option
 			$settings_fields['zappbar_site'][] = array(
 					'name' => 'comic_nav',

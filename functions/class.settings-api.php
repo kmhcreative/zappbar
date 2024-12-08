@@ -336,7 +336,7 @@ class ZB_Settings_API {
  				$targets = array_merge($targets,$woo_targets);
  			}
  			
-			if (function_exists('ceo_pluginfo') || function_exists('comicpress_themeinfo') || class_exists('Webcomic') || function_exists('webcomic') || post_type_exists('mangapress_comic') ) {
+			if (function_exists('ceo_pluginfo') || function_exists('comicpress_themeinfo') || class_exists('Webcomic') || function_exists('webcomic') || post_type_exists('mangapress_comic') || function_exists('comicpost_pluginfo') ) {
 				if(function_exists('webcomic')){ 
 					$collection = get_webcomic_collections();
 					$comic_archive = get_webcomic_collection_url($collection[0]);
